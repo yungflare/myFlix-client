@@ -6,7 +6,7 @@ import "./index.scss";
 const MyFlixApplication = () => {
     return (
         <div className= "my-flix">
-            <div> Good morning </div>
+            <div> Good morning Everyone! </div>
         </div>
     );
 };
