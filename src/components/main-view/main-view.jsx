@@ -1,9 +1,9 @@
-import { useSate } from "react";
+import { useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
-    const [movies, setMovies] = useSate([
+    const [movies, setMovies] = useState([
         {
            id: 1,
            title: "The Godfather Part II",
@@ -30,7 +30,7 @@ export const MainView = () => {
          },
     ]);
 
-    const [selectedMovie, setSelectedMovie] = useSate(null);
+    const [selectedMovie, setSelectedMovie] = useState(null);
 
     if (selectedMovie) {
         return (
