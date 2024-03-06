@@ -21,7 +21,7 @@ export const MainView = () => {
                     },
                     Director: {
                         Name: movie.Director.Name
-                    } 
+                    }
                 };
             });
             setMovies(moviesFromApi);
