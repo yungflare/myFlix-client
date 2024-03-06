@@ -1,24 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
     const [movies, setMovies] = useState([]);
-
     const [selectedMovie, setSelectedMovie] = useState(null);
+    
     useEffect(() => {
-        fetch("https://movie-api-kiz1.onrender.com")
+        fetch("https://movie-api-kiz1.onrender.com/movies")
         .then((response) => response.json())
         .then((data) => {
-            const MoviesFromApi = data.docs.map((doc) => {
+            const moviesFromApi = data.map((movie) => {
                 return {
-                    id: doc.key,
-                    title: doc.title,
-                    image:`https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
-                    director: doc.director_name?.[0] 
+                    _id: movie._id,
+                    Title: movie.Title,
+                    Description: movie.Description,
+                    Genre: {
+                        Name: movie.Genre.Name
+                    },
+                    Director: {
+                        Name: movie.Director.Name
+                    } 
                 };
             });
-            setMovies(MoviesFromApi);
+            setMovies(moviesFromApi);
         });
     },[]);
 
@@ -39,7 +44,7 @@ export const MainView = () => {
         <div>
             {movies.map((movie) => (
                 <MovieCard
-                key={movie.id} 
+                key={movie._id} 
                 movie={movie}
                 onMovieClick={(newSelectedMovie) => {
                     setSelectedMovie(newSelectedMovie);
