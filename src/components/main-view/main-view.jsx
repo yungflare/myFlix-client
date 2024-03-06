@@ -13,6 +13,7 @@ export const MainView = () => {
             const moviesFromApi = data.map((movie) => {
                 return {
                     _id: movie._id,
+                    Image: movie.Image,
                     Title: movie.Title,
                     Description: movie.Description,
                     Genre: {

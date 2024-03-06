@@ -27332,6 +27332,7 @@ const MainView = ()=>{
             const moviesFromApi = data.map((movie)=>{
                 return {
                     _id: movie._id,
+                    Image: movie.Image,
                     Title: movie.Title,
                     Description: movie.Description,
                     Genre: {
@@ -27350,14 +27351,14 @@ const MainView = ()=>{
         onBackClick: ()=>setSelectedMovie(null)
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 33,
+        lineNumber: 34,
         columnNumber: 13
     }, undefined);
     if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: " Empty! "
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 40,
+        lineNumber: 41,
         columnNumber: 16
     }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27368,12 +27369,12 @@ const MainView = ()=>{
                 }
             }, movie._id, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 46,
+                lineNumber: 47,
                 columnNumber: 17
             }, undefined))
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 44,
+        lineNumber: 45,
         columnNumber: 9
     }, undefined);
 };
@@ -27426,14 +27427,15 @@ MovieCard.propTypes = {
         Description: (0, _propTypesDefault.default).string.isRequired,
         Director: (0, _propTypesDefault.default).shape({
             Name: (0, _propTypesDefault.default).string.isRequired,
-            Date_of_Birth: (0, _propTypesDefault.default).string,
+            Date_of_Birth: (0, _propTypesDefault.default).string.isRequired,
             Date_of_Death: (0, _propTypesDefault.default).string,
             Description: (0, _propTypesDefault.default).string
         }),
         Genre: (0, _propTypesDefault.default).shape({
             Name: (0, _propTypesDefault.default).string.isRequired,
             Description: (0, _propTypesDefault.default).string
-        })
+        }),
+        Image: (0, _propTypesDefault.default).string.isRequired
     }).isRequired,
     onMovieClick: (0, _propTypesDefault.default).func.isRequired
 };
@@ -28239,7 +28241,11 @@ const MovieView = ({ movie, onBackClick })=>{
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                    src: movie.image
+                    src: movie.Image,
+                    style: {
+                        width: "400px",
+                        height: "400px"
+                    }
                 }, void 0, false, {
                     fileName: "src/components/movie-view/movie-view.jsx",
                     lineNumber: 5,
