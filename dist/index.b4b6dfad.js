@@ -27327,6 +27327,7 @@ const MainView = ()=>{
     _s();
     const [movies, setMovies] = (0, _react.useState)([]);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
+<<<<<<< HEAD
     (0, _react.useEffect)(()=>{
         fetch("https://movie-api-kiz1.onrender.com/movies").then((response)=>response.json()).then((data)=>{
             const moviesFromApi = data.map((movie)=>{
@@ -27344,6 +27345,19 @@ const MainView = ()=>{
                 };
             });
             setMovies(moviesFromApi);
+=======
+    useEffect(()=>{
+        fetch("https://movie-api-kiz1.onrender.com").then((response)=>response.json()).then((data)=>{
+            const MoviesFromApi = data.docs.map((doc)=>{
+                return {
+                    id: doc.key,
+                    title: doc.title,
+                    image: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
+                    director: doc.director_name?.[0]
+                };
+            });
+            setMovies(MoviesFromApi);
+>>>>>>> gh-pages
         });
     }, []);
     if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
@@ -27351,14 +27365,22 @@ const MainView = ()=>{
         onBackClick: ()=>setSelectedMovie(null)
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
+<<<<<<< HEAD
         lineNumber: 34,
+=======
+        lineNumber: 28,
+>>>>>>> gh-pages
         columnNumber: 13
     }, undefined);
     if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: " Empty! "
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
+<<<<<<< HEAD
         lineNumber: 41,
+=======
+        lineNumber: 35,
+>>>>>>> gh-pages
         columnNumber: 16
     }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27369,12 +27391,20 @@ const MainView = ()=>{
                 }
             }, movie._id, false, {
                 fileName: "src/components/main-view/main-view.jsx",
+<<<<<<< HEAD
                 lineNumber: 47,
+=======
+                lineNumber: 41,
+>>>>>>> gh-pages
                 columnNumber: 17
             }, undefined))
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
+<<<<<<< HEAD
         lineNumber: 45,
+=======
+        lineNumber: 39,
+>>>>>>> gh-pages
         columnNumber: 9
     }, undefined);
 };
@@ -27420,6 +27450,7 @@ const MovieCard = ({ movie, onMovieClick })=>{
     }, undefined);
 };
 _c = MovieCard;
+<<<<<<< HEAD
 MovieCard.propTypes = {
     movie: (0, _propTypesDefault.default).shape({
         _id: (0, _propTypesDefault.default).shape({}),
@@ -27440,6 +27471,16 @@ MovieCard.propTypes = {
     onMovieClick: (0, _propTypesDefault.default).func.isRequired
 };
 exports.default = MovieCard;
+=======
+MovieCard.PropTypes = {
+    movie: (0, _propTypesDefault.default).shape({
+        title: (0, _propTypesDefault.default).string.isRequired,
+        image: (0, _propTypesDefault.default).string.isRequired,
+        director: (0, _propTypesDefault.default).string
+    }).isRequired,
+    onMovieClick: (0, _propTypesDefault.default).func.isRequired
+};
+>>>>>>> gh-pages
 var _c;
 $RefreshReg$(_c, "MovieCard");
 
