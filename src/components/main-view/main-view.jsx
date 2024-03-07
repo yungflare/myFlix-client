@@ -17,13 +17,27 @@ export const MainView = () => {
             return;
         }
 
-        fetch("https://movie-api-kiz1.onrender.com/movies",
-        {
+        fetch("https://movie-api-kiz1.onrender.com/movies",{
             headers: { Authorization: `Bearer ${token}`}
         })
         .then((response) => response.json())
         .then((data) => {
-                setMovies(data);
+            const moviesFromApi = data.map((movie) => {
+                return {
+                  _id: movie._id,
+                  Image: movie.Image,
+                  Title: movie.Title,
+                  Description: movie.Description,
+                  Genre: {
+                      Name: movie.Genre.Name
+                  },
+                  Director: {
+                      Name: movie.Director.Name
+                  }
+                };
+              });
+      
+              setMovies(moviesFromApi);
             });
         }, [token]);
     
@@ -42,6 +56,18 @@ export const MainView = () => {
               </>
         );
             }
+
+            if (selectedMovie) {
+                return (
+                    <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
+                );
+            }
+
+                if (movies.length === 0) {
+                    return <div> Empty! </div>
+                }
+            
+
             return (
                 <div>
                     <button
@@ -57,9 +83,10 @@ export const MainView = () => {
                         <MovieCard
                             key={movie._id}
                             movie={movie}
-                            onMovieClick={(selectedMovie) => setSelectedMovie(selectedMovie)}
+                            onMovieClick={(newSelectedMovie) => setSelectedMovie(newSelectedMovie)
+                            }
                         />
                     ))}
                 </div>
             );
-                    }
+                    };
