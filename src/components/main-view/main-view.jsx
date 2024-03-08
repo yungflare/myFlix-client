@@ -22,7 +22,8 @@ export const MainView = () => {
         })
         .then((response) => response.json())
         .then((data) => {
-            const moviesFromApi = data.map((movie) => ({
+            const moviesFromApi = data.map((movie) => {
+                return {
                   _id: movie._id,
                   Image: movie.Image,
                   Title: movie.Title,
@@ -33,32 +34,23 @@ export const MainView = () => {
                   Director: {
                       Name: movie.Director.Name
                   }
-                }));
+                };
+              });
       
               setMovies(moviesFromApi);
-            })
-            .catch((error) => {
-                console.error("Error fetching movies:", error);
             });
         }, [token]);
-
-        const handleLogin = (loggedInUser, loggedInToken) => {
-            setUser(loggedInUser);
-            setToken(loggedInToken);
-        };
-
-        const handleLogout= () => {
-            setUser(null);
-            setToken(null);
-            localStorage.clear();
-        };
     
         if (!user) {
             return (
             <>
             <p> Log In </p>
-            <LoginView onLoggedIn={handleLogin} />
-            
+            <LoginView
+              onLoggedIn={(user, token) => {
+                setUser(user);
+                setToken(token);
+              }} />
+
              <p> Sign Up </p>  
               <SignupView /> 
               </>
@@ -75,10 +67,18 @@ export const MainView = () => {
                     return <div> Empty! </div>
                 }
             
+
             return (
                 <div>
                     <button
-                        onClick={handleLogout}> Logout </button>
+                        onClick={() => {
+                            setUser(null);
+                            setToken(null);
+                            localStorage.clear();
+                        }}
+                    >
+                        Logout
+                    </button>
                     {movies.map((movie) => (
                         <MovieCard
                             key={movie._id}
