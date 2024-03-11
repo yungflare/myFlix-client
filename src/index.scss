@@ -1,12 +1,12 @@
-@import '~bootstrap/scss/bootstrap.scss';
 
-.my-flix {
-    color: honeydew; 
-}
+$primary: #198754;
+$body-bg: honeydew;
 
 .image {
     width: 50%;
     height: 50%;
 }
+
+@import "~bootstrap/scss/bootstrap.scss";
 
 
