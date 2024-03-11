@@ -1,10 +1,12 @@
 import "./movie-view.scss";
+import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
 
 export const MovieView = ({ movie, onBackClick }) => {
     return (
         <div>
             <div>
-                <img className="w-100" src = {movie.Image} />
+                <img height={500} src = {movie.Image} />
             </div>
             <div>
                 <span>Title: </span>
@@ -32,4 +34,20 @@ export const MovieView = ({ movie, onBackClick }) => {
                 </button>
         </div>
     );
+};
+
+MovieView.propTypes = {
+    movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string
+    }),
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string
+    }),
+  }).isRequired,
+  onBackClick: PropTypes.func.isRequired
 };

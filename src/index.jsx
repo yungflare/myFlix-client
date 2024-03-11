@@ -4,7 +4,7 @@ import { MovieCard } from "./components/movie-card/movie-card";
 import { MovieView } from "./components/movie-view/movie-view";
 import  Container from "react-bootstrap/Container";
 
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 
 // Main Component 
