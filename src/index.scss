@@ -1,11 +1,12 @@
-// To test build - Dummy Content 
-$color: steelblue;
 
-.my-flix {
-    color: $color; 
-}
+$primary: #198754;
+$body-bg: honeydew;
 
 .image {
     width: 50%;
     height: 50%;
 }
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+
