@@ -3,11 +3,11 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
 import  Row  from "react-bootstrap/Row";
 import  Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
 
 export const MainView = () => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -47,13 +47,19 @@ export const MainView = () => {
     
             return (
                 <BrowserRouter>
+                <NavigationBar
+                    user={user}
+                    onLoggedOut={() => {
+                        setUser(null);
+                    }}
+                    />
              <Row className="justify-content-md-center">
                 <Routes>
                     <Route
-                    path="/users"
+                    path="/signup"
                     element= {
                         <>
-                         {!user ? (
+                         { user ? (
                             <Navigate to="/" />
                          ) : ( 
                             <Col md={4}>
@@ -72,7 +78,7 @@ export const MainView = () => {
                             <Navigate to="/" />
                         ) : ( 
                             <Col md={5}>
-                                <LoginView onLoggedIn={(user) => setUser(user)} />
+                                <LoginView onLoggedIn={(user, token) => {setUser(user); setToken(token);}} />
                             </Col>
                         )}
                         </>
@@ -106,7 +112,7 @@ export const MainView = () => {
                             <Col> Empty! </Col>
                         ) : (
                             <>
-                            {movies.map((movies) => {
+                            {movies.map((movie) => {
                                 <Col className="mb-4" key={movie._id} md={3}> 
                                 <MovieCard movie={movie} />
                                 </Col>
