@@ -1,3 +1,4 @@
+// import React from "react";
 import { createRoot } from "react-dom/client";
 import { MainView } from "./components/main-view/main-view";
 import { MovieCard } from "./components/movie-card/movie-card";
@@ -21,4 +22,5 @@ const root = createRoot(container);
 
 // Tell react to render app in the root DOM element 
 root.render(<App />);
+export default App;
 
