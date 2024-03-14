@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { Form } from "react-bootstrap/Form";
+import Form  from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
 export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
@@ -8,6 +8,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
     const [newPassword, setNewPassword] = useState("");
     const [newEmail, setNewEmail] = useState(user.Email);
     const [newBirthday, setNewBirthday] = useState(user.Birthday);
+    const [favoriteMovies, setFavoriteMovie] = useState([]);
 
     const handleUpdate = () => {
         const updatedUser = {
@@ -88,3 +89,5 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
     );
 
 };
+
+export default ProfileView;

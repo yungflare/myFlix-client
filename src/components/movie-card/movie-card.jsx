@@ -4,6 +4,7 @@ import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, onFavoriteToggle }) => {
+  const isFavorite = movie.isFavorite;
     return (
         <Card>
           <Card.Body>
@@ -34,11 +35,12 @@ export const MovieCard = ({ movie, onFavoriteToggle }) => {
         Genre: PropTypes.shape({
           Name: PropTypes.string.isRequired 
         }),
+        isFavorite: PropTypes.bool,
         Image: PropTypes.string.isRequired
       }).isRequired,
 
     onFavoriteToggle: PropTypes.func.isRequired
     // export default MovieCard;
     };
-    
+
        

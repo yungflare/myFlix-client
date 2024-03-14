@@ -2,8 +2,8 @@ import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
-import { Button } from "react-bootstrap/Button";
-import { propTypes } from "react-bootstrap/esm/Image";
+import { Button } from "react-bootstrap";
+import { PropTypes } from "prop-types";
 
 export const MovieView = ({ movies, onFavoriteToggle }) => {
     const { movieId } = useParams();
@@ -50,21 +50,21 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
     );
 };
 
-    MovieView.propTypes = {
-        movies: PropTypes.array.isRequired,
-        onFavoriteToggle: PropTypes.func.isRequired,
-    };
-    
-// MovieView.propTypes = {
-//     movie: PropTypes.array.isRequired,
-//     Title: PropTypes.string.isRequired,
-//     Description: PropTypes.string.isRequired,
-//     Director: PropTypes.shape({
-//       Name: PropTypes.string.isRequired,
-//       Description: PropTypes.string
-//     }),
-//     Genre: PropTypes.shape({
-//       Name: PropTypes.string.isRequired,
-//       Description: PropTypes.string
-//     }),
-//   }.isRequired
+    // MovieView.propTypes = {
+    //     movies: propTypes.array.isRequired,
+    //     onFavoriteToggle: propTypes.func.isRequired,
+    // };
+
+MovieView.propTypes = {
+    movie: PropTypes.array.isRequired,
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string
+    }),
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string
+    }),
+  }.isRequired

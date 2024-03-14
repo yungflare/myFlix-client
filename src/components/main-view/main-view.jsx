@@ -9,6 +9,8 @@ import { ProfileFavoriteView } from "../profile-view/favorite-movies";
 import  Row  from "react-bootstrap/Row";
 import  Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export const MainView = ({ onUserUpdate, onDeregister }) => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -43,6 +45,10 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     const handleUserUpdate = (updatedUser) => {
         console.log("Deregistering user:", user);
         onDeregister();
+    };
+
+    const handleDeregister = () => {
+        console.log("User Deleted succesfully!");
     };
 
     useEffect(() => {
@@ -153,6 +159,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                         </>
                     }
                     />
+
                        <Route
                     path="/profile"
                     element={
@@ -167,19 +174,21 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     <Route
                     path="/profile/favorites"
                     element={
-                        <ProfileFavoritesView
+                        <ProfileFavoriteView
                         user={user}
                         onFavoriteToggle={handleFavoriteToggle}
+                        token={token}
                         />
                     }
                     />
-
+                    
                     </Routes>
                     </Row>
                     </BrowserRouter>
             );
                 };
 
+                export default MainView;
 
                        
                 
