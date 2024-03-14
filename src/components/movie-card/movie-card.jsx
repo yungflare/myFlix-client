@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
+import { propTypes } from "react-bootstrap/esm/Image";
 import { Link } from "react-router-dom";
-
 
 export const MovieCard = ({ movie }) => {
     return (
@@ -18,23 +18,19 @@ export const MovieCard = ({ movie }) => {
             </Card>
     );
 };
-    MovieCard.propTypes = {
-        movie: PropTypes.array.isRequired,
-        _id: PropTypes.string.isRequired,
-        Title: PropTypes.string.isRequired,
-        Description: PropTypes.string.isRequired,
-        Director: PropTypes.shape({
-          Name: PropTypes.string.isRequired,
-          Description: PropTypes.string
-        }),
-        Genre: PropTypes.shape({
-          Name: PropTypes.string.isRequired,
-          Description: PropTypes.string
-        }),
-        Image: PropTypes.string.isRequired
-      .isRequired
-    };
+    // MovieCard.propTypes = {
+    //     movie: PropTypes.shape({
+    //     Title: PropTypes.string.isRequired,
+    //     Director: PropTypes.shape({
+    //       Name: PropTypes.string.isRequired
+    //     }),
+    //     Genre: PropTypes.shape({
+    //       Name: PropTypes.string.isRequired 
+    //     }),
+    //     Image: PropTypes.string.isRequired
+    //   }).isRequired
+    // };
     
-    export default MovieCard;
+    // export default MovieCard;
 
        

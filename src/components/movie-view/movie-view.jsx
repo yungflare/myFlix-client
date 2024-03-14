@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export const MovieView = ({ movies }) => {
     const { movieId } = useParams();
-    const decodedMovieId = decodeURIComponent(movieId);
+    // const decodedMovieId = decodeURIComponent(movieId);
     const movie = movies.find((b) => b.id === movieId);
 
     return (
@@ -30,23 +30,23 @@ export const MovieView = ({ movies }) => {
                 <span>Description: </span>
                 <span>{movie.Description}</span>
             </div>
-            <Link to={`/movies`}>
+            <Link to={`/`}>
                 <button className="back-button"> Go Back </button>
             </Link>
         </div>
     );
 };
 
-MovieView.propTypes = {
-    movie: PropTypes.array.isRequired,
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string
-    }),
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string
-    }),
-  }.isRequired
+// MovieView.propTypes = {
+//     movie: PropTypes.array.isRequired,
+//     Title: PropTypes.string.isRequired,
+//     Description: PropTypes.string.isRequired,
+//     Director: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//       Description: PropTypes.string
+//     }),
+//     Genre: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//       Description: PropTypes.string
+//     }),
+//   }.isRequired
