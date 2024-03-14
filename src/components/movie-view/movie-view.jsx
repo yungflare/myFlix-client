@@ -1,12 +1,13 @@
-import "./movie-view.scss";
-import PropTypes from "prop-types";
-import Button from "react-bootstrap/Button";
+import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import "./movie-view.scss";
+import { Button } from "react-bootstrap/Button";
+import { propTypes } from "react-bootstrap/esm/Image";
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ movies, onFavoriteToggle }) => {
     const { movieId } = useParams();
-    // const decodedMovieId = decodeURIComponent(movieId);
+    const decodeMovieId = decodeURIComponent(movieId);
     const movie = movies.find((b) => b.id === movieId);
 
     return (
@@ -20,23 +21,40 @@ export const MovieView = ({ movies }) => {
             </div>
             <div>
                 <span>Director: </span>
-                <span>{movie.Director.Name}</span>
+                <span>{movie.Director?.Name}</span>
             </div>
             <div>
                 <span>Genre: </span>
-                <span>{movie.Genre.Name}</span>
+                <span>{movie.Genre?.Name}</span>
             </div>
             <div>
                 <span>Description: </span>
                 <span>{movie.Description}</span>
             </div>
             <Link to={`/`}>
-                <button className="back-button"> Go Back </button>
+                <Button 
+                className="back-button" 
+                variant="primary" 
+                style={{ cursor: "pointer" }} > 
+                Go Back 
+                </Button>
             </Link>
+            <Button 
+            variant="outline-primary"
+            style={{ cursor: "pointer"}}
+            onClick={() => onFavoriteToggle(movie._id)}
+            >
+                {movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            </Button>
         </div>
     );
 };
 
+    MovieView.propTypes = {
+        movies: PropTypes.array.isRequired,
+        onFavoriteToggle: PropTypes.func.isRequired,
+    };
+    
 // MovieView.propTypes = {
 //     movie: PropTypes.array.isRequired,
 //     Title: PropTypes.string.isRequired,

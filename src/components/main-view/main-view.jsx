@@ -5,18 +5,46 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
+import { ProfileFavoriteView } from "../profile-view/favorite-movies";
 import  Row  from "react-bootstrap/Row";
 import  Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-export const MainView = () => {
+export const MainView = ({ onUserUpdate, onDeregister }) => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
         const storedToken = localStorage.getItem("token");
         const [user, setUser] = useState(storedUser? storedUser : null);
         const [token, setToken] = useState(storedToken? storedToken : null);
         const [movies, setMovies] = useState([]);
+        const [favoriteMovies, setFavoriteMovie] = useState([]);
     
+        const handleFavoriteToggle = (movieId) => {
+            const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+            const isFavorite = favoriteMovies.includes(movieId);
+            const method = isFavorite ? "DELETE" : "POST";
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+          
+        .then((response) => response.json())
+        .then((updatedUser) => {
+            setFavoriteMovies(updatedUser.favoriteMovies || []);
+        })
+        .catch((error) => {
+            console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
+        });
+    };
+
+    const handleUserUpdate = (updatedUser) => {
+        console.log("Deregistering user:", user);
+        onDeregister();
+    };
+
     useEffect(() => {
         if (!token) {
             return;
@@ -27,7 +55,7 @@ export const MainView = () => {
         })
         .then((response) => response.json())
         .then((data) => {
-            const moviesFromApi = data.map(movie => {
+            const moviesFromApi = data.map((movie) => {
                 return {
                   _id: movie._id,
                   Image: movie.Image,
@@ -91,12 +119,13 @@ export const MainView = () => {
                     element={
                         <>
                         {!user ? (
-                            <Navigate to= "/" />
+                            <Navigate to= "/login" replace />
                         ) : movies.length === 0 ? (
                             <Col> Empty! </Col>
                         ) : (
                             <Col md={8}>
-                                <MovieView movies={movies} />
+                                <MovieView movies={movies} 
+                                onFavoriteToggle={handleFavoriteToggle} />
                             </Col>
                         )}
                         </>
@@ -108,14 +137,15 @@ export const MainView = () => {
                     element={
                         <>
                         {!user ? (
-                            <Navigate to= "/movies/:Title"  />
+                            <Navigate to= "/login" replace  />
                         ) : movies.length === 0 ? (
                             <Col> Empty! </Col>
                         ) : (
                             <>
                             {movies.map((movie) => {
                                 <Col className="mb-4" key={movie._id} md={3}> 
-                                <MovieCard movie={movie} />
+                                <MovieCard movie={movie}  
+                                onFavoriteToggle={handleFavoriteToggle}/>
                                 </Col>
                             })}
                             </>
@@ -126,17 +156,24 @@ export const MainView = () => {
                        <Route
                     path="/profile"
                     element={
-                        <>
-                         {user ? (
-                            <Navigate to="/users" />
-                         ) : ( 
-                            <Col md={5}>
-                                <ProfileView /> 
-                            </Col>
-                         )}
-                        </>
+                    <ProfileView
+                    user={user}
+                    onUserUpdate={handleUserUpdate}
+                    onDeregister={handleDeregister} 
+                    /> 
                     }
                     />
+                    
+                    <Route
+                    path="/profile/favorites"
+                    element={
+                        <ProfileFavoritesView
+                        user={user}
+                        onFavoriteToggle={handleFavoriteToggle}
+                        />
+                    }
+                    />
+
                     </Routes>
                     </Row>
                     </BrowserRouter>

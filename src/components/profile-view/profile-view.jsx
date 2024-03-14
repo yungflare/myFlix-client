@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
-import { Form, Button} from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
+import { Form } from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
+export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
     const [newUsername, setNewUsername] = useState(user.Username);
     const [newPassword, setNewPassword] = useState("");
     const [newEmail, setNewEmail] = useState(user.Email);
     const [newBirthday, setNewBirthday] = useState(user.Birthday);
-    const [validationError, setValidationError] = useState(null);
-
-    let favoriteMovies = movies.filter(movie => user.FavoriteMovies.includes(movie._id));
 
     const handleUpdate = () => {
-        if (!newUsername || !newEmail || !newBirthday || !newPassword) {
-            setValidationError("All fields are required");
-            return;
-          }
         const updatedUser = {
             Username: newUsername,
             Password: newPassword,
@@ -29,7 +22,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
     return (
         <div>
             <h1> My Profile </h1>
-            {validationError && <p className="text-danger">{validationError}</p>}
+    
             <Form>
                 <Form.Group controlId="formUsername">
                     <Form.Label>Username:</Form.Label>
@@ -80,18 +73,18 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
                 </div>
 
                 <Link to="/profile/favorites">
-                    <Button variant="primary" onClick={handleUpdate}>
-                        Update Profile 
+                    <Button variant="primary">
+                        Favorite Movies
                     </Button>
             </Link>
-
-                    <Button variant="danger" onClick={onDeregister}>
-                        Delete Account
+            <Button variant="primary" onClick={handleUpdate}>
+                        Update Profile
                     </Button>
             </Form>
+            <Button variant="danger" onClick={onDeregister}>
+                Delete Account
+            </Button>
         </div>
     );
 
 };
-
-export default ProfileView;

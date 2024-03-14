@@ -5,7 +5,7 @@ import { MovieView } from "./components/movie-view/movie-view";
 import  Container from "react-bootstrap/Container";
 
 import "./index.scss";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 // Main Component 
 const App = () => {
     return (
