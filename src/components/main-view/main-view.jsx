@@ -18,7 +18,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         const [user, setUser] = useState(storedUser? storedUser : null);
         const [token, setToken] = useState(storedToken? storedToken : null);
         const [movies, setMovies] = useState([]);
-        const [favoriteMovies, setFavoriteMovie] = useState([]);
+        const [favoriteMovies, setFavoriteMovies] = useState([]);
     
         const handleFavoriteToggle = (movieId) => {
             const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
@@ -149,10 +149,10 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                         ) : (
                             <>
                             {movies.map((movie) => {
-                                <Col className="mb-4" key={movie._id} md={3}> 
+                                return (<Col className="mb-4" key={movie._id} md={3}> 
                                 <MovieCard movie={movie}  
                                 onFavoriteToggle={handleFavoriteToggle}/>
-                                </Col>
+                                </Col>)
                             })}
                             </>
                         )}
@@ -181,7 +181,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                         />
                     }
                     />
-                    
+
                     </Routes>
                     </Row>
                     </BrowserRouter>

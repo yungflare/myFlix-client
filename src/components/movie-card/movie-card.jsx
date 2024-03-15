@@ -7,9 +7,11 @@ export const MovieCard = ({ movie, onFavoriteToggle }) => {
   const isFavorite = movie.isFavorite;
     return (
         <Card>
+          <Card.Img variant="top" src={movie.Image} />
           <Card.Body>
             <Card.Title>{movie.Title}</Card.Title>
-            <Card.Text>{movie.Description}</Card.Text>
+            {/* <Card.Text>{movie.Description}</Card.Text> */}
+            <Card.Text>{movie.Genre.Name}</Card.Text>
             <Card.Text>{movie.Director.Name}</Card.Text>
             <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
               <Button variant="primary" style={{ cursor: "pointer" }}>
@@ -40,7 +42,9 @@ export const MovieCard = ({ movie, onFavoriteToggle }) => {
       }).isRequired,
 
     onFavoriteToggle: PropTypes.func.isRequired
-    // export default MovieCard;
+
     };
+
+    export default MovieCard;
 
        
