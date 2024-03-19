@@ -44,16 +44,11 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
             style={{ cursor: "pointer"}}
             onClick={() => onFavoriteToggle(movie._id)}
             >
-                {movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                {favoriteMovies.includes(movie._id) ? "Remove from Favorites" : "Add to Favorites"}
             </Button>
         </div>
     );
 };
-
-    // MovieView.propTypes = {
-    //     movies: propTypes.array.isRequired,
-    //     onFavoriteToggle: propTypes.func.isRequired,
-    // };
 
 MovieView.propTypes = {
     movie: PropTypes.array.isRequired,

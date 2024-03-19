@@ -32,11 +32,13 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     Authorization: `Bearer ${token}`,
                 },
             })
-          
-        .then((response) => response.json())
-        .then((updatedUser) => {
-            setFavoriteMovies(updatedUser.favoriteMovies || []);
-        })
+        .then((response) => {
+            if (response.ok) {
+            setFavoriteMovies(isFavorite ? favoriteMovies.filter(id => id !== movieId) : [...favoriteMovies, movieId]);
+        } else {
+            console.error(`Error toggling favorite for movie with ID ${movieId}`);
+        }
+    })
         .catch((error) => {
             console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
         });
@@ -190,15 +192,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
 
                 export default MainView;
 
-                       
-                
-                // <Button 
-                // onClick={() => {
-                //     setUser(null);
-                //     setToken(null);
-                //     localStorage.clear();
-                // }}
-                // > Logout </Button>
+                    
          
                     
                     
