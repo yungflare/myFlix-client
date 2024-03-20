@@ -23,7 +23,7 @@ export const ProfileFavoriteView = ({ user, favoriteMovies, onFavoriteToggle, to
         .catch((error) => {
             console.error ("Error fetching Favorite Moives:", error);
         });
-    }, [user, token, favoriteMovies, onFavoriteToggle]);
+    }, [user, token, favoriteMovies, onFavoriteToggle]); 
    
 return (
     <div>

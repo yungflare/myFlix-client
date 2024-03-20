@@ -145,17 +145,19 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     element={
                         <>
                         {!user ? (
-                            <Navigate to= "/login" replace  />
+                            <Navigate to= "/users/:username/movies" replace  />
                         ) : movies.length === 0 ? (
                             <Col> Empty! </Col>
                         ) : (
                             <>
-                            {movies.map((movie) => {
-                                return (<Col className="mb-4" key={movie._id} md={3}> 
-                                <MovieCard movie={movie}  
-                                onFavoriteToggle={handleFavoriteToggle}/>
-                                </Col>)
-                            })}
+                            {movies.map((movie) => (
+                                <Col className="mb-4" key={movie._id} md={3}> 
+                                <MovieCard
+                                 movie={movie}  
+                                onFavoriteToggle={(movieId) => handleFavoriteToggle(movieId)}
+                                />
+                                </Col>
+                            ))}
                             </>
                         )}
                         </>

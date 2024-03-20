@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card } from "react-bootstrap";
-import Form  from "react-bootstrap/Form";
+import { Button, Card, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
@@ -9,6 +8,21 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
     const [newEmail, setNewEmail] = useState(user.Email);
     const [newBirthday, setNewBirthday] = useState(user.Birthday);
     const [favoriteMovies, setFavoriteMovie] = useState([]);
+
+    useEffect(() => {
+        fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+    })
+    .then((response) => response.json ())
+    .then((data) => {
+        setFavoriteMovies(data);
+    })
+    .catch((error) => {
+        console.error("Error fetching favorite movies:", error);
+    });
+},[user.Username]);
 
     const handleUpdate = () => {
         const updatedUser = {
