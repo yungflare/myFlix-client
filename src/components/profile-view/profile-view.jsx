@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { MovieCard } from "../movie-card/movie-card";
 
-export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
+export const ProfileView = ({ user, onUserUpdate, onDeregister, movies, onFavoriteToggle }) => {
     const [newUsername, setNewUsername] = useState(user.Username);
     const [newPassword, setNewPassword] = useState("");
     const [newEmail, setNewEmail] = useState(user.Email);
@@ -10,6 +11,13 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
     const [favoriteMovies, setFavoriteMovie] = useState([]);
 
     useEffect(() => {
+        if (user.FavoriteMovies) {
+            const userFavoriteMovies = movies.filter( m => user.FavoriteMovies.includes(m._id));
+            setFavoriteMovie(userFavoriteMovies);
+        }
+    
+    // }, [user, movies]);
+
         fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -22,7 +30,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
     .catch((error) => {
         console.error("Error fetching favorite movies:", error);
     });
-},[user.Username]);
+},[user, movies]);
 
     const handleUpdate = () => {
         const updatedUser = {
@@ -78,14 +86,29 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
 
                 <div>
                     <h2> Favorite Movies</h2>
-                    <ul>
-                        {favoriteMovies.map(movie => (
-                            <li key={movie._id}>
-                                {movie.Title}
-                            </li>
+                        {favoriteMovies.map((movie) => (
+                            <MovieCard
+                            key={movie._id}
+                            movie={movie}
+                            onFavoriteToggle={onFavoriteToggle}
+                            />
                         ))}
-                    </ul>
-                </div>
+                        </div>
+
+                            {/* // return (
+                            //     <div key={movies._id}>
+                            //         <img src={movies.ImagePath} />
+                            //         <link to ={`/movies/${movies._id}`}>
+                            //             <h3>{movies.Title}</h3>
+                            //         </link>
+                            //         <button variant="secondary" onClick={() => removeFavorites(movies._id)}> 
+                            //         Remove from Favorites </button>
+                            //         </div>
+                    //         )
+                    //     })
+                    // }
+                    </div> */}
+                     
 
                 <Link to="/profile/favorites">
                     <Button variant="primary">
@@ -102,6 +125,6 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
         </div>
     );
 
-};
+                };
 
 export default ProfileView;
