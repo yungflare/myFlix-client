@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const MovieCard = ({ movie, onFavoriteToggle }) => {
+export const MovieCard = ({ movie, onMovieClick }) => {
   const isFavorite = movie.isFavorite || false;
     return (
       <Card>
@@ -13,10 +13,8 @@ export const MovieCard = ({ movie, onFavoriteToggle }) => {
           <Card.Text>{movie.Genre.Name}</Card.Text>
           <Card.Text>{movie.Director.Name}</Card.Text>
           <Button
-              variant={isFavorite ? "danger" : "primary"}
-              onClick={() => onFavoriteToggle(movie._id)}
-          >
-              {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            onClick={() => onMovieClick(movie)} variant="link">
+              Open
           </Button>
       </Card.Body>
   </Card>
@@ -46,7 +44,6 @@ export const MovieCard = ({ movie, onFavoriteToggle }) => {
 // };
     MovieCard.propTypes = {
         movie: PropTypes.shape({
-          _id: PropTypes.string.isRequired,
         Title: PropTypes.string.isRequired,
         Director: PropTypes.shape({
           Name: PropTypes.string
@@ -58,7 +55,7 @@ export const MovieCard = ({ movie, onFavoriteToggle }) => {
         Image: PropTypes.string.isRequired
       }).isRequired,
 
-    onFavoriteToggle: PropTypes.func.isRequired
+    onMovieClick: PropTypes.func.isRequired
 
     };
 
