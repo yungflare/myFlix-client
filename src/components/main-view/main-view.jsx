@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -9,18 +9,19 @@ import { ProfileFavoriteView } from "../profile-view/favorite-movies";
 import  Row  from "react-bootstrap/Row";
 import  Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Toast } from "react-bootstrap";
 
 export const MainView = ({ onUserUpdate, onDeregister }) => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
         const storedToken = localStorage.getItem("token");
-        const [user, setUser] = useState(storedUser? storedUser : null);
-        const [token, setToken] = useState(storedToken? storedToken : null);
+        const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
+        const [token, setToken] = useState(localStorage.getItem("token") || null);
         const [movies, setMovies] = useState([]);
         const [favoriteMovies, setFavoriteMovies] = useState([]);
+        const [showConfirmation, setShowConfirmation] = useState(false); 
+        const [addedMovieTitle, setAddedMovieTitle] = useState("");
     
-        const handleFavoriteToggle = (movieId) => {
+        const handleFavoriteToggle = (movieId, movieTitle) => {
             const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
             const isFavorite = favoriteMovies.includes(movieId);
             const method = isFavorite ? "DELETE" : "POST";
@@ -34,7 +35,14 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             })
         .then((response) => {
             if (response.ok) {
-            setFavoriteMovies(isFavorite ? favoriteMovies.filter(id => id !== movieId) : [...favoriteMovies, movieId]);
+            setFavoriteMovies(isFavorite ? favoriteMovies.filter((id) => id !== movieId) : [...favoriteMovies, movieId]);
+            
+            setShowConfirmation(true);
+            setAddedMovieTitle(movieTitle);
+            setTimeout(() => {
+                setShowConfirmation(false);
+                setAddedMovieTitle("");
+            }, 2000);
         } else {
             console.error(`Error toggling favorite for movie with ID ${movieId}`);
         }
@@ -83,6 +91,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         }, [token]);
     
             return (
+                <>
                 <BrowserRouter>
                 <NavigationBar
                     user={user}
@@ -145,9 +154,9 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     element={
                         <>
                         {!user ? (
-                            <Navigate to= "/users/:username/movies" replace  />
+                            <Navigate to= "/users/:username/movies/:movieId" replace />
                         ) : movies.length === 0 ? (
-                            <Col> Empty! </Col>
+                            <Col> Empty not working! </Col>
                         ) : (
                             <>
                             {movies.map((movie) => (
@@ -189,6 +198,13 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     </Routes>
                     </Row>
                     </BrowserRouter>
+                    <Toast show={showConfirmation} onClose={() => setShowConfirmation(false)} delay={3000} autohide>
+                    <Toast.Header>
+                        <strong className="mr-auto"> Success!</strong>
+                    </Toast.Header>
+                    <Toast.Body>{addedMovieTitle} hasss been added to fvorites.</Toast.Body>
+                    </Toast>
+                    </>
             );
                 };
 
