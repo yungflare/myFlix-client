@@ -154,7 +154,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     element={
                         <>
                         {!user ? (
-                            <Navigate to= "/login" replace />
+                            <Navigate to= "/users/:username/movies/:movieId" replace />
                         ) : movies.length === 0 ? (
                             <Col> Empty not working! </Col>
                         ) : (
@@ -189,7 +189,6 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     element={
                         <ProfileFavoriteView
                         user={user}
-                        favoriteMovies={favoriteMovies}
                         onFavoriteToggle={handleFavoriteToggle}
                         token={token}
                         />
