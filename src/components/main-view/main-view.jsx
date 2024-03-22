@@ -52,7 +52,11 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         });
     };
 
-    const handleUserUpdate = (updatedUser) => {
+    const handleMovieClick = (movie) => {
+        console.log("Movie Clicked:", movie);
+    };
+
+    const handleUserUpdate = (UpdatedUser) => {
         console.log("Deregistering user:", user);
         onDeregister();
     };
@@ -132,7 +136,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     />
 
                     <Route 
-                    path="/movies/movieId"
+                    path="/"
                     element={
                         <>
                         {!user ? (
@@ -150,23 +154,22 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     />
 
                     <Route 
-                    path="/"
+                    path="/users/:Username/movies/:ObjectId"
                     element={
                         <>
                         {!user ? (
-                            <Navigate to= "/users/:username/movies/:movieId" replace />
+                            <Navigate to= "/login" replace />
                         ) : movies.length === 0 ? (
                             <Col> Empty not working! </Col>
                         ) : (
                             <>
                             {movies.map((movie) => (
-                                <Col className="mb-4" key={movie._id} md={3}> 
+                               <Col  key={movie._id} className="mb-4" md={3}> 
                                 <MovieCard
                                  movie={movie}  
-                                onMovieClick={handleMovieClick}
-                                />
+                                onFavoriteToggle={handleFavoriteToggle} />
                                 </Col>
-                            ))}
+                                ))}
                             </>
                         )}
                         </>
@@ -197,13 +200,13 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
 
                     </Routes>
                     </Row>
-                    </BrowserRouter>
                     <Toast show={showConfirmation} onClose={() => setShowConfirmation(false)} delay={3000} autohide>
                     <Toast.Header>
                         <strong className="mr-auto"> Success!</strong>
                     </Toast.Header>
                     <Toast.Body>{addedMovieTitle} hasss been added to fvorites.</Toast.Body>
                     </Toast>
+                    </BrowserRouter>
                     </>
             );
                 };

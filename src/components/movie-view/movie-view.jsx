@@ -1,25 +1,29 @@
 import React from "react";
 import { useParams } from "react-router";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import { Link } from "react-router-dom";
 import "./movie-view.scss";
 import { Button } from "react-bootstrap";
 import { PropTypes } from "prop-types";
 
-export const MovieView = ({ movies, onBackClick }) => {
-    const { movieId } = useParams();
-    const decodeMovieId = decodeURIComponent(movieId);
-    const movie = movies.find((b) => b.id === movieId);
+export const MovieView = ({ movie, onFavoriteToggle }) => {
+    // const { movieId } = useParams();
+    // const decodeMovieId = decodeURIComponent(movieId);
+    // const movie = movies.find((movie) => movie._id === movieId);
+    if (movie) {
+        return <div>No movie data available.</div>;
+    } 
+    // Check if the isFavorite property exists in movie
+    const isFavorite = movie.isFavorite || false;
 
     return (
-        <Row className="my-5 justify-content-center">
-            <Col md={5} >
-            <img height={500} src = {movie.Image} alt="movie cover" className="img-fluid"/>
-            </Col>
-            <Col md={3}>
-                <div>
+        <div>
+            <div>
+                <img height={500} src = {movie?.Image} alt="Movie Poster" />
+            </div>
+            <div>
+                <span>Title: </span>
                 <span>{movie.Title}</span>
-                </div>
+            </div>
             <div>
                 <span>Director: </span>
                 <span>{movie.Director?.Name}</span>
@@ -32,41 +36,46 @@ export const MovieView = ({ movies, onBackClick }) => {
                 <span>Description: </span>
                 <span>{movie.Description}</span>
             </div>
-            <Button onClick={onBackClick} variant="link">Back</Button>
-            </Col>
-            </Row>
+            <div>
+                
+            <Link to={`/`}>
+                <button 
+                className="back-button" 
+                variant="primary" 
+                style={{ cursor: "pointer" }} > 
+                Go Back 
+                </button>
+            </Link>
+            <button 
+            variant="outline-primary"
+            style={{ cursor: "pointer"}}
+            onClick={() => onFavoriteToggle(movie)}
+            >
+                {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            </button>
+            </div>
+            </div>
     );
 };
 
-//             <Link to={`/`}>
-//                 <Button 
-//                 className="back-button" 
-//                 variant="primary" 
-//                 style={{ cursor: "pointer" }} > 
-//                 Go Back 
-//                 </Button>
-//             </Link>
-//             <Button 
-//             variant="outline-primary"
-//             style={{ cursor: "pointer"}}
-//             onClick={() => onFavoriteToggle(movie._id)}
-//             >
-//                 {favoriteMovies.includes(movie._id) ? "Remove from Favorites" : "Add to Favorites"}
-//             </Button>
-//         </div>
-//     );
-// };
-
 MovieView.propTypes = {
-    movie: PropTypes.array.isRequired,
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string
-    }),
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string
-    }),
-  }.isRequired
+    movie: PropTypes.object,
+    onFavoriteToggle: PropTypes.func.isRequired
+};
+
+export default MovieView;
+
+
+//   MovieView.propTypes = {
+//     movie: PropTypes.array.isRequired,
+//     Title: PropTypes.string.isRequired,
+//     Description: PropTypes.string.isRequired,
+//     Director: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//       Description: PropTypes.string
+//     }),
+//     Genre: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//       Description: PropTypes.string
+//     }),
+//   }.isRequired
