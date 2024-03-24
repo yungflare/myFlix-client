@@ -2,9 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import MovieView from "../movie-view/movie-view";
 
 export const MovieCard = ({ movie, onFavoriteToggle }) => {
   const isFavorite = movie.isFavorite || false;
+
+  const handleRemoveFromFavorites = (movieId) => {
+    onFavoriteToggle(movieId);
+  };
+
     return (
         <Card>
           <Card.Img variant="top" src={movie.Image} />
@@ -18,13 +24,23 @@ export const MovieCard = ({ movie, onFavoriteToggle }) => {
                variant="primary" 
                style={{ cursor: "pointer" }}>
               Open</Button>
-          
+    
               <Button 
               variant="outline-primary"
               style={{ cursor: "pointer" }}
               onClick={() => onFavoriteToggle(movie._id)} >
                 {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
               </Button>
+
+              {isFavorite && (
+              <Button 
+              variant="outline-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => handleRemoveFromFavorites(movie._id)} >
+                Remove from Favorites
+              </Button>
+              )}
+              
               </Link>
             </Card>
     );

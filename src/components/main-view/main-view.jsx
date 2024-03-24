@@ -9,7 +9,7 @@ import { ProfileFavoriteView } from "../profile-view/favorite-movies";
 import  Row  from "react-bootstrap/Row";
 import  Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Button, Toast } from "react-bootstrap";
+import { Toast } from "react-bootstrap";
 
 export const MainView = ({ onUserUpdate, onDeregister }) => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -35,17 +35,15 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             })
         .then((response) => {
             if (response.ok) {
-            setFavoriteMovies(isFavorite ? favoriteMovies.filter((id) => id !== movieId) : [...favoriteMovies, movieId]);
-            
+        
             setShowConfirmation(true);
             setAddedMovieTitle(movieTitle);
+
             setTimeout(() => {
                 setShowConfirmation(false);
                 setAddedMovieTitle("");
             }, 2000);
-        } else {
-            console.error(`Error toggling favorite for movie with ID ${movieId}`);
-        }
+        } 
     })
         .catch((error) => {
             console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);

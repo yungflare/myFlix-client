@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { MovieCard } from "../movie-card/movie-card";
 
-export const ProfileView = ({ user, onUserUpdate, onDeregister, movies, onFavoriteToggle }) => {
+export const ProfileView = ({ user, onUserUpdate, onDeregister, onFavoriteToggle }) => {
     const [newUsername, setNewUsername] = useState(user.Username);
     const [newPassword, setNewPassword] = useState("");
     const [newEmail, setNewEmail] = useState(user.Email);
@@ -11,9 +11,9 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies, onFavori
     const [favoriteMovies, setFavoriteMovie] = useState([]);
 
     useEffect(() => {
-        if (user.FavoriteMovies) {
-            const userFavoriteMovies = movies.filter( m => user.FavoriteMovies.includes(m._id));
-            setFavoriteMovie(userFavoriteMovies);
+        if (user.favoriteMovies) {
+            const userfavoriteMovies = movies.filter( m => user.favoriteMovies.includes(m._id));
+            setFavoriteMovie(userfavoriteMovies);
         }
     
     // }, [user, movies]);
@@ -25,12 +25,12 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies, onFavori
     })
     .then((response) => response.json ())
     .then((data) => {
-        setFavoriteMovies(data);
+        setFavoriteMovie(data);
     })
     .catch((error) => {
         console.error("Error fetching favorite movies:", error);
     });
-},[user, movies]);
+},[user, movie]);
 
     const handleUpdate = () => {
         const updatedUser = {
