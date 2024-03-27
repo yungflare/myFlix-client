@@ -14,41 +14,57 @@ import { Toast } from "react-bootstrap";
 export const MainView = ({ onUserUpdate, onDeregister }) => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
         const storedToken = localStorage.getItem("token");
-        const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
-        const [token, setToken] = useState(localStorage.getItem("token") || null);
+        const [user, setUser] = useState(storedUser || null);
+        const [token, setToken] = useState(storedToken || null);
         const [movies, setMovies] = useState([]);
         const [favoriteMovies, setFavoriteMovies] = useState([]);
         const [showConfirmation, setShowConfirmation] = useState(false); 
         const [addedMovieTitle, setAddedMovieTitle] = useState("");
     
-        const handleFavoriteToggle = (movieId, movieTitle) => {
-            const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-            const isFavorite = favoriteMovies.includes(movieId);
-            const method = isFavorite ? "DELETE" : "POST";
+    //     const handleFavoriteToggle = (movieId, movieTitle) => {
+    //         const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+    //         // const isFavorite = favoriteMovies.includes(movieId);
+    //         const method = isFavorite ? "DELETE" : "POST";
 
-            fetch(url, {
-                method: method,
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-        .then((response) => {
-            if (response.ok) {
+    //         fetch(url, {
+    //             method: method,
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         })
+    //     .then((response) => {
+    //         if (response.ok) {
         
-            setShowConfirmation(true);
-            setAddedMovieTitle(movieTitle);
+    //         setShowConfirmation(true);
+    //         setAddedMovieTitle(movieTitle);
 
-            setTimeout(() => {
-                setShowConfirmation(false);
-                setAddedMovieTitle("");
-            }, 2000);
-        } 
-    })
-        .catch((error) => {
-            console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
+    //         setTimeout(() => {
+    //             setShowConfirmation(false);
+    //             setAddedMovieTitle("");
+    //         }, 2000);
+    //     } 
+    // })
+    //     .catch((error) => {
+    //         console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
+    //     });
+    // };
+
+
+
+    useEffect(() => {
+        if (!token) {
+            return;
+        }
+
+        fetch("https://movie-api-kiz1.onrender.com/movies", {
+            headers: { Authorization: `Bearer ${token}`},
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            setMovies(data);
         });
-    };
+    }, [token]);
 
     const handleMovieClick = (movie) => {
         console.log("Movie Clicked:", movie);
@@ -63,34 +79,24 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         console.log("User Deleted succesfully!");
     };
 
-    useEffect(() => {
-        if (!token) {
-            return;
-        }
-
-        fetch("https://movie-api-kiz1.onrender.com/movies",{
-            headers: { Authorization: `Bearer ${token}`}
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            const moviesFromApi = data.map((movie) => {
-                return {
-                  _id: movie._id,
-                  Image: movie.Image,
-                  Title: movie.Title,
-                  Description: movie.Description,
-                  Genre: {
-                      Name: movie.Genre.Name
-                  },
-                  Director: {
-                      Name: movie.Director.Name
-                  }
-                };
-              });
+        //     const moviesFromApi = data.map((movie) => {
+        //         return {
+        //           _id: movie._id,
+        //           Image: movie.Image,
+        //           Title: movie.Title,
+        //           Description: movie.Description,
+        //           Genre: {
+        //               Name: movie.Genre.Name
+        //           },
+        //           Director: {
+        //               Name: movie.Director.Name
+        //           }
+        //         };
+        //       });
       
-              setMovies(moviesFromApi);
-            });
-        }, [token]);
+        //       setMovies(moviesFromApi);
+        //     });
+        // }, [token]);
     
             return (
                 <>
@@ -133,6 +139,17 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     }
                     />
 
+                    <Route
+                    path="/profile"
+                    element={
+                    <ProfileView
+                    user={user}
+                    onUserUpdate={handleUserUpdate}
+                    onDeregister={handleDeregister} 
+                    /> 
+                    }
+                    />
+
                     <Route 
                     path="/"
                     element={
@@ -143,7 +160,8 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                             <Col> Empty! </Col>
                         ) : (
                             <Col md={8}>
-                                <MovieView movies={movies} 
+                                <MovieView 
+                                movies={movies} 
                                 onFavoriteToggle={handleFavoriteToggle} />
                             </Col>
                         )}
@@ -151,7 +169,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     }
                     />
 
-                    <Route 
+                    {/* <Route 
                     path="/users/:Username/movies/:ObjectId"
                     element={
                         <>
@@ -172,18 +190,8 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                         )}
                         </>
                     }
-                    />
-
-                       <Route
-                    path="/profile"
-                    element={
-                    <ProfileView
-                    user={user}
-                    onUserUpdate={handleUserUpdate}
-                    onDeregister={handleDeregister} 
-                    /> 
-                    }
-                    />
+                    /> */}
+{/* 
                     
                     <Route
                     path="/profile/favorites"
@@ -194,22 +202,31 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                         token={token}
                         />
                     }
-                    />
+                    /> */}
 
                     </Routes>
                     </Row>
-                    <Toast show={showConfirmation} onClose={() => setShowConfirmation(false)} delay={3000} autohide>
+                    </BrowserRouter>
+                    <Toast 
+                    show={showConfirmation}
+                    onClose={() => setShowConfirmation(false)} 
+                    delay={3000} 
+                    autohide
+                    >
                     <Toast.Header>
                         <strong className="mr-auto"> Success!</strong>
                     </Toast.Header>
-                    <Toast.Body>{addedMovieTitle} hasss been added to fvorites.</Toast.Body>
+                    <Toast.Body>
+                        {addedMovieTitle} has been added to fvorites!
+                        </Toast.Body>
                     </Toast>
-                    </BrowserRouter>
+                   
                     </>
             );
                 };
 
                 export default MainView;
+
 
                     
          
