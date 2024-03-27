@@ -4,28 +4,70 @@ import "./movie-view.scss";
 import { Button } from "react-bootstrap";
 import { PropTypes } from "prop-types";
 
-export const MovieView = ({ movies, onFavoriteToggle }) => {
+export const MovieView = ({ movies, handleFavoriteToggle, isFavorite }) => {
         return (
         <div>
             {movies.map((movie) => (
                 <div key={movie._id} className="movie-card">
                     <img src={movie.Image} alt="Movie Poster" />
                     <h3>{movie.Title}</h3>
-                    <p>Director: {movie.Director.Name}</p>
-                    <p>Genre: {movie.Genre.Name}</p>
-                    <p>Description: {movie.Description}</p>
-                    <Button
-                        variant="outline-primary"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => onFavoriteToggle(movie._id, movie.Title)}
+                    <button 
+                    variant = "outline-primary"
+                    style={{ cursor: "pointer"}}
+                    onClick={() => handleFavoriteToggle(movie._id, movie.Title)}
                     >
-                        Add to Favorites
-                    </Button>
+                        {movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                    </button>
                     </div>
             ))}
             </div>
         );
-    } ;
+            };
+
+    //                 <p>Director: {movie.Director.Name}</p>
+    //                 <p>Genre: {movie.Genre.Name}</p>
+    //                 <p>Description: {movie.Description}</p>
+    //                 <button
+    //                     variant="outline-primary"
+    //                     style={{ cursor: "pointer" }}
+    //                     onClick={() => handleFavoriteToggle(movie._id, movie.Title)}
+    //                 >
+    //                     {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+    //                 </button>
+    //                 </div>
+    //         ))}
+    //         </div>
+    //     );
+    // } ;
+
+    const handleFavoriteToggle = (movieId, movieTitle) => {
+                const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+                const isFavorite = favoriteMovies.includes(movieId);
+                const method = isFavorite ? "DELETE" : "POST";
+    
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            .then((response) => {
+                if (response.ok) {
+            
+                setShowConfirmation(true);
+                setAddedMovieTitle(movieTitle);
+    
+                setTimeout(() => {
+                    setShowConfirmation(false);
+                    setAddedMovieTitle("");
+                }, 2000);
+            } 
+        })
+            .catch((error) => {
+                console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
+            });
+        };
 
 //     // Check if the isFavorite property exists in movie
 //     const isFavorite = movie.isFavorite || false;

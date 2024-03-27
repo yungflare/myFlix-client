@@ -10,6 +10,8 @@ import  Row  from "react-bootstrap/Row";
 import  Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toast } from "react-bootstrap";
+import  handleFavoriteToggle  from "../movie-view/movie-view";
+import isFavorite from "../movie-view/movie-view";
 
 export const MainView = ({ onUserUpdate, onDeregister }) => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -49,9 +51,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     //         console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
     //     });
     // };
-
-
-
+ 
     useEffect(() => {
         if (!token) {
             return;
@@ -78,6 +78,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     const handleDeregister = () => {
         console.log("User Deleted succesfully!");
     };
+
 
         //     const moviesFromApi = data.map((movie) => {
         //         return {
@@ -162,7 +163,9 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                             <Col md={8}>
                                 <MovieView 
                                 movies={movies} 
-                                onFavoriteToggle={handleFavoriteToggle} />
+                                handleFavoriteToggle={handleFavoriteToggle}
+                                isFavorite= {isFavorite}
+                                />
                             </Col>
                         )}
                         </>
