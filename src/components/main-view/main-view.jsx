@@ -164,7 +164,6 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                                 <MovieView 
                                 movies={movies} 
                                 handleFavoriteToggle={handleFavoriteToggle}
-                                isFavorite= {isFavorite}
                                 />
                             </Col>
                         )}

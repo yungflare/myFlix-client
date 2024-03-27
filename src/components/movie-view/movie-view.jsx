@@ -4,12 +4,40 @@ import "./movie-view.scss";
 import { Button } from "react-bootstrap";
 import { PropTypes } from "prop-types";
 
-export const MovieView = ({ movies, handleFavoriteToggle, isFavorite }) => {
+const handleFavoriteToggle = (movieId, movieTitle) => {
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+    const isFavorite = favoriteMovies.includes(movieId);
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    })
+.then((response) => {
+    if (response.ok) {
+        setShowConfirmation(true);
+        setAddedMovieTitle(movieTitle);
+
+    setTimeout(() => {
+        setShowConfirmation(false);
+        setAddedMovieTitle("");
+    }, 2000);
+} 
+})
+.catch((error) => {
+    console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
+});
+};
+
+export const MovieView = ({ movies, handleFavoriteToggle }) => {
         return (
         <div>
             {movies.map((movie) => (
                 <div key={movie._id} className="movie-card">
-                    <img src={movie.Image} alt="Movie Poster" />
+                    <img src={movie.Image} alt="Movie Poster" className="movie-image" />
                     <h3>{movie.Title}</h3>
                     <button 
                     variant = "outline-primary"
@@ -40,34 +68,7 @@ export const MovieView = ({ movies, handleFavoriteToggle, isFavorite }) => {
     //     );
     // } ;
 
-    const handleFavoriteToggle = (movieId, movieTitle) => {
-                const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-                const isFavorite = favoriteMovies.includes(movieId);
-                const method = isFavorite ? "DELETE" : "POST";
-    
-                fetch(url, {
-                    method: method,
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-            .then((response) => {
-                if (response.ok) {
-            
-                setShowConfirmation(true);
-                setAddedMovieTitle(movieTitle);
-    
-                setTimeout(() => {
-                    setShowConfirmation(false);
-                    setAddedMovieTitle("");
-                }, 2000);
-            } 
-        })
-            .catch((error) => {
-                console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
-            });
-        };
+
 
 //     // Check if the isFavorite property exists in movie
 //     const isFavorite = movie.isFavorite || false;
@@ -117,7 +118,7 @@ export const MovieView = ({ movies, handleFavoriteToggle, isFavorite }) => {
 
 MovieView.propTypes = {
     movies: PropTypes.array.isRequired,
-    onFavoriteToggle: PropTypes.func.isRequired
+    handleFavoriteToggle: PropTypes.func.isRequired
 };
 
 export default MovieView;
