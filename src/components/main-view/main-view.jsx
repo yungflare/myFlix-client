@@ -25,26 +25,26 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     }
   }, [user]);
 
-  const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-    const isFavorite = favoriteMovies.includes(movieId);
-    const method = isFavorite ? "DELETE" : "POST";
+  // const handleFavoriteToggle = (movieId) => {
+  //   const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+  //   const isFavorite = favoriteMovies.includes(movieId);
+  //   const method = isFavorite ? "DELETE" : "POST";
 
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((updatedUser) => {
-        setFavoriteMovies(updatedUser.FavoriteMovies || []);
-      })
-      .catch((error) => {
-        console.error(`Error toggling favorite for movie ${movieId}:`, error);
-      });
-  };
+  //   fetch(url, {
+  //     method: method,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((updatedUser) => {
+  //       setFavoriteMovies(updatedUser.FavoriteMovies || []);
+  //     })
+  //     .catch((error) => {
+  //       console.error(`Error toggling favorite for movie ${movieId}:`, error);
+  //     });
+  // };
 
   const handleUserUpdate = (updatedUser) => {
     console.log("Updating user:", updatedUser);
@@ -143,7 +143,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                   <Col md={8}>
                     <MovieView
                       movies={movies}
-                      onFavoriteToggle={handleFavoriteToggle}
+                      // onFavoriteToggle={handleFavoriteToggle}
                     />
                   </Col>
                 )}
@@ -182,7 +182,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             element={
               <ProfileFavoriteView
                 user={user}
-                onFavoriteToggle={handleFavoriteToggle}
+                handleFavoriteToggle={onFavoriteToggle}
                 token={token}
               />
             }

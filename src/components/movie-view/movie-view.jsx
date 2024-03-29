@@ -5,36 +5,7 @@ import "./movie-view.scss";
 import Button from "react-bootstrap";
 import PropTypes from "prop-types";
 
-// const handleFavoriteToggle = (movieId, movieTitle) => {
-//     const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-//     const isFavorite = favoriteMovies.includes(movieId);
-//     const method = isFavorite ? "DELETE" : "POST";
-//     const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-//     fetch(url, {
-//         method: method,
-//         headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${token}`,
-//         },
-//     })
-// .then((response) => {
-//     if (response.ok) {
-//         setShowConfirmation(true);
-//         setAddedMovieTitle(movieTitle);
-
-//     setTimeout(() => {
-//         setShowConfirmation(false);
-//         setAddedMovieTitle("");
-//     }, 2000);
-// }
-// })
-// .catch((error) => {
-//     console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
-// });
-// };
-
-export const MovieView = ({ movies, onFavoriteToggle }) => {
+const MovieView = ({ movies }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
   const movie = movies.find((b) => b._id === decodedMovieId);
@@ -43,10 +14,31 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
   console.log("movies:", movies);
   console.log("movie:", movie);
 
+  const handleFavoriteToggle = (movieId) => {
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+    // const isFavorite = favoriteMovies.includes(movieId);
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((updatedUser) => {
+        setFavoriteMovies(updatedUser.FavoriteMovies || []);
+      })
+      .catch((error) => {
+        console.error(`Error toggling favorite for movie ${movieId}:`, error);
+      });
+  };
+
   return (
     <div>
       <div>
-        <img height={500} src={movie?.Image} alt="Movie Poster" />
+        <img height={500} src={movie.Image} alt="Movie Poster" />
       </div>
       <div>
         <span>Title: </span>
@@ -76,9 +68,9 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
       <Button
         variant="outline-primary"
         style={{ cursor: "pointer" }}
-        onClick={() => onFavoriteToggle(movie._id)}
+        onClick={() => handleFavoriteToggle(movie._id, movie.Title)}
       >
-        {movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
       </Button>
     </div>
   );
