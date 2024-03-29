@@ -171,40 +171,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     }
                     />
 
-                    {/* <Route 
-                    path="/users/:Username/movies/:ObjectId"
-                    element={
-                        <>
-                        {!user ? (
-                            <Navigate to= "/login" replace />
-                        ) : movies.length === 0 ? (
-                            <Col> Empty not working! </Col>
-                        ) : (
-                            <>
-                            {movies.map((movie) => (
-                               <Col  key={movie._id} className="mb-4" md={3}> 
-                                <MovieCard
-                                 movie={movie}  
-                                onFavoriteToggle={handleFavoriteToggle} />
-                                </Col>
-                                ))}
-                            </>
-                        )}
-                        </>
-                    }
-                    /> */}
-{/* 
-                    
-                    <Route
-                    path="/profile/favorites"
-                    element={
-                        <ProfileFavoriteView
-                        user={user}
-                        onFavoriteToggle={handleFavoriteToggle}
-                        token={token}
-                        />
-                    }
-                    /> */}
+            
 
                     </Routes>
                     </Row>

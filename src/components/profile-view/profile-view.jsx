@@ -80,6 +80,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
 
                 <div>
                     <h2> Favorite Movies</h2>
+
                         {favoriteMovies.map((movies) => (
                             <MovieCard
                             key={movies._id}
@@ -103,7 +104,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
                     </div> */}
                      
 
-                <Link to="/profile/favorites">
+                <Link to="/profile">
                     <Button variant="primary" onClick={handleFavoriteToggle}>
                         Favorite Movies
                     </Button>

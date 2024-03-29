@@ -48313,7 +48313,7 @@ const handleFavoriteToggle = (movieId, movieTitle)=>{
         console.error(`Error toggling favorite for movie with ID ${movieId}:`, error);
     });
 };
-const MovieView = ({ movies, handleFavoriteToggle })=>{
+const MovieView = ({ movies })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "movie-card",
@@ -49057,7 +49057,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                             movie: movies
                         }, movies._id, false, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 84,
+                            lineNumber: 85,
                             columnNumber: 29
                         }, undefined))
                 ]
@@ -49067,19 +49067,19 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                 columnNumber: 17
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                to: "/profile/favorites",
+                to: "/profile",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                     variant: "primary",
                     onClick: handleFavoriteToggle,
                     children: "Favorite Movies"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 107,
+                    lineNumber: 108,
                     columnNumber: 21
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 106,
+                lineNumber: 107,
                 columnNumber: 17
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -49088,7 +49088,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                 children: "Update Profile"
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 111,
+                lineNumber: 112,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -49097,7 +49097,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                 children: "Delete Account"
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 115,
+                lineNumber: 116,
                 columnNumber: 13
             }, undefined)
         ]
