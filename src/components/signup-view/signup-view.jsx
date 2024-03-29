@@ -12,27 +12,27 @@ export const SignupView = () => {
     event.preventDefault();
 
     const data = {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: birthday
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday,
     };
 
     fetch("https://movie-api-kiz1.onrender.com/users", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then((response) => {
-        if (response.ok) {
-          alert("Signup successful");
-          window.location.reload();
-        } else {
-          alert("Signup failed");
-        }
-      });
-    };
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        alert("Signup successful");
+        window.location.reload();
+      } else {
+        alert("Signup failed");
+      }
+    });
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -47,7 +47,7 @@ export const SignupView = () => {
         />
       </Form.Group>
       <Form.Group controlId="formPassword">
-      <Form.Label>Password: </Form.Label>
+        <Form.Label>Password: </Form.Label>
         <Form.Control
           type="password"
           value={password}
@@ -76,8 +76,8 @@ export const SignupView = () => {
         />
       </Form.Group>
       <Button variant="primary" type="submit">
-        Sign Me Up 
-        </Button>
+        Sign Me Up
+      </Button>
     </Form>
   );
 };
