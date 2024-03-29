@@ -1,7 +1,8 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Navbar, Container, Nav, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const NavigationBar = ({ user, onLoggedOut }) => {
+ const NavigationBar = ({ user, onLoggedOut, token }) => {
     return (
         <Navbar bg="light" expand="lg">
             <Container>
@@ -41,3 +42,4 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
         </Navbar>
     );
 };
+export default NavigationBar;

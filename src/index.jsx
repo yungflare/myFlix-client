@@ -1,10 +1,7 @@
 // import React from "react";
 import { createRoot } from "react-dom/client";
 import { MainView } from "./components/main-view/main-view";
-import { MovieCard } from "./components/movie-card/movie-card";
-import { MovieView } from "./components/movie-view/movie-view";
 import  Container from "react-bootstrap/Container";
-
 import "./index.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 // Main Component 
