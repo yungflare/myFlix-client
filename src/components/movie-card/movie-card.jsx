@@ -20,15 +20,14 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
           </Button>
         </Link>
 
-        <Link to={`/movies`}>
+        <Link to={`/movies/favorites`}>
           <Button
             variant="outline-primary"
             style={{ cursor: "pointer" }}
-            onClick={() => onFavoriteToggle(movie._id)}
+            onClick={() => onFavoriteToggle(movie._id, !isFavorite)}
           >
-            {favoriteMovies.includes(movie._id)
-              ? "Remove Favorites"
-              : "Add to Favorites"}
+            {" "}
+            {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
           </Button>
         </Link>
       </Card.Body>
