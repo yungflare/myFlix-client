@@ -20,15 +20,17 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
           </Button>
         </Link>
 
-        <Button
-          variant="outline-primary"
-          style={{ cursor: "pointer" }}
-          onClick={() => onFavoriteToggle(movie._id)}
-        >
-          {favoriteMovies.includes(movie._id)
-            ? "Remove Favorites"
-            : "Add to Favorites"}
-        </Button>
+        <Link to={`/movies`}>
+          <Button
+            variant="outline-primary"
+            style={{ cursor: "pointer" }}
+            onClick={() => onFavoriteToggle(movie._id)}
+          >
+            {favoriteMovies.includes(movie._id)
+              ? "Remove Favorites"
+              : "Add to Favorites"}
+          </Button>
+        </Link>
       </Card.Body>
     </Card>
   );
@@ -46,7 +48,7 @@ MovieCard.propTypes = {
       Name: PropTypes.string.isRequired,
     }),
     isFavorite: PropTypes.bool,
-    Image: PropTypes.string.isRequired,
+    Image: PropTypes.string,
   }).isRequired,
 
   onFavoriteToggle: PropTypes.func.isRequired,
