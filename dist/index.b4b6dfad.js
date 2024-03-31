@@ -27211,25 +27211,22 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
     }, [
         user
     ]);
-    // const handleFavoriteToggle = (movieId) => {
-    //   const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-    //   const isFavorite = favoriteMovies.includes(movieId);
-    //   const method = isFavorite ? "DELETE" : "POST";
-    //   fetch(url, {
-    //     method: method,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //     .then((response) => response.json())
-    //     .then((updatedUser) => {
-    //       setFavoriteMovies(updatedUser.FavoriteMovies || []);
-    //     })
-    //     .catch((error) => {
-    //       console.error(`Error toggling favorite for movie ${movieId}:`, error);
-    //     });
-    // };
+    const handleFavoriteToggle = (movieId)=>{
+        const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+        const isFavorite = favoriteMovies.includes(movieId);
+        const method = isFavorite ? "DELETE" : "POST";
+        fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response)=>response.json()).then((updatedUser)=>{
+            setFavoriteMovies(updatedUser.FavoriteMovies || []);
+        }).catch((error)=>{
+            console.error(`Error toggling favorite for movie ${movieId}:`, error);
+        });
+    };
     const handleUserUpdate = (updatedUser)=>{
         console.log("Updating user:", updatedUser);
         onUserUpdate(updatedUser);
@@ -27371,10 +27368,11 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
-                            path: "/movies/favorites",
+                            path: "/profile/favorites",
                             element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _favoriteMoviesDefault.default), {
                                 user: user,
-                                onFavoriteToggle: handleFavoriteToggle
+                                token: token,
+                                handleFavoriteToggle: handleFavoriteToggle
                             }, void 0, false, void 0, void 0)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
@@ -48847,7 +48845,7 @@ var _form = require("react-bootstrap/Form");
 var _formDefault = parcelHelpers.interopDefault(_form);
 var _reactRouterDom = require("react-router-dom");
 var _s = $RefreshSig$();
-const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
+const ProfileView = ({ user, onUserUpdate, onDeregister, handleFavoriteToggle })=>{
     _s();
     const [newUsername, setNewUsername] = (0, _react.useState)(user.Username);
     const [newPassword, setNewPassword] = (0, _react.useState)("");
@@ -48882,7 +48880,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                 children: " My Profile "
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 39,
+                lineNumber: 44,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default), {
@@ -48894,7 +48892,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 children: "Username:"
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 42,
+                                lineNumber: 47,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
@@ -48904,13 +48902,13 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 required: true
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 43,
+                                lineNumber: 48,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 41,
+                        lineNumber: 46,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Group, {
@@ -48920,7 +48918,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 children: "New Password:"
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 52,
+                                lineNumber: 57,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
@@ -48930,13 +48928,13 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 required: true
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 53,
+                                lineNumber: 58,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 51,
+                        lineNumber: 56,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Group, {
@@ -48946,7 +48944,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 children: "Update Email:"
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 62,
+                                lineNumber: 67,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
@@ -48956,13 +48954,13 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 required: true
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 63,
+                                lineNumber: 68,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 61,
+                        lineNumber: 66,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Group, {
@@ -48972,7 +48970,7 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 children: "Update Birthday:"
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 72,
+                                lineNumber: 77,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
@@ -48982,13 +48980,13 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                                 required: true
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 73,
+                                lineNumber: 78,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 71,
+                        lineNumber: 76,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -48998,12 +48996,12 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                             children: "Favorite Movies"
                         }, void 0, false, {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 82,
+                            lineNumber: 87,
                             columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 81,
+                        lineNumber: 86,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -49012,13 +49010,13 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                         children: "Update Profile"
                     }, void 0, false, {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 84,
+                        lineNumber: 89,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 40,
+                lineNumber: 45,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -49027,13 +49025,13 @@ const ProfileView = ({ user, onUserUpdate, onDeregister })=>{
                 children: "Delete Account"
             }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 88,
+                lineNumber: 93,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/profile-view/profile-view.jsx",
-        lineNumber: 38,
+        lineNumber: 43,
         columnNumber: 5
     }, undefined);
 };
@@ -49060,37 +49058,35 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactBootstrap = require("react-bootstrap");
+var _movieCard = require("../movie-card/movie-card");
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _s = $RefreshSig$();
-const ProfileFavoriteView = ({ user, token })=>{
+const ProfileFavoriteView = ({ user, token, handleFavoriteToggle })=>{
     _s();
     const [favoriteMovies, setFavoriteMovies] = (0, _react.useState)([]);
     const [movies, setMovies] = (0, _react.useState)([]);
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-    const isFavorite = favoriteMovies.includes(movieId);
-    const method = isFavorite ? "DELETE" : "POST";
-    const handleFavoriteToggle = (movieId1, isFavorite)=>{
-        if (isFavorite) setFavoriteMovies(favoriteMovies.filter((id)=>id !== movieId1));
-        else setFavoriteMovies([
-            ...favoriteMovies,
-            movieId1
-        ]);
-    };
+    // const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+    // const isFavorite = favoriteMovies.includes(movieId);
+    // const method = isFavorite ? "DELETE" : "POST";
+    // const handleFavoriteToggle = (movieId, isFavorite) => {
+    //   if (isFavorite) {
+    //     setFavoriteMovies(favoriteMovies.filter((id) => id !== movieId));
+    //   } else {
+    //     setFavoriteMovies([...favoriteMovies, movieId]);
+    //   }
+    // };
     (0, _react.useEffect)(()=>{
-        if (!token) {
-            var response, updatedUser, error;
-            return;
-        }
+        if (!token) return;
         fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}`, {
             headers: {
+                // "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>response.json()).then((data)=>{
             setFavoriteMovies(data.FavoriteMovies || []);
         }).catch((error)=>{
-            console.error("Error fetching movies: ", error);
+            console.error("Error toggling favorite movies: ", error);
         });
         fetch(`https://movie-api-kiz1.onrender.com/movies`, {
             headers: {
@@ -49099,9 +49095,21 @@ const ProfileFavoriteView = ({ user, token })=>{
         }).then((response)=>response.json()).then((data)=>{
             console.log(data);
             setMovies(data || []);
+        // setFavoriteMovies(data.FavoriteMovies || []);
         }).catch((error)=>{
-            console.error("Error fetching movies:", error);
+            console.error("Error fetching movies: ", error);
         });
+    // fetch(`https://movie-api-kiz1.onrender.com/movies`, {
+    //   headers: { Authorization: `Bearer ${token}` },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     setMovies(data || []);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching movies:", error);
+    //   });
     }, [
         user.Username,
         token
@@ -49126,73 +49134,84 @@ const ProfileFavoriteView = ({ user, token })=>{
     //       console.error("Error fetching movies:", error);
     //     });
     // }, [user.Username, token]);
-    const handleToggle = (movieId1)=>{
-        const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId1}`;
-        // const [favoriteMovies, setFavoriteMovies] = useState([]);
-        const isFavorite = favoriteMovies.includes(movieId1);
-        const method = isFavorite ? "DELETE" : "POST";
-        fetch(url, {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            }
-        }).then((response)=>response.json()).then((data)=>{
-            setFavoriteMovies(data.FavoriteMovies || []);
-        }).catch((error)=>{
-            console.error(`Error toggling favorite for Movie: ${movieId1}:`, error);
-        });
-    };
-    const addedFavoriteMovies = movies.filter((movie)=>favoriteMovies.includes(movie._id));
+    // const handleToggle = (movieId) => {
+    //   const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+    //   // const [favoriteMovies, setFavoriteMovies] = useState([]);
+    //   const isFavorite = favoriteMovies.includes(movieId);
+    //   const method = isFavorite ? "DELETE" : "POST";
+    //   fetch(url, {
+    //     method: method,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       setFavoriteMovies(data.FavoriteMovies || []);
+    //     })
+    //     .catch((error) => {
+    //       console.error(`Error toggling favorite for Movie: ${movieId}:`, error);
+    //     });
+    // };
+    // const addedFavoriteMovies = movies.filter((movie) =>
+    //   favoriteMovies.includes(movie._id)
+    // );
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
                 children: " Favorite Movies "
             }, void 0, false, {
                 fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                lineNumber: 117,
+                lineNumber: 118,
                 columnNumber: 7
             }, undefined),
-            addedFavoriteMovies.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+            favoriteMovies.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                 children: " No Favorite Movies "
             }, void 0, false, {
                 fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                lineNumber: 119,
+                lineNumber: 120,
                 columnNumber: 9
             }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(MovieCard, {
+                children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
                         movie: movie,
                         favoriteMovies: favoriteMovies,
                         onFavoriteToggle: handleFavoriteToggle
                     }, movie._id, false, {
                         fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                        lineNumber: 123,
+                        lineNumber: 124,
                         columnNumber: 13
                     }, undefined))
             }, void 0, false, {
                 fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                lineNumber: 121,
+                lineNumber: 122,
                 columnNumber: 9
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/favorite-movies/favorite-movies.jsx",
-        lineNumber: 116,
+        lineNumber: 117,
         columnNumber: 5
     }, undefined);
 };
 _s(ProfileFavoriteView, "o9VghgX5FORrdqz5afsZ5cvxZPw=");
 _c = ProfileFavoriteView;
 ProfileFavoriteView.propTypes = {
-    movies: (0, _propTypesDefault.default).array,
-    movie: (0, _propTypesDefault.default).string,
-    Image: (0, _propTypesDefault.default).string,
     user: (0, _propTypesDefault.default).shape({
         Username: (0, _propTypesDefault.default).string.isRequired
     }).isRequired,
-    token: (0, _propTypesDefault.default).string.isRequired
+    token: (0, _propTypesDefault.default).string.isRequired,
+    handleFavoriteToggle: (0, _propTypesDefault.default).func.isRequired
 };
-exports.default = ProfileFavoriteView;
+exports.default = ProfileFavoriteView; //   movies: PropTypes.array,
+ //   movie: PropTypes.string,
+ //   Image: PropTypes.string,
+ //   user: PropTypes.shape({
+ //     Username: PropTypes.string.isRequired,
+ //   }).isRequired,
+ //   token: PropTypes.string.isRequired,
+ // };
+ // export default ProfileFavoriteView;
 var _c;
 $RefreshReg$(_c, "ProfileFavoriteView");
 
@@ -49201,6 +49220,6 @@ $RefreshReg$(_c, "ProfileFavoriteView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap":"3AD9A","prop-types":"7wKI2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lJZlQ":[function() {},{}],"i5LP7":[function() {},{}]},["4s3Ar","1xC6H","d8Dch"], "d8Dch", "parcelRequireaec4")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../movie-card/movie-card":"bwuIu","prop-types":"7wKI2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lJZlQ":[function() {},{}],"i5LP7":[function() {},{}]},["4s3Ar","1xC6H","d8Dch"], "d8Dch", "parcelRequireaec4")
 
 //# sourceMappingURL=index.b4b6dfad.js.map

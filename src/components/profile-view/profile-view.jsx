@@ -3,7 +3,12 @@ import { Button, Card } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
+export const ProfileView = ({
+  user,
+  onUserUpdate,
+  onDeregister,
+  handleFavoriteToggle,
+}) => {
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);

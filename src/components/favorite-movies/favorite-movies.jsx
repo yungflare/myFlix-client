@@ -1,45 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { MovieCard } from "../movie-card/movie-card";
 import PropTypes from "prop-types";
 
-const ProfileFavoriteView = ({ user, token }) => {
+const ProfileFavoriteView = ({ user, token, handleFavoriteToggle }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [movies, setMovies] = useState([]);
 
-  const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-  const isFavorite = favoriteMovies.includes(movieId);
-  const method = isFavorite ? "DELETE" : "POST";
+  // const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+  // const isFavorite = favoriteMovies.includes(movieId);
+  // const method = isFavorite ? "DELETE" : "POST";
 
-  const handleFavoriteToggle = (movieId, isFavorite) => {
-    if (isFavorite) {
-      setFavoriteMovies(favoriteMovies.filter((id) => id !== movieId));
-    } else {
-      setFavoriteMovies([...favoriteMovies, movieId]);
-    }
-  };
+  // const handleFavoriteToggle = (movieId, isFavorite) => {
+  //   if (isFavorite) {
+  //     setFavoriteMovies(favoriteMovies.filter((id) => id !== movieId));
+  //   } else {
+  //     setFavoriteMovies([...favoriteMovies, movieId]);
+  //   }
+  // };
 
   useEffect(() => {
     if (!token) {
       return;
-
-      fetch(url, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((updatedUser) => {
-          setFavoriteMovies(updatedUser.FavoriteMovies || []);
-        })
-        .catch((error) => {
-          console.error(`Error toggling favorite for movie ${movieId}:`, error);
-        });
     }
 
     fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}`, {
       headers: {
+        // "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
@@ -48,20 +34,35 @@ const ProfileFavoriteView = ({ user, token }) => {
         setFavoriteMovies(data.FavoriteMovies || []);
       })
       .catch((error) => {
-        console.error("Error fetching movies: ", error);
+        console.error("Error toggling favorite movies: ", error);
       });
 
     fetch(`https://movie-api-kiz1.onrender.com/movies`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         setMovies(data || []);
+        // setFavoriteMovies(data.FavoriteMovies || []);
       })
       .catch((error) => {
-        console.error("Error fetching movies:", error);
+        console.error("Error fetching movies: ", error);
       });
+
+    // fetch(`https://movie-api-kiz1.onrender.com/movies`, {
+    //   headers: { Authorization: `Bearer ${token}` },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     setMovies(data || []);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching movies:", error);
+    //   });
   }, [user.Username, token]);
 
   //       const moviesFromApi = data.map((movie) => {
@@ -86,36 +87,36 @@ const ProfileFavoriteView = ({ user, token }) => {
   //     });
   // }, [user.Username, token]);
 
-  const handleToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-    // const [favoriteMovies, setFavoriteMovies] = useState([]);
-    const isFavorite = favoriteMovies.includes(movieId);
-    const method = isFavorite ? "DELETE" : "POST";
+  // const handleToggle = (movieId) => {
+  //   const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+  //   // const [favoriteMovies, setFavoriteMovies] = useState([]);
+  //   const isFavorite = favoriteMovies.includes(movieId);
+  //   const method = isFavorite ? "DELETE" : "POST";
 
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setFavoriteMovies(data.FavoriteMovies || []);
-      })
-      .catch((error) => {
-        console.error(`Error toggling favorite for Movie: ${movieId}:`, error);
-      });
-  };
+  //   fetch(url, {
+  //     method: method,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setFavoriteMovies(data.FavoriteMovies || []);
+  //     })
+  //     .catch((error) => {
+  //       console.error(`Error toggling favorite for Movie: ${movieId}:`, error);
+  //     });
+  // };
 
-  const addedFavoriteMovies = movies.filter((movie) =>
-    favoriteMovies.includes(movie._id)
-  );
+  // const addedFavoriteMovies = movies.filter((movie) =>
+  //   favoriteMovies.includes(movie._id)
+  // );
 
   return (
     <div>
       <h2> Favorite Movies </h2>
-      {addedFavoriteMovies.length === 0 ? (
+      {favoriteMovies.length === 0 ? (
         <p> No Favorite Movies </p>
       ) : (
         <div>
@@ -149,13 +150,22 @@ const ProfileFavoriteView = ({ user, token }) => {
 };
 
 ProfileFavoriteView.propTypes = {
-  movies: PropTypes.array,
-  movie: PropTypes.string,
-  Image: PropTypes.string,
   user: PropTypes.shape({
     Username: PropTypes.string.isRequired,
   }).isRequired,
   token: PropTypes.string.isRequired,
+  handleFavoriteToggle: PropTypes.func.isRequired,
 };
 
 export default ProfileFavoriteView;
+
+//   movies: PropTypes.array,
+//   movie: PropTypes.string,
+//   Image: PropTypes.string,
+//   user: PropTypes.shape({
+//     Username: PropTypes.string.isRequired,
+//   }).isRequired,
+//   token: PropTypes.string.isRequired,
+// };
+
+// export default ProfileFavoriteView;
