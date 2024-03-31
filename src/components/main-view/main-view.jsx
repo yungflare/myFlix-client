@@ -25,26 +25,26 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     }
   }, [user]);
 
-  const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-    const isFavorite = favoriteMovies.includes(movieId);
-    const method = isFavorite ? "DELETE" : "POST";
+  // const handleFavoriteToggle = (movieId) => {
+  //   const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+  //   const isFavorite = favoriteMovies.includes(movieId);
+  //   const method = isFavorite ? "DELETE" : "POST";
 
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((updatedUser) => {
-        setFavoriteMovies(updatedUser.FavoriteMovies || []);
-      })
-      .catch((error) => {
-        console.error(`Error toggling favorite for movie ${movieId}:`, error);
-      });
-  };
+  //   fetch(url, {
+  //     method: method,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((updatedUser) => {
+  //       setFavoriteMovies(updatedUser.FavoriteMovies || []);
+  //     })
+  //     .catch((error) => {
+  //       console.error(`Error toggling favorite for movie ${movieId}:`, error);
+  //     });
+  // };
 
   const handleUserUpdate = (updatedUser) => {
     console.log("Updating user:", updatedUser);
@@ -62,45 +62,27 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     }
 
     fetch("https://movie-api-kiz1.onrender.com/movies", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
-      .then((response) => {
-        // response.json())
-        if (!response.ok) {
-          throw new Error("Unathorized");
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((movies) => {
-        if (movies) {
-          const moviesFromApi = movies.map((movie) => {
-            return {
-              _id: movie._id,
-              Image: movie.Image,
-              Title: movie.Title,
-              //     Description: movie.Description,
-              //     Genre: {
-              //       Name: movie.Genre.Name,
-              //     },
-              //     Director: {
-              //       Name: movie.Director.Name,
-              //     },
-            };
-          });
+        const moviesFromApi = movies.map((movie) => {
+          return {
+            _id: movie._id,
+            Image: movie.Image,
+            Title: movie.Title,
+            Description: movie.Description,
+            Genre: {
+              Name: movie.Genre.Name,
+            },
+            Director: {
+              Name: movie.Director.Name,
+            },
+          };
+        });
 
-          setMovies(moviesFromApi);
-        } else {
-          console.error("No movies found");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching movies:", error);
+        setMovies(moviesFromApi);
       });
-
-    //       setMovies(moviesFromApi);
-    //     });
   }, [token]);
 
   return (
@@ -197,12 +179,11 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
-            path="/profile/favorites"
+            path="/movies/favorites"
             element={
               <ProfileFavoriteView
                 user={user}
                 onFavoriteToggle={handleFavoriteToggle}
-                token={token}
               />
             }
           />

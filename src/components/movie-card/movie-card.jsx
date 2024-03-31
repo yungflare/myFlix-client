@@ -20,19 +20,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
           </Button>
         </Link>
 
-        <Link to={`/profile/favorites`}>
-          <Button
-            variant="outline-primary"
-            style={{ cursor: "pointer" }}
-            onClick={() => onFavoriteToggle(movie)}
-          >
-            {favoriteMovies.some((favMovie) => favMovie._id === movie._id)
-              ? "Remove Favorite"
-              : "Add to Favorites"}
-          </Button>
-        </Link>
-
-        {/* <Link to={`/movies/favorites`}>
+        <Link to={`/movies/favorites`}>
           <Button
             variant="outline-primary"
             style={{ cursor: "pointer" }}
@@ -41,7 +29,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
             {" "}
             {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
           </Button>
-        </Link> */}
+        </Link>
       </Card.Body>
     </Card>
   );

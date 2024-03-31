@@ -54,6 +54,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
             type="text"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            required
           />
         </Form.Group>
 
