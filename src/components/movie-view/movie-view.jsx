@@ -45,7 +45,7 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
         </Button>
       </Link>
 
-      <Link to={`/movies/favorites`}>
+      <Link to={`movies/profile/favorite`}>
         <Button
           variant="outline-primary"
           style={{ cursor: "pointer" }}
