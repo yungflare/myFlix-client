@@ -8,11 +8,14 @@ import PropTypes from "prop-types";
 export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
-  const movie = movies.find((b) => b._id === decodedMovieId);
+  const movie = movies.find((movie) => movie._id === decodedMovieId);
 
   console.log("movieId:", movieId);
   console.log("movies:", movies);
   console.log("movie:", movie);
+
+  console.log("movieId:", movieId);
+  console.log("decodedMovieId:", decodedMovieId);
 
   return (
     <div>
@@ -60,8 +63,8 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
 
 MovieView.propTypes = {
   movies: PropTypes.array.isRequired,
-  movie: PropTypes.string,
-  Image: PropTypes.string,
+  // movie: PropTypes.string,
+  // Image: PropTypes.string,
   onFavoriteToggle: PropTypes.func.isRequired,
 };
 
