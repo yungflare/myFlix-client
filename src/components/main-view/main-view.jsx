@@ -30,13 +30,16 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     const isFavorite = favoriteMovies.includes(movieId);
     const method = isFavorite ? "DELETE" : "POST";
 
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/favorites`,
+      {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((updatedUser) => {
         setFavoriteMovies(updatedUser.FavoriteMovies || []);

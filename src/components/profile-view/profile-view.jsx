@@ -14,21 +14,6 @@ export const ProfileView = ({
   const [newEmail, setNewEmail] = useState(user.Email);
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
 
-  //     useEffect(() => {
-  //         fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`, {
-  //             headers: {
-  //                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //             },
-  //     })
-  //     .then((response) => response.json ())
-  //     .then((data) => {
-  //         setFavoriteMovies(data);
-  //     })
-  //     .catch((error) => {
-  //         console.error("Error fetching favorite movies:", error);
-  //     });
-  // }, [user]);
-
   const handleUpdate = () => {
     const updatedUser = {
       Username: newUsername,

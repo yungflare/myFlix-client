@@ -48,11 +48,11 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
         </Button>
       </Link>
 
-      <Link to={`/movies/favorites`}>
+      <Link to={`/profile/favorites`}>
         <Button
           variant="outline-primary"
           style={{ cursor: "pointer" }}
-          onClick={() => onFavoriteToggle(movieId)}
+          onClick={() => onFavoriteToggle(movie)}
         >
           {movie?.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
         </Button>
@@ -63,8 +63,6 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
 
 MovieView.propTypes = {
   movies: PropTypes.array.isRequired,
-  // movie: PropTypes.string,
-  // Image: PropTypes.string,
   onFavoriteToggle: PropTypes.func.isRequired,
 };
 
