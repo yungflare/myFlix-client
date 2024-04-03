@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
+import Object from "prop-types";
 
 export const MainView = ({ onUserUpdate, onDeregister }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -26,12 +27,11 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   }, [user]);
 
   const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
     const isFavorite = favoriteMovies.includes(movieId);
     const method = isFavorite ? "DELETE" : "POST";
 
     fetch(
-      `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/favorites`,
+      `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`,
       {
         method: method,
         headers: {
@@ -40,7 +40,12 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         },
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to toggle favorite");
+        }
+        return response.json();
+      })
       .then((updatedUser) => {
         setFavoriteMovies(updatedUser.FavoriteMovies || []);
       })
@@ -48,6 +53,13 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         console.error(`Error toggling favorite for movie ${movieId}:`, error);
       });
   };
+  //     .then((updatedUser) => {
+  //       setFavoriteMovies(updatedUser.FavoriteMovies || []);
+  //     })
+  //     .catch((error) => {
+  //       console.error(`Error toggling favorite for movie ${movieId}:`, error);
+  //     });
+  // };
 
   const handleUserUpdate = (updatedUser) => {
     console.log("Updating user:", updatedUser);
@@ -182,7 +194,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
-            path="/profile/favorites"
+            path="/movies/:movieId/profile/favorites"
             element={
               <ProfileFavoriteView
                 user={user}

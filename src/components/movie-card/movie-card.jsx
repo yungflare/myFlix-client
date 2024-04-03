@@ -20,7 +20,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
           </Button>
         </Link>
 
-        <Link to={`/movies/favorites`}>
+        <Link to={`/profile/favorites`}>
           <Button
             variant="outline-primary"
             style={{ cursor: "pointer" }}
@@ -36,19 +36,19 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
 };
 
 MovieCard.propTypes = {
-  movie: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string,
-    Director: PropTypes.shape({
-      Name: PropTypes.string,
-    }),
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-    }),
-    isFavorite: PropTypes.bool,
-    Image: PropTypes.string,
-  }).isRequired,
+  movie: PropTypes.object.isRequired,
+  //   _id: PropTypes.string.isRequired,
+  //   Title: PropTypes.string.isRequired,
+  //   Description: PropTypes.string,
+  //   Director: PropTypes.shape({
+  //     Name: PropTypes.string,
+  //   }),
+  //   Genre: PropTypes.shape({
+  //     Name: PropTypes.string.isRequired,
+  //   }),
+  //   isFavorite: PropTypes.bool,
+  //   Image: PropTypes.string,
+  // }).isRequired,
 
   onFavoriteToggle: PropTypes.func.isRequired,
 };

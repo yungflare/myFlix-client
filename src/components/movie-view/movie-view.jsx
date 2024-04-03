@@ -13,8 +13,6 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
   console.log("movieId:", movieId);
   console.log("movies:", movies);
   console.log("movie:", movie);
-
-  console.log("movieId:", movieId);
   console.log("decodedMovieId:", decodedMovieId);
 
   return (

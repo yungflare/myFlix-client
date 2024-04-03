@@ -11,34 +11,37 @@ const ProfileFavoriteView = ({ user, token, handleFavoriteToggle }) => {
       return;
     }
 
-    fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}`, {
-      headers: {
-        // "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://movie-api-kiz1.onrender.com/users/${user.Username}/profile/favorites`,
+      {
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
-      .then((movieId) => {
-        setFavoriteMovies(movieId.FavoriteMovies || []);
+      .then((favoriteMovies) => {
+        setFavoriteMovies(favoriteMovies || []);
       })
       .catch((error) => {
         console.error("Error toggling favorite movies: ", error);
       });
 
-    fetch(`https://movie-api-kiz1.onrender.com/movies`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((movieId) => {
-        console.log(movieId);
-        setMovies(movieId || []);
-        // setFavoriteMovies(data.FavoriteMovies || []);
-      })
-      .catch((error) => {
-        console.error("Error fetching movies: ", error);
-      });
+    // fetch(`https://movie-api-kiz1.onrender.com/movies`, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((movieId) => {
+    //     console.log(movie._id);
+    //     setMovies(movie._id || []);
+    //     // setFavoriteMovies(data.FavoriteMovies || []);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching movies: ", error);
+    //   });
   }, [user.Username, token]);
 
   return (
@@ -51,9 +54,10 @@ const ProfileFavoriteView = ({ user, token, handleFavoriteToggle }) => {
           {movies.map((movie) => (
             <MovieCard
               key={movie._id}
-              movieId={movie}
+              movies={movie}
               favoriteMovies={favoriteMovies}
               onFavoriteToggle={handleFavoriteToggle}
+              // handleFavoriteToggle={favoriteMovies}
             />
           ))}
         </div>
