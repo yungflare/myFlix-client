@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
-import NavigationBar from "../navigation-bar/navigation-bar";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
-import ProfileFavoriteView from "../favorite-movies/favorite-movies";
+import { ProfileFavoriteView } from "../favorite-movies/favorite-movies";
+import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
-import Object from "prop-types";
 
 export const MainView = ({ onUserUpdate, onDeregister }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -18,22 +17,12 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-  useEffect(() => {
-    if (user) {
-      setFavoriteMovies(user.FavoriteMovies || []);
-    }
-  }, [user]);
 
   const handleFavoriteToggle = (movieId) => {
-    const isFavorite = favoriteMovies.includes(movieId);
-    const method = isFavorite ? "DELETE" : "POST";
-
     fetch(
-      `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`,
+      `https://movie-api-kiz1.onrender.com/user/${user._id}/favorites/${movieId}`,
       {
-        method: method,
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -42,24 +31,22 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     )
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to toggle favorite");
+          console.error(`Error toggling favorite movie with ID ${movieId}`);
+          return response.json();
         }
         return response.json();
       })
-      .then((updatedUser) => {
-        setFavoriteMovies(updatedUser.FavoriteMovies || []);
+      .then((data) => {
+        console.log("Toggling Favorite:", data);
+        setFavoriteMovies(data.favoriteMovies);
       })
-      .catch((error) => {
-        console.error(`Error toggling favorite for movie ${movieId}:`, error);
-      });
+      .catch((error) =>
+        console.error(
+          `Error toggling favorite movies with ID ${movieId}:`,
+          error
+        )
+      );
   };
-  //     .then((updatedUser) => {
-  //       setFavoriteMovies(updatedUser.FavoriteMovies || []);
-  //     })
-  //     .catch((error) => {
-  //       console.error(`Error toggling favorite for movie ${movieId}:`, error);
-  //     });
-  // };
 
   const handleUserUpdate = (updatedUser) => {
     console.log("Updating user:", updatedUser);
@@ -77,25 +64,28 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     }
 
     fetch("https://movie-api-kiz1.onrender.com/movies", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => response.json())
-      .then((movies) => {
-        const moviesFromApi = movies.map((movie) => {
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
           return {
             _id: movie._id,
-            Image: movie.Image,
             Title: movie.Title,
             Description: movie.Description,
             Genre: {
               Name: movie.Genre.Name,
+              Description: movie.Genre.Description,
             },
             Director: {
               Name: movie.Director.Name,
+              Bio: movie.Director.Bio,
+              // Birth: movie.Director.Date_of_Birth,
             },
           };
         });
-
         setMovies(moviesFromApi);
       });
   }, [token]);
@@ -105,13 +95,11 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       <NavigationBar
         user={user}
         onLoggedOut={() => {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          window.open("/", "_self");
+          setUser(null);
+          // localStorage.removeItem("token");
+          // localStorage.removeItem("user");
         }}
-        token={token}
       />
-
       <Row className="justify-content-md-center">
         <Routes>
           <Route
@@ -128,12 +116,13 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
               </>
             }
           />
+
           <Route
             path="/login"
             element={
               <>
                 {user ? (
-                  <Navigate to="/login" replace />
+                  <Navigate to="/" />
                 ) : (
                   <Col md={5}>
                     <LoginView
@@ -154,7 +143,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
-                  <Col> Empty! </Col>
+                  <Col> List is Empty! </Col>
                 ) : (
                   <Col md={8}>
                     <MovieView
@@ -166,22 +155,31 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
               </>
             }
           />
+
           <Route
-            path="/movies"
+            path="/"
             element={
-              <Row>
-                {movies.map((movie) => (
-                  <Col className="mb-4" key={movie._id} md={3}>
-                    <MovieCard
-                      movie={movie}
-                      onFavoriteToggle={handleFavoriteToggle}
-                      favoriteMovies={favoriteMovies}
-                    />
-                  </Col>
-                ))}
-              </Row>
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col> Empty! </Col>
+                ) : (
+                  <>
+                    {movies.map((movie) => (
+                      <Col className="mb-4" key={movie._id} md={3}>
+                        <MovieCard
+                          movie={movie}
+                          onFavoriteToggle={handleFavoriteToggle}
+                        />
+                      </Col>
+                    ))}
+                  </>
+                )}
+              </>
             }
           />
+
           <Route
             path="/profile"
             element={
@@ -194,12 +192,11 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
-            path="/movies/:movieId/profile/favorites"
+            path="/profile/favorites"
             element={
               <ProfileFavoriteView
                 user={user}
-                token={token}
-                handleFavoriteToggle={handleFavoriteToggle}
+                onFavoriteToggle={handleFavoriteToggle}
               />
             }
           />
@@ -208,5 +205,3 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     </BrowserRouter>
   );
 };
-
-export default MainView;

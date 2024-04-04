@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -46,14 +48,15 @@ export const LoginView = ({ onLoggedIn }) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          minLength="3"
+          minLength={3}
         />
       </Form.Group>
-
+      <br />
       <Form.Group controlId="formPassword">
         <Form.Label> Password: </Form.Label>
         <Form.Control
           type="password"
+          minLength={8}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -64,4 +67,8 @@ export const LoginView = ({ onLoggedIn }) => {
       </Button>
     </Form>
   );
+};
+
+LoginView.PropTypes = {
+  onLoggedIn: PropTypes.func.isRequired,
 };
