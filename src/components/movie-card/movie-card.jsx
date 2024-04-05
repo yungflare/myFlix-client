@@ -11,7 +11,8 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
       <Card.Img variant="top" src={movie.Image} />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
-        <Card.Text>{movie.Description.substring(0, 80)}...</Card.Text>
+        <Card.Text>{movie.Genre.Name}</Card.Text>
+        {/* <Card.Text>{movie.Description.substring(0, 80)}...</Card.Text> */}
         <Card.Text>{movie.Director.Name}</Card.Text>
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
           <Button variant="primary" style={{ cursor: "pointer" }}>
@@ -37,6 +38,7 @@ MovieCard.propTypes = {
     _id: PropTypes.string.isRequired,
     Title: PropTypes.string,
     Description: PropTypes.string,
+    Image: PropTypes.string,
     Director: PropTypes.shape({
       Name: PropTypes.string,
     }),

@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 // Main Component
 
-const MyFlixApplication = () => {
+const App = () => {
   return (
     <Container>
       <MainView />
@@ -20,4 +20,4 @@ const container = document.querySelector("#root");
 const root = createRoot(container);
 
 // Tell react to render app in the root DOM element
-root.render(<MyFlixApplication />);
+root.render(<App />);

@@ -73,6 +73,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         const moviesFromApi = data.map((movie) => {
           return {
             _id: movie._id,
+            Image: movie.Image,
             Title: movie.Title,
             Description: movie.Description,
             Genre: {
@@ -172,7 +173,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                   <Col></Col>
                   <Col>
                     <Form
-                      classname="d-flex"
+                      className="my-class"
                       onSubmit={(e) => {
                         e.preventDefault();
                         handleSearch(searchQuery);

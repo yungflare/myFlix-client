@@ -8,13 +8,13 @@ import "./movie-view.scss";
 export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
-  const movie = movies.find((b) => b._id === decodedMovieId);
+  const movie = movies.find((movie) => movie._id === decodedMovieId);
 
   return (
     <div>
-      {/* <div>
-        <img height={500} src={movie?.Image} alt="Movie Poster" />
-      </div> */}
+      <div>
+        <img height={500} src={movie.Image} alt="Movie Poster" />
+      </div>
       <div>
         <span>Title: </span>
         <span>{movie.Title || "No Title"}</span>
@@ -40,13 +40,15 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
           Back
         </Button>
       </Link>
-      <Button
-        variant="outline-primary"
-        style={{ cursor: "pointer" }}
-        onClick={() => onFavoriteToggle(movie._id)}
-      >
-        {movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-      </Button>
+      <Link to={`/profile/favorites`}>
+        <Button
+          variant="outline-primary"
+          style={{ cursor: "pointer" }}
+          onClick={() => onFavoriteToggle(movie._id)}
+        >
+          {movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+        </Button>
+      </Link>
     </div>
   );
 };

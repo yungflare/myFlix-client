@@ -2950,7 +2950,7 @@ var _containerDefault = parcelHelpers.interopDefault(_container);
 var _indexScss = require("./index.scss");
 var _bootstrapMinCss = require("bootstrap/dist/css/bootstrap.min.css");
 // Main Component
-const MyFlixApplication = ()=>{
+const App = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _containerDefault.default), {
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _mainView.MainView), {}, void 0, false, {
             fileName: "src/index.jsx",
@@ -2963,18 +2963,18 @@ const MyFlixApplication = ()=>{
         columnNumber: 5
     }, undefined);
 };
-_c = MyFlixApplication;
+_c = App;
 // Root of the app
 const container = document.querySelector("#root");
 const root = (0, _client.createRoot)(container);
 // Tell react to render app in the root DOM element
-root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(MyFlixApplication, {}, void 0, false, {
+root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(App, {}, void 0, false, {
     fileName: "src/index.jsx",
     lineNumber: 23,
     columnNumber: 13
 }, undefined));
 var _c;
-$RefreshReg$(_c, "MyFlixApplication");
+$RefreshReg$(_c, "App");
 
   $parcel$ReactRefreshHelpers$98a3.postlude(module);
 } finally {
@@ -27244,6 +27244,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
             const moviesFromApi = data.map((movie)=>{
                 return {
                     _id: movie._id,
+                    Image: movie.Image,
                     Title: movie.Title,
                     Description: movie.Description,
                     Genre: {
@@ -27279,7 +27280,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                 token: token
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 100,
+                lineNumber: 101,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _rowDefault.default), {
@@ -27298,7 +27299,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 112,
+                            lineNumber: 113,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27318,7 +27319,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 127,
+                            lineNumber: 128,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27339,7 +27340,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 146,
+                            lineNumber: 147,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27353,7 +27354,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {}, void 0, false, void 0, void 0),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
                                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Form), {
-                                                    classname: "d-flex",
+                                                    className: "my-class",
                                                     onSubmit: (e)=>{
                                                         e.preventDefault();
                                                         handleSearch(searchQuery);
@@ -27398,7 +27399,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, true)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 166,
+                            lineNumber: 167,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27410,7 +27411,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false, void 0, void 0)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 216,
+                            lineNumber: 217,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27422,24 +27423,24 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false, void 0, void 0)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 227,
+                            lineNumber: 228,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 111,
+                    lineNumber: 112,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 110,
+                lineNumber: 111,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 99,
+        lineNumber: 100,
         columnNumber: 5
     }, undefined);
 };
@@ -27492,11 +27493,8 @@ const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies })=>{
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
-                        children: [
-                            movie.Description.substring(0, 80),
-                            "..."
-                        ]
-                    }, void 0, true, {
+                        children: movie.Genre.Name
+                    }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
                         lineNumber: 14,
                         columnNumber: 9
@@ -27505,7 +27503,7 @@ const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies })=>{
                         children: movie.Director.Name
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 15,
+                        lineNumber: 16,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -27518,12 +27516,12 @@ const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies })=>{
                             children: "Open"
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 17,
+                            lineNumber: 18,
                             columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 16,
+                        lineNumber: 17,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -27535,7 +27533,7 @@ const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies })=>{
                         children: favoriteMovies.includes(movie._id) ? "Remove from Favorites" : "Add to Favorites"
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 21,
+                        lineNumber: 22,
                         columnNumber: 9
                     }, undefined)
                 ]
@@ -27557,6 +27555,7 @@ MovieCard.propTypes = {
         _id: (0, _propTypesDefault.default).string.isRequired,
         Title: (0, _propTypesDefault.default).string,
         Description: (0, _propTypesDefault.default).string,
+        Image: (0, _propTypesDefault.default).string,
         Director: (0, _propTypesDefault.default).shape({
             Name: (0, _propTypesDefault.default).string
         }),
@@ -47711,9 +47710,24 @@ const MovieView = ({ movies, onFavoriteToggle })=>{
     _s();
     const { movieId } = (0, _reactRouter.useParams)();
     const decodedMovieId = decodeURIComponent(movieId);
-    const movie = movies.find((b)=>b._id === decodedMovieId);
+    const movie = movies.find((movie)=>movie._id === decodedMovieId);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                    height: 500,
+                    src: movie.Image,
+                    alt: "Movie Poster"
+                }, void 0, false, {
+                    fileName: "src/components/movie-view/movie-view.jsx",
+                    lineNumber: 16,
+                    columnNumber: 9
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 15,
+                columnNumber: 7
+            }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -47821,13 +47835,20 @@ const MovieView = ({ movies, onFavoriteToggle })=>{
                 lineNumber: 34,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
-                variant: "outline-primary",
-                style: {
-                    cursor: "pointer"
-                },
-                onClick: ()=>onFavoriteToggle(movie._id),
-                children: movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
+                to: `/profile/favorites`,
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
+                    variant: "outline-primary",
+                    style: {
+                        cursor: "pointer"
+                    },
+                    onClick: ()=>onFavoriteToggle(movie._id),
+                    children: movie.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+                }, void 0, false, {
+                    fileName: "src/components/movie-view/movie-view.jsx",
+                    lineNumber: 44,
+                    columnNumber: 9
+                }, undefined)
             }, void 0, false, {
                 fileName: "src/components/movie-view/movie-view.jsx",
                 lineNumber: 43,
@@ -48545,8 +48566,8 @@ const ProfileFavoritesView = ({ user, token })=>{
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((response)=>response.json()).then((data)=>{
-            const moviesFromApi = data.map((movie)=>{
+        }).then((response)=>response.json()).then((movie)=>{
+            const moviesFromApi = movie.map((movie)=>{
                 return {
                     _id: movie._id,
                     Title: movie.Title,

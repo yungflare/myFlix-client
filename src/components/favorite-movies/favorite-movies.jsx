@@ -26,8 +26,8 @@ const ProfileFavoritesView = ({ user, token }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        const moviesFromApi = data.map((movie) => {
+      .then((movie) => {
+        const moviesFromApi = movie.map((movie) => {
           return {
             _id: movie._id,
             Title: movie.Title,
