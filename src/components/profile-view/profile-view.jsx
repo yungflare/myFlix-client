@@ -3,12 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({
-  user,
-  onUserUpdate,
-  onDeregister,
-  handleFavoriteToggle,
-}) => {
+export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
@@ -44,7 +39,6 @@ export const ProfileView = ({
             type="text"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            required
           />
         </Form.Group>
 
@@ -81,5 +75,3 @@ export const ProfileView = ({
     </div>
   );
 };
-
-export default ProfileView;

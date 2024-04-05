@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import "./movie-view.scss";
 

@@ -2,41 +2,90 @@ import React, { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-export const ProfileFavoritesView = ({ user, onFavoriteToggle }) => {
+const ProfileFavoritesView = ({ user, token }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch(`https://movie-api-kiz1.onrender.com/user/${user.Username}/favorites`)
+    fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        setFavoriteMovies(data.favoriteMovies);
+        setFavoriteMovies(data.FavoriteMovies || []);
       })
-      .catch((error) =>
-        console.error("Error toggling favorite movies: ", error)
-      );
-  }, [user, Username]);
+      .catch((error) => {
+        console.error("Error fetching favorite movies:", error);
+      });
+
+    fetch("https://movie-api-kiz1.onrender.com/users/movies", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
+          return {
+            _id: movie._id,
+            Title: movie.Title,
+            Description: movie.Description,
+            Genre: {
+              Name: movie.Genre.Name,
+            },
+            Director: {
+              Name: movie.Director.Name,
+            },
+          };
+        });
+
+        setMovies(moviesFromApi);
+      })
+      .catch((error) => {
+        console.error("Error fetching movies:", error);
+      });
+  }, [user.Username, token]);
 
   const handleToggle = (movieId) => {
-    console.log("Toggling Favorite for Movie with ID:", movieId);
-    setFavoriteMovies((prevMovies) =>
-      prevMovies.map((movie) => ({
-        ...movie,
-        isFavorite:
-          movie._id === movieId ? !movie.isFavorite : movie.isFavorite,
-      }))
-    );
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
 
-    onFavoriteToggle(movieId);
+    const isFavorite = favoriteMovies.some((movie) => movie === movieId);
+
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setFavoriteMovies(data.FavoriteMovies || []);
+      })
+      .catch((error) => {
+        console.error(
+          `Error toggling favorite for movie ID ${movieId}:`,
+          error
+        );
+      });
   };
+
+  const favoriteMoviesToShow = movies.filter((movie) =>
+    favoriteMovies.includes(movie._id)
+  );
 
   return (
     <div>
       <h2> Favorite Movies </h2>
-      {favoriteMovies.length === 0 ? (
-        <p> No Favorite Movies </p>
+      {favoriteMoviesToShow.length === 0 ? (
+        <p>No Favorite Movies</p>
       ) : (
         <div>
-          {favoriteMovies.map((movie) => (
+          {favoriteMoviesToShow.map((movie) => (
             <Card
               key={movie._id}
               style={{ width: "18rem", marginBottom: "15px" }}
@@ -48,9 +97,7 @@ export const ProfileFavoritesView = ({ user, onFavoriteToggle }) => {
                   variant="primary"
                   onClick={() => handleToggle(movie._id)}
                 >
-                  {movie.isFavorite
-                    ? "Remove from Favorites"
-                    : "Add to Favorites"}
+                  Remove from Favorites
                 </Button>
               </Card.Body>
             </Card>
@@ -61,9 +108,11 @@ export const ProfileFavoritesView = ({ user, onFavoriteToggle }) => {
   );
 };
 
-ProfileFavoriteView.propTypes = {
+ProfileFavoritesView.propTypes = {
   user: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    Username: PropTypes.string.isRequired,
   }).isRequired,
-  onFavoriteToggle: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
 };
+
+export default ProfileFavoritesView;
