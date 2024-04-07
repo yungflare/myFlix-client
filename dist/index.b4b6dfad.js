@@ -27236,7 +27236,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
     };
     (0, _react.useEffect)(()=>{
         if (!token) return;
-        fetch("https://movie-api-kiz1.onrender.com/movies", {
+        fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -47817,7 +47817,7 @@ const MovieView = ({ movies, onFavoriteToggle })=>{
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                to: `/`,
+                to: `/movies`,
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
                     className: "back-button",
                     variant: "primary",

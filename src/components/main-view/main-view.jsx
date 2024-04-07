@@ -63,7 +63,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       return;
     }
 
-    fetch("https://movie-api-kiz1.onrender.com/movies", {
+    fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -31,7 +31,7 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
         <span>Description: </span>
         <span>{movie.Description || "No Description"}</span>
       </div>
-      <Link to={`/`}>
+      <Link to={`/movies`}>
         <Button
           className="back-button"
           variant="primary"
