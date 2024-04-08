@@ -3,11 +3,16 @@ import { Button, Card } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
+export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+  useEffect(() => {
+    setFavoriteMovies(user.favoriteMovies || []);
+  }, [user]);
 
   const handleUpdate = () => {
     const updatedUser = {
@@ -68,10 +73,24 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
         <Button variant="primary" onClick={handleUpdate}>
           Update Profile
         </Button>
+
+        <Button variant="danger" onClick={onDeregister}>
+          Delete Account
+        </Button>
       </Form>
-      <Button variant="danger" onClick={onDeregister}>
-        Delete Account
-      </Button>
+
+      <h3>Favorite Movies</h3>
+      {favoriteMovies.length === 0 ? (
+        <p>No favorite movies added yet.</p>
+      ) : (
+        <ul>
+          {favoriteMovies.map((movie) => (
+            <li key={movie._id}>{movie.Title}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
+
+export default ProfileView;

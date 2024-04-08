@@ -20,14 +20,17 @@ const ProfileFavoritesView = ({ user, token }) => {
         console.error("Error fetching favorite movies:", error);
       });
 
-    fetch("https://movie-api-kiz1.onrender.com/users/movies", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
-      .then((movie) => {
-        const moviesFromApi = movie.map((movie) => {
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
           return {
             _id: movie._id,
             Title: movie.Title,
@@ -110,9 +113,9 @@ const ProfileFavoritesView = ({ user, token }) => {
 
 ProfileFavoritesView.propTypes = {
   user: PropTypes.shape({
-    Username: PropTypes.string.isRequired,
+    Username: PropTypes.string,
   }).isRequired,
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string,
 };
 
 export default ProfileFavoritesView;

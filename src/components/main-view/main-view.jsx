@@ -18,8 +18,6 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [moviesBeforeSearch, setMoviesBeforeSearch] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -28,7 +26,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   }, [user]);
 
   const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`;
     const isFavorite = favoriteMovies.includes(movieId);
     const method = isFavorite ? "DELETE" : "POST";
 
@@ -63,15 +61,15 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       return;
     }
 
-    fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`, {
+    fetch("https://movie-api-kiz1.onrender.com/movies", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        const moviesFromApi = data.map((movie) => {
-          return {
+      .then((movies) => {
+        if (movies) {
+          const moviesFromApi = movies.map((movie) => ({
             _id: movie._id,
             Image: movie.Image,
             Title: movie.Title,
@@ -82,20 +80,17 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             Director: {
               Name: movie.Director.Name,
             },
-          };
-        });
-        setMovies(moviesFromApi);
-        setMoviesBeforeSearch(moviesFromApi);
+          }));
+
+          setMovies(moviesFromApi);
+        } else {
+          console.error("Error Movies is Null");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fwtching movies: ", error);
       });
   }, [token]);
-
-  const handleSearch = async (query, token) => {
-    const filteredMovies = moviesBeforeSearch.filter((movie) => {
-      return movie.Title.toLowerCase().includes(query.toLowerCase());
-    });
-    setMovies(filteredMovies);
-  };
-
   return (
     <BrowserRouter>
       <NavigationBar
@@ -165,33 +160,9 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
-            path="/"
+            path="/movies"
             element={
               <>
-                <Row className="mb-4 mt-2">
-                  <Col></Col>
-                  <Col></Col>
-                  <Col>
-                    <Form
-                      className="my-class"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSearch(searchQuery);
-                      }}
-                    >
-                      <Form.Control
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                        aria-label="Search"
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                      />
-                      <Button type="submit" variant="outline-success">
-                        Search
-                      </Button>
-                    </Form>
-                  </Col>
-                </Row>
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
@@ -199,15 +170,17 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                 ) : (
                   <>
                     <Row>
-                      {movies.map((movie) => (
-                        <Col className="mb-4" key={movie._id} md={3}>
-                          <MovieCard
-                            movie={movie}
-                            onFavoriteToggle={handleFavoriteToggle}
-                            favoriteMovies={favoriteMovies}
-                          />
-                        </Col>
-                      ))}
+                      {movies.map((movie) => {
+                        return (
+                          <Col className="mb-4" key={movie._id} md={3}>
+                            <MovieCard
+                              movie={movie}
+                              onFavoriteToggle={handleFavoriteToggle}
+                              favoriteMovies={favoriteMovies}
+                            />
+                          </Col>
+                        );
+                      })}
                     </Row>
                   </>
                 )}

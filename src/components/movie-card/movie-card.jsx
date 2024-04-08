@@ -14,6 +14,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
         <Card.Text>{movie.Genre.Name}</Card.Text>
         {/* <Card.Text>{movie.Description.substring(0, 80)}...</Card.Text> */}
         <Card.Text>{movie.Director.Name}</Card.Text>
+
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
           <Button variant="primary" style={{ cursor: "pointer" }}>
             Open
