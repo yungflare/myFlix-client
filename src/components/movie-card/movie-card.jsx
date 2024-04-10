@@ -4,8 +4,6 @@ import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
-  const isFavorite = movie.isFavorite;
-
   return (
     <Card>
       <Card.Img variant="top" src={movie.Image} />

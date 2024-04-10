@@ -26,7 +26,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   }, [user]);
 
   const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`;
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`;
     const isFavorite = favoriteMovies.includes(movieId);
     const method = isFavorite ? "DELETE" : "POST";
 
@@ -42,7 +42,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         setFavoriteMovies(updatedUser.FavoriteMovies || []);
       })
       .catch((error) => {
-        console.error(`Error Toggling Favorite Movie ID ${movieId}:`, error);
+        console.error(`Error Toggling Movie ID `, error);
       });
   };
 
@@ -61,7 +61,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       return;
     }
 
-    fetch("https://movie-api-kiz1.onrender.com/movies", {
+    fetch(`https://movie-api-kiz1.onrender.com/movies`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -88,7 +88,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         }
       })
       .catch((error) => {
-        console.error("Error fwtching movies: ", error);
+        console.error("Error fetching movies: ", error);
       });
   }, [token]);
   return (

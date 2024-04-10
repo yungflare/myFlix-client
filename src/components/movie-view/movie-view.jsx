@@ -9,6 +9,7 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
   const movie = movies.find((movie) => movie._id === decodedMovieId);
+  const isFavorite = movie.isFavorite;
 
   return (
     <div>
