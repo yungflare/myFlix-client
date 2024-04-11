@@ -2,36 +2,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
 
-export const MovieCard = ({ movie, isFavorite, addMovie, removeMovie }) => {
-  const add = () => addMovie(movie._id);
-  const remove = () => removeMovie(movie._id);
-
+export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
   return (
-    <>
-      <Card>
-        <Card.Body>
-          <Card.Text>
-            <Row className="justify-content-md-center">
-              <Col className="w-100">
-                {isFavorite.includes(movie) ? (
-                  <Button onClick={remove} className="primary-button"></Button>
-                ) : (
-                  <Button onClick={add} className="primaryButton"></Button>
-                )}
-                <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
-                  <Button variant="primary" className="primaryButton">
-                    CLICK
-                  </Button>
-                </Link>
-              </Col>
-            </Row>
-          </Card.Text>
-        </Card.Body>
-        <Card.Img variant="top" src={movie.Image} className="moviePoster" />
-      </Card>
-    </>
+    <Card>
+      <Card.Img variant="top" src={movie.Image} />
+      <Card.Body>
+        <Card.Title>{movie.Title}</Card.Title>
+        <Card.Text>{movie.Genre.Name}</Card.Text>
+        {/* <Card.Text>{movie.Description.substring(0, 80)}...</Card.Text> */}
+        <Card.Text>{movie.Director.Name}</Card.Text>
+
+        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+          <Button variant="primary" style={{ cursor: "pointer" }}>
+            Open
+          </Button>
+        </Link>
+        <Button
+          variant="outline-primary"
+          style={{ cursor: "pointer" }}
+          onClick={() => onFavoriteToggle(movie._id)}
+        >
+          {favoriteMovies.includes(movie._id)
+            ? "Remove from Favorites"
+            : "Add to Favorites"}
+        </Button>
+      </Card.Body>
+    </Card>
   );
 };
 
