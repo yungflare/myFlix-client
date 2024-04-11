@@ -3,16 +3,16 @@ import { Button, Card } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
+export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  // const [favoriteMovies, setFavoriteMovies] = useState([]);
 
-  useEffect(() => {
-    setFavoriteMovies(user.favoriteMovies || []);
-  }, [user]);
+  // useEffect(() => {
+  //   setFavoriteMovies(user.favoriteMovies || []);
+  // }, [user]);
 
   const handleUpdate = () => {
     const updatedUser = {
@@ -70,27 +70,15 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
         <Link to="/profile/favorites">
           <Button variant="primary">Favorite Movies</Button>
         </Link>
+
         <Button variant="primary" onClick={handleUpdate}>
           Update Profile
         </Button>
-
-        <Button variant="danger" onClick={onDeregister}>
-          Delete Account
-        </Button>
       </Form>
 
-      <h3>Favorite Movies</h3>
-      {favoriteMovies.length === 0 ? (
-        <p>No favorite movies added yet.</p>
-      ) : (
-        <ul>
-          {favoriteMovies.map((movie) => (
-            <li key={movie._id}>{movie.Title}</li>
-          ))}
-        </ul>
-      )}
+      <Button variant="danger" onClick={onDeregister}>
+        Delete Account
+      </Button>
     </div>
   );
 };
-
-export default ProfileView;

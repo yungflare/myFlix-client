@@ -4,6 +4,8 @@ import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
+  const isFavorite = movie.isFavorite;
+
   return (
     <Card>
       <Card.Img variant="top" src={movie.Image} />
@@ -35,7 +37,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
 MovieCard.propTypes = {
   movie: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    Title: PropTypes.string,
+    Title: PropTypes.string.isRequired,
     Description: PropTypes.string,
     Image: PropTypes.string,
     Director: PropTypes.shape({

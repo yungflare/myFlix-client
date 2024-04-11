@@ -26,8 +26,10 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   }, [user]);
 
   const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`;
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+
     const isFavorite = favoriteMovies.includes(movieId);
+
     const method = isFavorite ? "DELETE" : "POST";
 
     fetch(url, {
@@ -67,9 +69,9 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       },
     })
       .then((response) => response.json())
-      .then((movies) => {
-        if (movies) {
-          const moviesFromApi = movies.map((movie) => ({
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
+          return {
             _id: movie._id,
             Image: movie.Image,
             Title: movie.Title,
@@ -80,17 +82,13 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             Director: {
               Name: movie.Director.Name,
             },
-          }));
+          };
+        });
 
-          setMovies(moviesFromApi);
-        } else {
-          console.error("Error Movies is Null");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching movies: ", error);
+        setMovies(moviesFromApi);
       });
   }, [token]);
+
   return (
     <BrowserRouter>
       <NavigationBar
@@ -170,17 +168,15 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                 ) : (
                   <>
                     <Row>
-                      {movies.map((movie) => {
-                        return (
-                          <Col className="mb-4" key={movie._id} md={3}>
-                            <MovieCard
-                              movie={movie}
-                              onFavoriteToggle={handleFavoriteToggle}
-                              favoriteMovies={favoriteMovies}
-                            />
-                          </Col>
-                        );
-                      })}
+                      {movies.map((movie) => (
+                        <Col className="mb-4" key={movie._id} md={3}>
+                          <MovieCard
+                            movie={movie}
+                            onFavoriteToggle={handleFavoriteToggle}
+                            favoriteMovies={favoriteMovies}
+                          />
+                        </Col>
+                      ))}
                     </Row>
                   </>
                 )}

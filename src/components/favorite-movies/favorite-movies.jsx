@@ -7,14 +7,11 @@ const ProfileFavoritesView = ({ user, token }) => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch(
-      `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setFavoriteMovies(data.FavoriteMovies || []);
@@ -23,14 +20,11 @@ const ProfileFavoritesView = ({ user, token }) => {
         console.error("Error fetching favorite movies:", error);
       });
 
-    fetch(
-      `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch("https://movie-api-kiz1.onrender.com/movies", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const moviesFromApi = data.map((movie) => {
@@ -55,7 +49,7 @@ const ProfileFavoritesView = ({ user, token }) => {
   }, [user.Username, token]);
 
   const handleToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`;
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
 
     const isFavorite = favoriteMovies.some((movie) => movie === movieId);
 
@@ -116,9 +110,9 @@ const ProfileFavoritesView = ({ user, token }) => {
 
 ProfileFavoritesView.propTypes = {
   user: PropTypes.shape({
-    Username: PropTypes.string,
+    Username: PropTypes.string.isRequired,
   }).isRequired,
-  token: PropTypes.string,
+  token: PropTypes.string.isRequired,
 };
 
 export default ProfileFavoritesView;

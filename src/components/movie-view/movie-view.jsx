@@ -8,8 +8,12 @@ import "./movie-view.scss";
 export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
-  const movie = movies.find((movie) => movie._id === decodedMovieId);
+  const movie = movies.find((b) => b._id === decodedMovieId);
   const isFavorite = movie.isFavorite;
+
+  console.log("movieId:", movieId);
+  console.log("movies:", movies);
+  console.log("movie:", movie);
 
   return (
     <div>
@@ -41,15 +45,14 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
           Back
         </Button>
       </Link>
-      <Link to={`/profile/favorites`}>
-        <Button
-          variant="outline-primary"
-          style={{ cursor: "pointer" }}
-          onClick={() => onFavoriteToggle(movie._id, movie.Title)}
-        >
-          {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-        </Button>
-      </Link>
+
+      <Button
+        variant="outline-primary"
+        style={{ cursor: "pointer" }}
+        onClick={() => onFavoriteToggle(movie._id)}
+      >
+        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+      </Button>
     </div>
   );
 };
