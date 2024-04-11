@@ -4,10 +4,6 @@ import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
-  const handleFavoriteToggle = () => {
-    onFavoriteToggle(movie._id);
-  };
-
   return (
     <Card>
       <Card.Img variant="top" src={movie.Image} />
@@ -22,13 +18,15 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
             Open
           </Button>
         </Link>
-        <button
+        <Button
           variant="outline-primary"
           style={{ cursor: "pointer" }}
-          onClick={handleFavoriteToggle}
+          onClick={() => onFavoriteToggle(movie._id)}
         >
-          Add To Favorites!
-        </button>
+          {favoriteMovies.includes(movie._id)
+            ? "Remove from Favorites"
+            : "Add to Favorites"}
+        </Button>
       </Card.Body>
     </Card>
   );
@@ -47,5 +45,3 @@ MovieCard.propTypes = {
   }).isRequired,
   onFavoriteToggle: PropTypes.func.isRequired,
 };
-
-export default MovieCard;

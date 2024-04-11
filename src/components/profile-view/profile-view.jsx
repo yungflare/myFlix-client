@@ -8,10 +8,10 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
-  const [favoritemovies, setFavoriteMovies] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   useEffect(() => {
-    setFavoriteMovies(user.favoritemovies || []);
+    setFavoriteMovies(user.favoriteMovies || []);
   }, [user]);
 
   const handleUpdate = () => {
@@ -67,7 +67,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
           />
         </Form.Group>
 
-        <Link to="users/:username/favorite-movies">
+        <Link to="/profile/favorites">
           <Button variant="primary">Favorite Movies</Button>
         </Link>
         <Button variant="primary" onClick={handleUpdate}>
@@ -80,11 +80,11 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister, movies }) => {
       </Form>
 
       <h3>Favorite Movies</h3>
-      {favoritemovies.length === 0 ? (
+      {favoriteMovies.length === 0 ? (
         <p>No favorite movies added yet.</p>
       ) : (
         <ul>
-          {favoritemovies.map((movie) => (
+          {favoriteMovies.map((movie) => (
             <li key={movie._id}>{movie.Title}</li>
           ))}
         </ul>

@@ -41,7 +41,7 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
           Back
         </Button>
       </Link>
-      <Link to={`/users/:username/favorite-movies`}>
+      <Link to={`/profile/favorites`}>
         <Button
           variant="outline-primary"
           style={{ cursor: "pointer" }}
