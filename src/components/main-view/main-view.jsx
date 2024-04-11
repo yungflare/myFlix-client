@@ -11,7 +11,7 @@ import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 
-export const MainView = ({ onUserUpdate, onDeregister }) => {
+const MainView = ({ onUserUpdate, onDeregister }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser ? storedUser : null);
@@ -26,7 +26,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   }, [user]);
 
   const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`;
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
     const isFavorite = favoriteMovies.includes(movieId);
     const method = isFavorite ? "DELETE" : "POST";
 
@@ -44,16 +44,6 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       .catch((error) => {
         console.error(`Error Toggling Movie ID `, error);
       });
-  };
-
-  const handleUserUpdate = (updatedUser) => {
-    console.log("Updating user:", updatedUser);
-    onUserUpdate(updatedUser);
-  };
-
-  const handleDeregister = () => {
-    console.log("Deleting User:", user);
-    onDeregister();
   };
 
   useEffect(() => {
@@ -91,6 +81,17 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         console.error("Error fetching movies: ", error);
       });
   }, [token]);
+
+  const handleUserUpdate = (updatedUser) => {
+    console.log("Updating user:", updatedUser);
+    onUserUpdate(updatedUser);
+  };
+
+  const handleDeregister = () => {
+    console.log("Deleting User:", user);
+    onDeregister();
+  };
+
   return (
     <BrowserRouter>
       <NavigationBar
@@ -199,7 +200,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
-            path="/profile/favorites"
+            path="/users/:username/favorite-movies"
             element={
               <ProfileFavoritesView
                 user={user}
@@ -213,3 +214,4 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     </BrowserRouter>
   );
 };
+export default MainView;
