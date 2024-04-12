@@ -74,33 +74,17 @@ const ProfileFavoritesView = ({ user, token }) => {
       });
   };
 
-  const addFavoriteMovie = (movie) => {
-    setFavoriteMovies([...favoriteMovies, movie]);
-  };
-
-  // const favoriteMoviesToShow = movies.filter((movie) =>
-  //   favoriteMovies.includes(movie._id)
-  // );
+  const favoriteMoviesToShow = movies.filter((movie) =>
+    favoriteMovies.includes(movie._id)
+  );
 
   return (
     <div>
       <h2> Favorite Movies </h2>
-      {/* {favoriteMoviesToShow.length === 0 ? (
+      {favoriteMoviesToShow.length === 0 ? (
         <p>No Favorite Movies</p>
-      ) : ( */}
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie._id}>
-            {movie.Title}
-            <button onClick={() => addFavoriteMovie(movie)}>
-              Add to Favorites
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    /* <div>
+      ) : (
+        <div>
           {favoriteMoviesToShow.map((movie) => (
             <Card
               key={movie._id}
@@ -120,7 +104,7 @@ const ProfileFavoritesView = ({ user, token }) => {
           ))}
         </div>
       )}
-    </div> */
+    </div>
   );
 };
 
