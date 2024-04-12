@@ -49,9 +49,9 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
       <Button
         variant="outline-primary"
         style={{ cursor: "pointer" }}
-        onClick={() => onFavoriteToggle(isFavorite)}
+        onClick={() => onFavoriteToggle(movie._id)}
       >
-        Add to Favorites
+        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
       </Button>
     </div>
   );

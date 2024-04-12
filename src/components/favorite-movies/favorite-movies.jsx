@@ -75,7 +75,7 @@ const ProfileFavoritesView = ({ user, token }) => {
   };
 
   const favoriteMoviesToShow = movies.filter((movie) =>
-    favoriteMovies.includes(movieId)
+    favoriteMovies.includes(movie._id)
   );
 
   return (
@@ -87,13 +87,16 @@ const ProfileFavoritesView = ({ user, token }) => {
         <div>
           {favoriteMoviesToShow.map((movie) => (
             <Card
-              key={movieId}
+              key={movie._id}
               style={{ width: "18rem", marginBottom: "15px" }}
             >
               <Card.Body>
                 <Card.Title>{movie.Title}</Card.Title>
                 <Card.Text>{movie.Description}</Card.Text>
-                <Button variant="primary" onClick={() => handleToggle(movieId)}>
+                <Button
+                  variant="primary"
+                  onClick={() => handleToggle(movie._id)}
+                >
                   Remove from Favorites
                 </Button>
               </Card.Body>
