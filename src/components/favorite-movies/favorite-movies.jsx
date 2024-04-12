@@ -1,118 +1,127 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-const ProfileFavoritesView = ({ user, token }) => {
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setFavoriteMovies(data.FavoriteMovies || []);
-      })
-      .catch((error) => {
-        console.error("Error fetching favorite movies:", error);
-      });
-
-    fetch("https://movie-api-kiz1.onrender.com/movies", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const moviesFromApi = data.map((movie) => {
-          return {
-            _id: movie._id,
-            Title: movie.Title,
-            Description: movie.Description,
-            Genre: {
-              Name: movie.Genre.Name,
-            },
-            Director: {
-              Name: movie.Director.Name,
-            },
-          };
-        });
-
-        setMovies(moviesFromApi);
-      })
-      .catch((error) => {
-        console.error("Error fetching movies:", error);
-      });
-  }, [user.Username, token]);
-
-  const handleToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-
-    const isFavorite = favoriteMovies.some((movie) => movie === movieId);
-
-    const method = isFavorite ? "DELETE" : "POST";
-
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setFavoriteMovies(data.FavoriteMovies || []);
-      })
-      .catch((error) => {
-        console.error(
-          `Error toggling favorite for movie ID ${movieId}:`,
-          error
-        );
-      });
+function FavoriteMovies({ favoriteMoviesToShow }) {
+  const removeFav = (_id) => {
+    let token = localStorage.getItem("token");
+    let url = `https://movie-api-kiz1.onrender.com/users/${localStorage.getItem(
+      "user"
+    )}/movies/${_id}`;
+    axios.delete(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   };
+}
 
-  const favoriteMoviesToShow = movies.filter((movie) =>
-    favoriteMovies.includes(movie._id)
-  );
+// const ProfileFavoritesView = ({ user, token }) => {
+//   const [favoriteMovies, setFavoriteMovies] = useState([]);
+//   const [movies, setMovies] = useState([]);
 
-  return (
-    <div>
-      <h2> Favorite Movies </h2>
-      {favoriteMoviesToShow.length === 0 ? (
-        <p>No Favorite Movies</p>
-      ) : (
-        <div>
-          {favoriteMoviesToShow.map((movie) => (
-            <Card
-              key={movie._id}
-              style={{ width: "18rem", marginBottom: "15px" }}
-            >
-              <Card.Body>
-                <Card.Title>{movie.Title}</Card.Title>
-                <Card.Text>{movie.Description}</Card.Text>
-                <Button
-                  variant="primary"
-                  onClick={() => handleToggle(movie._id)}
-                >
-                  Remove from Favorites
-                </Button>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+//   useEffect(() => {
+//     fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//       .then((response) => response.json())
+//       .then((data) => {
+//         setFavoriteMovies(data.FavoriteMovies || []);
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching favorite movies:", error);
+//       });
 
-ProfileFavoritesView.propTypes = {
-  user: PropTypes.shape({
-    Username: PropTypes.string.isRequired,
-  }).isRequired,
-  token: PropTypes.string.isRequired,
-};
+//     fetch("https://movie-api-kiz1.onrender.com/movies", {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const moviesFromApi = data.map((movie) => {
+//           return {
+//             _id: movie._id,
+//             Title: movie.Title,
+//             Description: movie.Description,
+//             Genre: {
+//               Name: movie.Genre.Name,
+//             },
+//             Director: {
+//               Name: movie.Director.Name,
+//             },
+//           };
+//         });
 
-export default ProfileFavoritesView;
+//         setMovies(moviesFromApi);
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching movies:", error);
+//       });
+//   }, [user.Username, token]);
+
+//   const handleToggle = (movieId) => {
+//     const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+
+//     const isFavorite = favoriteMovies.some((movie) => movie === movieId);
+
+//     const method = isFavorite ? "DELETE" : "POST";
+
+//     fetch(url, {
+//       method: method,
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//       .then((response) => response.json())
+//       .then((data) => {
+//         setFavoriteMovies(data.FavoriteMovies || []);
+//       })
+//       .catch((error) => {
+//         console.error(
+//           `Error toggling favorite for movie ID ${movieId}:`,
+//           error
+//         );
+//       });
+//   };
+
+//   const favoriteMoviesToShow = movies.filter((movie) =>
+//     favoriteMovies.includes(movie._id)
+//   );
+
+return (
+  <>
+    <Row>
+      <Col xs={2}>
+        <h3> Favorite Movies </h3>
+      </Col>
+    </Row>
+    <Row>
+      {favoriteMoviesToShow.map((movies) => {
+        return (
+          <Col key={movie._id}>
+            <img src={movie.ImagePath} />
+            <Link to={`/movies/${movies._id}`}>
+              <h4>{movie.Title}</h4>
+            </Link>
+            <button variant="secondary" onClick={() => removeFav(movies._id)}>
+              Remove From Favorites
+            </button>
+          </Col>
+        );
+      })}
+    </Row>
+  </>
+);
+
+// ProfileFavoritesView.propTypes = {
+//   user: PropTypes.shape({
+//     Username: PropTypes.string.isRequired,
+//   }).isRequired,
+//   token: PropTypes.string.isRequired,
+// };
+
+export default FavoriteMovies;
