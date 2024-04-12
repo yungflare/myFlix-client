@@ -28,184 +28,197 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
   const handleFavoriteToggle = (movieId) => {
     const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
 
-    const isFavorite = favoriteMovies.includes(movieId);
-
-    const method = isFavorite ? "DELETE" : "POST";
+    const FavoriteMovies = {
+      movieId: movieId,
+    };
+    // const isFavorite = favoriteMovies.includes(movieId);
+    // const method = isFavorite ? "DELETE" : "POST";
 
     fetch(url, {
-      method: method,
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
-      .then((updatedUser) => {
-        setFavoriteMovies(updatedUser.FavoriteMovies || []);
+      .then((response) => {
+        if (response.ok) {
+          console.log("Movie added to list: ");
+        } else {
+          console.error("Failed to add movie");
+        }
       })
       .catch((error) => {
-        console.error(`Error Toggling Movie ID `, error);
+        console.error("Error:", error);
       });
-  };
+    //     .then((response) => response.json())
+    //     .then((updatedUser) => {
+    //       setFavoriteMovies(updatedUser.FavoriteMovies || []);
+    //     })
+    //     .catch((error) => {
+    //       console.error(`Error Toggling Movie ID `, error);
+    //     });
+    // };
 
-  const handleUserUpdate = (updatedUser) => {
-    console.log("Updating user:", updatedUser);
-    onUserUpdate(updatedUser);
-  };
+    const handleUserUpdate = (updatedUser) => {
+      console.log("Updating user:", updatedUser);
+      onUserUpdate(updatedUser);
+    };
 
-  const handleDeregister = () => {
-    console.log("Deleting User:", user);
-    onDeregister();
-  };
+    const handleDeregister = () => {
+      console.log("Deleting User:", user);
+      onDeregister();
+    };
 
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
+    useEffect(() => {
+      if (!token) {
+        return;
+      }
 
-    fetch(`https://movie-api-kiz1.onrender.com/movies`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const moviesFromApi = data.map((movie) => {
-          return {
-            _id: movie._id,
-            Image: movie.Image,
-            Title: movie.Title,
-            Description: movie.Description,
-            Genre: {
-              Name: movie.Genre.Name,
-            },
-            Director: {
-              Name: movie.Director.Name,
-            },
-          };
+      fetch(`https://movie-api-kiz1.onrender.com/movies`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const moviesFromApi = data.map((movie) => {
+            return {
+              _id: movie._id,
+              Image: movie.Image,
+              Title: movie.Title,
+              Description: movie.Description,
+              Genre: {
+                Name: movie.Genre.Name,
+              },
+              Director: {
+                Name: movie.Director.Name,
+              },
+            };
+          });
+
+          setMovies(moviesFromApi);
         });
+    }, [token]);
 
-        setMovies(moviesFromApi);
-      });
-  }, [token]);
+    return (
+      <BrowserRouter>
+        <NavigationBar
+          user={user}
+          onLoggedOut={() => {
+            setUser(null);
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.open("/", "_self");
+          }}
+          token={token}
+        />
+        <Row className="justify-content-md-center">
+          <Routes>
+            <Route
+              path="/signup"
+              element={
+                <>
+                  {user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <SignupView />
+                    </Col>
+                  )}
+                </>
+              }
+            />
 
-  return (
-    <BrowserRouter>
-      <NavigationBar
-        user={user}
-        onLoggedOut={() => {
-          setUser(null);
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          window.open("/", "_self");
-        }}
-        token={token}
-      />
-      <Row className="justify-content-md-center">
-        <Routes>
-          <Route
-            path="/signup"
-            element={
-              <>
-                {user ? (
-                  <Navigate to="/" />
-                ) : (
-                  <Col md={5}>
-                    <SignupView />
-                  </Col>
-                )}
-              </>
-            }
-          />
+            <Route
+              path="/login"
+              element={
+                <>
+                  {user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <LoginView
+                        onLoggedIn={(user, token) => {
+                          setUser(user);
+                          setToken(token);
+                        }}
+                      />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/movies/:movieId"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace />
+                  ) : movies.length === 0 ? (
+                    <Col> List is Empty! </Col>
+                  ) : (
+                    <Col md={8}>
+                      <MovieView
+                        movies={movies}
+                        onFavoriteToggle={handleFavoriteToggle}
+                      />
+                    </Col>
+                  )}
+                </>
+              }
+            />
 
-          <Route
-            path="/login"
-            element={
-              <>
-                {user ? (
-                  <Navigate to="/" />
-                ) : (
-                  <Col md={5}>
-                    <LoginView
-                      onLoggedIn={(user, token) => {
-                        setUser(user);
-                        setToken(token);
-                      }}
-                    />
-                  </Col>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/movies/:movieId"
-            element={
-              <>
-                {!user ? (
-                  <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col> List is Empty! </Col>
-                ) : (
-                  <Col md={8}>
-                    <MovieView
-                      movies={movies}
-                      onFavoriteToggle={handleFavoriteToggle}
-                    />
-                  </Col>
-                )}
-              </>
-            }
-          />
+            <Route
+              path="/movies"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace />
+                  ) : movies.length === 0 ? (
+                    <Col>The list is empty!</Col>
+                  ) : (
+                    <>
+                      <Row>
+                        {movies.map((movie) => (
+                          <Col className="mb-4" key={movie._id} md={3}>
+                            <MovieCard
+                              movie={movie}
+                              onFavoriteToggle={handleFavoriteToggle}
+                              favoriteMovies={favoriteMovies}
+                            />
+                          </Col>
+                        ))}
+                      </Row>
+                    </>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProfileView
+                  user={user}
+                  onUserUpdate={handleUserUpdate}
+                  onDeregister={handleDeregister}
+                />
+              }
+            />
 
-          <Route
-            path="/movies"
-            element={
-              <>
-                {!user ? (
-                  <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col>The list is empty!</Col>
-                ) : (
-                  <>
-                    <Row>
-                      {movies.map((movie) => (
-                        <Col className="mb-4" key={movie._id} md={3}>
-                          <MovieCard
-                            movie={movie}
-                            onFavoriteToggle={handleFavoriteToggle}
-                            favoriteMovies={favoriteMovies}
-                          />
-                        </Col>
-                      ))}
-                    </Row>
-                  </>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProfileView
-                user={user}
-                onUserUpdate={handleUserUpdate}
-                onDeregister={handleDeregister}
-              />
-            }
-          />
-
-          <Route
-            path="/profile/favorites"
-            element={
-              <ProfileFavoritesView
-                user={user}
-                onFavoriteToggle={handleFavoriteToggle}
-                token={token}
-              />
-            }
-          />
-        </Routes>
-      </Row>
-    </BrowserRouter>
-  );
+            <Route
+              path="/profile/favorites"
+              element={
+                <ProfileFavoritesView
+                  user={user}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  token={token}
+                />
+              }
+            />
+          </Routes>
+        </Row>
+      </BrowserRouter>
+    );
+  };
 };
