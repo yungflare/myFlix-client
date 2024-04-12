@@ -9,11 +9,11 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
   const movie = movies.find((b) => b._id === decodedMovieId);
-  const isFavorite = movie.isFavorite;
+  const isFavorite = movies.includes(decodedMovieId);
 
-  console.log("movieId:", movieId);
-  console.log("movies:", movies);
-  console.log("movie:", movie);
+  // console.log("movieId:", movieId);
+  // console.log("movies:", movies);
+  // console.log("movie:", movie);
 
   return (
     <div>
@@ -47,11 +47,11 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
       </Link>
 
       <Button
-        variant="outline-primary"
+        variant={isFavorite ? "danger" : "outline-primary"}
         style={{ cursor: "pointer" }}
-        onClick={() => onFavoriteToggle(movie._id)}
+        onClick={() => onFavoriteToggle(movieId)}
       >
-        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+        Add to Favorites!
       </Button>
     </div>
   );
@@ -60,4 +60,5 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
 MovieView.propTypes = {
   movies: PropTypes.array.isRequired,
   onFavoriteToggle: PropTypes.func.isRequired,
+  favoriteMovies: PropTypes.array.isRequired,
 };

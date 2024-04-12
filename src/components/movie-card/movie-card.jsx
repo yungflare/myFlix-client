@@ -2,9 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
   const isFavorite = movie.isFavorite;
+  const { movieId } = useParams();
 
   return (
     <Card>
@@ -23,11 +25,9 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
         <Button
           variant="outline-primary"
           style={{ cursor: "pointer" }}
-          onClick={() => onFavoriteToggle(movie._id)}
+          onClick={() => onFavoriteToggle(movieId)}
         >
-          {favoriteMovies.includes(movie._id)
-            ? "Remove from Favorites"
-            : "Add to Favorites"}
+          ADD TO FAVORITES!
         </Button>
       </Card.Body>
     </Card>
