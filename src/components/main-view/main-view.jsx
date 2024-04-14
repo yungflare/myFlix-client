@@ -25,10 +25,10 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     }
   }, [user]);
 
-  const handleFavoriteToggle = (movie) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`;
+  const handleFavoriteToggle = (movieId) => {
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
 
-    const isFavorite = favoriteMovies.includes(movie);
+    const isFavorite = favoriteMovies.includes(movieId);
 
     const method = isFavorite ? "DELETE" : "POST";
 
@@ -150,7 +150,6 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                     <MovieView
                       movies={movies}
                       onFavoriteToggle={handleFavoriteToggle}
-                      favoriteMovies={favoriteMovies}
                     />
                   </Col>
                 )}
