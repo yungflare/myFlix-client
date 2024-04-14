@@ -27234,7 +27234,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
     };
     (0, _react.useEffect)(()=>{
         if (!token) return;
-        fetch(`https://movie-api-kiz1.onrender.com/movies`, {
+        fetch(`https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -48532,7 +48532,7 @@ const ProfileFavoritesView = ({ user, token })=>{
         }).catch((error)=>{
             console.error("Error fetching favorite movies:", error);
         });
-        fetch("https://movie-api-kiz1.onrender.com/movies", {
+        fetch(`https://movie-api-kiz1.onrender.com/movies`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
