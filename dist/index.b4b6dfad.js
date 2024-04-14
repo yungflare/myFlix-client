@@ -27208,9 +27208,13 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
     }, [
         user
     ]);
-    const handleFavoriteToggle = (movie)=>{
-        const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`;
-        const isFavorite = favoriteMovies.includes(movie);
+    const handleFavoriteToggle = (movieId)=>{
+        if (!movieId) {
+            console.error("Movie ID is undefined.");
+            return;
+        }
+        const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+        const isFavorite = favoriteMovies.includes(movieId);
         const method = isFavorite ? "DELETE" : "POST";
         fetch(url, {
             method: method,
@@ -27218,10 +27222,13 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`
             }
-        }).then((response)=>response.json()).then((updatedUser)=>{
+        }).then((response)=>{
+            if (!response.ok) throw new Error("Error: " + response.statusText);
+            return response.json();
+        }).then((updatedUser)=>{
             setFavoriteMovies(updatedUser.FavoriteMovies || []);
         }).catch((error)=>{
-            console.error(`Error Toggling Movie ID `, error);
+            console.error("Error Toggling Movie ID", error);
         });
     };
     const handleUserUpdate = (updatedUser)=>{
@@ -27271,7 +27278,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                 token: token
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 94,
+                lineNumber: 104,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _rowDefault.default), {
@@ -27290,7 +27297,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 106,
+                            lineNumber: 116,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27310,7 +27317,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 121,
+                            lineNumber: 131,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27332,7 +27339,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 140,
+                            lineNumber: 150,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27359,7 +27366,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 161,
+                            lineNumber: 171,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27371,7 +27378,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false, void 0, void 0)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 187,
+                            lineNumber: 197,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27383,24 +27390,24 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                             }, void 0, false, void 0, void 0)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 198,
+                            lineNumber: 208,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 105,
+                    lineNumber: 115,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 104,
+                lineNumber: 114,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 93,
+        lineNumber: 103,
         columnNumber: 5
     }, undefined);
 };
@@ -27493,7 +27500,7 @@ const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies })=>{
                         style: {
                             cursor: "pointer"
                         },
-                        onClick: ()=>onFavoriteToggle(movieId),
+                        onClick: ()=>onFavoriteToggle(movie._id),
                         children: "ADD TO FAVORITES!"
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
@@ -27540,7 +27547,7 @@ $RefreshReg$(_c, "MovieCard");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","prop-types":"7wKI2","react-bootstrap":"3AD9A","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react-router":"dbWyW"}],"7wKI2":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","prop-types":"7wKI2","react-bootstrap":"3AD9A","react-router-dom":"9xmpe","react-router":"dbWyW","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7wKI2":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -47813,7 +47820,7 @@ const MovieView = ({ movies, onFavoriteToggle })=>{
                 style: {
                     cursor: "pointer"
                 },
-                onClick: ()=>onFavoriteToggle(movieId),
+                onClick: ()=>onFavoriteToggle(movie._id),
                 children: "Add to Favorites!"
             }, void 0, false, {
                 fileName: "src/components/movie-view/movie-view.jsx",
@@ -48558,7 +48565,7 @@ const ProfileFavoritesView = ({ user, token })=>{
         user.Username,
         token
     ]);
-    const handleToggle = (movieId)=>{
+    const handleFavoriteToggle = (movieId)=>{
         const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
         const isFavorite = favoriteMovies.some((movie)=>movie === movieId);
         const method = isFavorite ? "DELETE" : "POST";
@@ -48614,7 +48621,7 @@ const ProfileFavoritesView = ({ user, token })=>{
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                                     variant: "primary",
-                                    onClick: ()=>handleToggle(movie._id),
+                                    onClick: ()=>handleFavoriteToggle(movie._id),
                                     children: "Remove from Favorites"
                                 }, void 0, false, {
                                     fileName: "src/components/favorite-movies/favorite-movies.jsx",

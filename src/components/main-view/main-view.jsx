@@ -25,10 +25,15 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
     }
   }, [user]);
 
-  const handleFavoriteToggle = (movie) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movie._id}`;
+  const handleFavoriteToggle = (movieId) => {
+    if (!movieId) {
+      console.error("Movie ID is undefined.");
+      return;
+    }
 
-    const isFavorite = favoriteMovies.includes(movie);
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+
+    const isFavorite = favoriteMovies.includes(movieId);
 
     const method = isFavorite ? "DELETE" : "POST";
 
@@ -39,12 +44,17 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error: " + response.statusText);
+        }
+        return response.json();
+      })
       .then((updatedUser) => {
         setFavoriteMovies(updatedUser.FavoriteMovies || []);
       })
       .catch((error) => {
-        console.error(`Error Toggling Movie ID `, error);
+        console.error("Error Toggling Movie ID", error);
       });
   };
 
