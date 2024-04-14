@@ -48,7 +48,7 @@ const ProfileFavoritesView = ({ user, token }) => {
       });
   }, [user.Username, token]);
 
-  const handleFavoriteToggle = (movieId) => {
+  const handleToggle = (movieId) => {
     const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
 
     const isFavorite = favoriteMovies.some((movie) => movie === movieId);
@@ -95,7 +95,7 @@ const ProfileFavoritesView = ({ user, token }) => {
                 <Card.Text>{movie.Description}</Card.Text>
                 <Button
                   variant="primary"
-                  onClick={() => handleFavoriteToggle(movie._id)}
+                  onClick={() => handleToggle(movie._id)}
                 >
                   Remove from Favorites
                 </Button>

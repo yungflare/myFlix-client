@@ -25,7 +25,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
         <Button
           variant="outline-primary"
           style={{ cursor: "pointer" }}
-          onClick={() => onFavoriteToggle(movie._id)}
+          onClick={() => onFavoriteToggle(movieId)}
         >
           ADD TO FAVORITES!
         </Button>
