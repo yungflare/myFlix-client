@@ -20,7 +20,7 @@ const ProfileFavoritesView = ({ user, token }) => {
         console.error("Error fetching favorite movies:", error);
       });
 
-    fetch(`https://movie-api-kiz1.onrender.com/movies`, {
+    fetch("https://movie-api-kiz1.onrender.com/movies", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
