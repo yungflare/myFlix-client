@@ -8,6 +8,35 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
   const isFavorite = movie.isFavorite;
   const { movieId } = useParams();
 
+  useEffect(() => {
+    if (user) {
+      setFavoriteMovies(user.FavoriteMovies || []);
+    }
+  }, [user]);
+
+  const handleFavoriteToggle = (movieId) => {
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies`;
+
+    const isFavorite = favoriteMovies.includes(movieId);
+
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((updatedUser) => {
+        setFavoriteMovies(updatedUser.FavoriteMovies || []);
+      })
+      .catch((error) => {
+        console.error(`Error Toggling Movie ID `, error);
+      });
+  };
+
   return (
     <Card>
       <Card.Img variant="top" src={movie.Image} />
