@@ -1,8 +1,8 @@
 import React from "react";
-import { Navbar, Container, Nav, Form, Button } from "react-bootstrap";
+import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const NavigationBar = ({ user, onLoggedOut, token }) => {
+export const NavigationBar = ({ user, onLoggedOut }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -24,7 +24,7 @@ const NavigationBar = ({ user, onLoggedOut, token }) => {
             )}
             {user && (
               <>
-                <Nav.Link as={Link} to="/movies">
+                <Nav.Link as={Link} to="/">
                   Home
                 </Nav.Link>
                 <Nav.Link as={Link} to="/profile">
@@ -39,5 +39,3 @@ const NavigationBar = ({ user, onLoggedOut, token }) => {
     </Navbar>
   );
 };
-
-export default NavigationBar;
