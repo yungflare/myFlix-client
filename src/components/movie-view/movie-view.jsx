@@ -5,9 +5,15 @@ import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
-  const movie = movies.find((m) => m.id === movieId);
+  const decodedMovieId = decodeURIComponent(movieId);
+  const movie = movies.find((b) => b._id === decodedMovieId);
+  const isFavorite = movies.includes(decodedMovieId);
+
+  // console.log("movieId:", movieId);
+  // console.log("movies:", movies);
+  // console.log("movie:", movie);
 
   return (
     <div>
@@ -30,7 +36,7 @@ export const MovieView = ({ movies }) => {
         <span>Description: </span>
         <span>{movie.Description || "No Description"}</span>
       </div>
-      <Link to={`/`}>
+      <Link to={`/movies`}>
         <Button
           className="back-button"
           variant="primary"
