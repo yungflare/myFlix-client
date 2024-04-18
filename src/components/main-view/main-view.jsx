@@ -68,13 +68,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        return response.json();
-      })
-
+      .then((response) => response.json())
       .then((data) => {
         const moviesFromApi = data.map((movie) => {
           return {
@@ -129,7 +123,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             element={
               <>
                 {user ? (
-                  <Navigate to="/movies" />
+                  <Navigate to="/" />
                 ) : (
                   <Col md={5}>
                     <LoginView
@@ -144,7 +138,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             }
           />
           <Route
-            path="/movies"
+            path="/movies/:movieId"
             element={
               <>
                 {!user ? (
@@ -164,7 +158,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
-            path="/movies/:movieId"
+            path="/movies"
             element={
               <>
                 {!user ? (
