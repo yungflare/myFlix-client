@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { UserInfo } from "./user-info";
 import { Button, Card, Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
@@ -152,4 +153,9 @@ export const ProfileView = ({ localUser, movies, token }) => {
       </Row>
     </Container>
   );
+};
+ProfileView.propTypes = {
+  localUser: PropTypes.object.isRequired,
+  movies: PropTypes.array.isRequired,
+  token: PropTypes.string.isRequired,
 };

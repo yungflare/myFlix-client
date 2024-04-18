@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { MovieCard } from "../movie-card/movie-card";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export const FavoriteMovies = ({ user, favoriteMovies }) => {
   return (
@@ -26,4 +27,9 @@ export const FavoriteMovies = ({ user, favoriteMovies }) => {
       </Row>
     </Row>
   );
+};
+
+FavoriteMovies.propTypes = {
+  favoriteMovies: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
 };

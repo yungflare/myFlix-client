@@ -13,83 +13,83 @@ export const MovieCard = ({ movie, isFavorite }) => {
   const [addTitle, setAddTitle] = useState("");
   const [delTitle, setDelTitle] = useState("");
 
-  useEffect(() => {
-    const addToFavorites = () => {
-      fetch(
-        `https://movie-api-kiz1.onrender.com/users/${
-          user.Username
-        }/movies/${encodeURIComponent(movie.Title)}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to add movie to favorites.");
-          }
-          alert("Movie added to favorites successfully!");
-          window.location.reload();
-          return response.json();
-        })
-        .then((user) => {
-          if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-            setUser(user);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    const removeFromFavorites = () => {
-      fetch(
-        `https://movie-api-kiz1.onrender.com/users/${
-          user.Username
-        }/movies/${encodeURIComponent(movie.Title)}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to remove movie from favorites.");
-          }
-          alert("Movie removed from favorites successfully!");
-          window.location.reload();
-          return response.json();
-        })
-        .then((user) => {
-          if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-            setUser(user);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    if (addTitle) {
-      addToFavorites();
-    }
-    if (delTitle) {
-      removeFromFavorites();
-    }
-  }, [addTitle, delTitle, token]);
+  // useEffect(() => {
+  //   const addToFavorites = () => {
+  //     fetch(
+  //       `https://movie-api-kiz1.onrender.com/users/${
+  //         user.Username
+  //       }/movies/${encodeURIComponent(movie.Title)}`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Failed to add movie to favorites.");
+  //         }
+  //         alert("Movie added to favorites successfully!");
+  //         window.location.reload();
+  //         return response.json();
+  //       })
+  //       .then((user) => {
+  //         if (user) {
+  //           localStorage.setItem("user", JSON.stringify(user));
+  //           setUser(user);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   };
+  //   const removeFromFavorites = () => {
+  //     fetch(
+  //       `https://movie-api-kiz1.onrender.com/users/${
+  //         user.Username
+  //       }/movies/${encodeURIComponent(movie.Title)}`,
+  //       {
+  //         method: "DELETE",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Failed to remove movie from favorites.");
+  //         }
+  //         alert("Movie removed from favorites successfully!");
+  //         window.location.reload();
+  //         return response.json();
+  //       })
+  //       .then((user) => {
+  //         if (user) {
+  //           localStorage.setItem("user", JSON.stringify(user));
+  //           setUser(user);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   };
+  //   if (addTitle) {
+  //     addToFavorites();
+  //   }
+  //   if (delTitle) {
+  //     removeFromFavorites();
+  //   }
+  // }, [addTitle, delTitle, token]);
 
-  const handleAddToFavorites = () => {
-    setAddTitle(movie.title);
-  };
-  const handleRemoveFromFavorites = () => {
-    setDelTitle(movie.title);
-  };
+  // const handleAddToFavorites = () => {
+  //   setAddTitle(movie.title);
+  // };
+  // const handleRemoveFromFavorites = () => {
+  //   setDelTitle(movie.title);
+  // };
 
   return (
     <>
@@ -123,6 +123,7 @@ export const MovieCard = ({ movie, isFavorite }) => {
 };
 
 MovieCard.propTypes = {
+  isFavorite: PropTypes.bool.isRequired,
   movie: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     Title: PropTypes.string.isRequired,
