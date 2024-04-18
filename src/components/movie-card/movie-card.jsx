@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 
+<<<<<<< HEAD
 export const MovieCard = ({ movie, isFavorite }) => {
   const storedToken = localStorage.getItem("token");
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -90,35 +91,35 @@ export const MovieCard = ({ movie, isFavorite }) => {
   // const handleRemoveFromFavorites = () => {
   //   setDelTitle(movie.title);
   // };
+=======
+export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
+  const isFavorite = movie.isFavorite;
+  const { movieId } = useParams();
+>>>>>>> parent of ef1aadd (Starting Over)
 
   return (
-    <>
-      <Link
-        to={`/movies/${encodeURIComponent(movie._id)}`}
-        className="movie-view"
-      >
-        <Card className="h-100">
-          <Card.Img variant="top" src={movie.Image} />
-          <Card.Body>
-            <Card.Title>{movie.Title}</Card.Title>
-            <Card.Text>{movie.Genre.Name}</Card.Text>
-            <Card.Text>{movie.Director.Name}</Card.Text>
-          </Card.Body>
-        </Card>
-      </Link>
+    <Card>
+      <Card.Img variant="top" src={movie.Image} />
+      <Card.Body>
+        <Card.Title>{movie.Title}</Card.Title>
+        <Card.Text>{movie.Genre.Name}</Card.Text>
+        {/* <Card.Text>{movie.Description.substring(0, 80)}...</Card.Text> */}
+        <Card.Text>{movie.Director.Name}</Card.Text>
 
-      <Card>
-        {isFavorite ? (
-          <Button variant="primary" onClick={handleRemoveFromFavorites}>
-            Remove
+        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+          <Button variant="primary" style={{ cursor: "pointer" }}>
+            Open
           </Button>
-        ) : (
-          <Button variant="primary" onClick={handleAddToFavorites}>
-            Add
-          </Button>
-        )}
-      </Card>
-    </>
+        </Link>
+        <Button
+          variant="outline-primary"
+          style={{ cursor: "pointer" }}
+          onClick={() => onFavoriteToggle(movieId)}
+        >
+          ADD TO FAVORITES!
+        </Button>
+      </Card.Body>
+    </Card>
   );
 };
 
@@ -132,5 +133,7 @@ MovieCard.propTypes = {
     Director: PropTypes.shape({
       Name: PropTypes.string,
     }),
+    isFavorite: PropTypes.bool,
   }).isRequired,
+  onFavoriteToggle: PropTypes.func.isRequired,
 };
