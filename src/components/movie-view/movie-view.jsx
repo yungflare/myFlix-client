@@ -6,9 +6,8 @@ import PropTypes from "prop-types";
 import "./movie-view.scss";
 import { title } from "process";
 
-export const MovieView = ({ movies, onFavoriteToggle }) => {
+export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
-<<<<<<< HEAD
   const movie = movies.find((m) => m.id === movieId);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
@@ -95,15 +94,6 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
   const handleRemoveFromFavorites = () => {
     setDelTitle(movie.title);
   };
-=======
-  const decodedMovieId = decodeURIComponent(movieId);
-  const movie = movies.find((b) => b._id === decodedMovieId);
-  const isFavorite = movies.includes(decodedMovieId);
-
-  // console.log("movieId:", movieId);
-  // console.log("movies:", movies);
-  // console.log("movie:", movie);
->>>>>>> parent of ef1aadd (Starting Over)
 
   return (
     <div>
@@ -126,7 +116,7 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
         <span>Description: </span>
         <span>{movie.Description || "No Description"}</span>
       </div>
-      <Link to={`/movies`}>
+      <Link to={`/`}>
         <Button
           className="back-button"
           variant="primary"
