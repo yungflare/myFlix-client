@@ -4,96 +4,10 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import "./movie-view.scss";
-import { title } from "process";
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
   const movie = movies.find((m) => m.id === movieId);
-  const [user, setUser] = useState(storedUser ? storedUser : null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
-
-  const [addTitle, setAddTitle] = useState("");
-  const [delTitle, setDelTitle] = useState("");
-
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-  useEffect(() => {
-    const addToFavorites = () => {
-      fetch(
-        `https://movie-api-kiz1.onrender.com/users/${
-          user.Username
-        }/movies/${encodeURIComponent(movie.Title)}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to add movie to favorites.");
-          }
-          alert("Movie added to favorites successfully!");
-          window.location.reload();
-          return response.json();
-        })
-        .then((user) => {
-          if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-            setUser(user);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    const removeFromFavorites = () => {
-      fetch(
-        `https://movie-api-kiz1.onrender.com/users/${
-          user.Username
-        }/movies/${encodeURIComponent(movie.Title)}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to remove movie from favorites.");
-          }
-          alert("Movie removed from favorites successfully!");
-          window.location.reload();
-          return response.json();
-        })
-        .then((user) => {
-          if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-            setUser(user);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    if (addTitle) {
-      addToFavorites();
-    }
-    if (delTitle) {
-      removeFromFavorites();
-    }
-  }, [addTitle, delTitle, token]);
-
-  const handleAddToFavorites = () => {
-    setAddTitle(movie.title);
-  };
-  const handleRemoveFromFavorites = () => {
-    setDelTitle(movie.title);
-  };
 
   return (
     <div>
@@ -138,17 +52,7 @@ export const MovieView = ({ movies }) => {
 };
 
 MovieView.propTypes = {
-  movies: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string,
-    Image: PropTypes.string,
-    Director: PropTypes.shape({
-      Name: PropTypes.string,
-      Genre: PropTypes.shape({
-        Name: PropTypes.string,
-      }).isRequired,
-    }),
-  }),
+  movies: PropTypes.array.isRequired,
   onFavoriteToggle: PropTypes.func.isRequired,
   favoriteMovies: PropTypes.array.isRequired,
 };

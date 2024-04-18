@@ -16,7 +16,7 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-  // const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   // useEffect(() => {
   //   if (user) {
@@ -68,9 +68,9 @@ export const MainView = () => {
       },
     })
       .then((response) => response.json())
-      .then((movie) => {
-        console.log("Movies data: ", movie);
-        const moviesFromApi = movie.map((movie) => {
+      .then((data) => {
+        console.log("Movies data: ", data);
+        const moviesFromApi = data.map((data) => {
           return {
             _id: movie._id,
             Image: movie.Image,
@@ -86,7 +86,6 @@ export const MainView = () => {
         });
 
         setMovies(moviesFromApi);
-        localStorage.getItem("movies", JSON.stringify(movies));
       });
   }, [token]);
 
@@ -164,18 +163,14 @@ export const MainView = () => {
                   <Col>The list is empty!</Col>
                 ) : (
                   <>
-                    {movies.map((movie) => {
-                      return (
-                        <Col className="mb-4" key={movie.id} md={3}>
-                          <MovieCard
-                            movie={movie}
-                            isFavorite={user.favoriteMovies.includes(
-                              movie.title
-                            )}
-                          />
-                        </Col>
-                      );
-                    })}
+                    {movies.map((movie) => (
+                      <Col className="mb-4" key={movie.id} md={3}>
+                        <MovieCard
+                          movie={movie}
+                          isFavorite={user.favoriteMovies.includes(movie.title)}
+                        />
+                      </Col>
+                    ))}
                   </>
                 )}
               </>
