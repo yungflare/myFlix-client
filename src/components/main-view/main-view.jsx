@@ -11,11 +11,7 @@ import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 
-export const MainView = (
-  handleUserUpdate,
-  handleDeregister,
-  handleFavoriteToggle
-) => {
+export const MainView = ({ onUserUpdate, onDeregister }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser ? storedUser : null);
@@ -23,44 +19,44 @@ export const MainView = (
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     setFavoriteMovies(user.FavoriteMovies || []);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      setFavoriteMovies(user.FavoriteMovies || []);
+    }
+  }, [user]);
 
-  // const handleFavoriteToggle = (movieId) => {
-  //   const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
+  const handleFavoriteToggle = (movieId) => {
+    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
 
-  //   const isFavorite = favoriteMovies.includes(movieId);
+    const isFavorite = favoriteMovies.includes(movieId);
 
-  //   const method = isFavorite ? "DELETE" : "POST";
+    const method = isFavorite ? "DELETE" : "POST";
 
-  //   fetch(url, {
-  //     method: method,
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((updatedUser) => {
-  //       setFavoriteMovies(updatedUser.FavoriteMovies || []);
-  //     })
-  //     .catch((error) => {
-  //       console.error(`Error Toggling Movie ID `, error);
-  //     });
-  // };
+    fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((updatedUser) => {
+        setFavoriteMovies(updatedUser.FavoriteMovies || []);
+      })
+      .catch((error) => {
+        console.error(`Error Toggling Movie ID `, error);
+      });
+  };
 
-  // const handleUserUpdate = (updatedUser) => {
-  //   console.log("Updating user:", updatedUser);
-  //   onUserUpdate(updatedUser);
-  // };
+  const handleUserUpdate = (updatedUser) => {
+    console.log("Updating user:", updatedUser);
+    onUserUpdate(updatedUser);
+  };
 
-  // const handleDeregister = () => {
-  //   console.log("Deleting User:", user);
-  //   onDeregister();
-  // };
+  const handleDeregister = () => {
+    console.log("Deleting User:", user);
+    onDeregister();
+  };
 
   useEffect(() => {
     if (!token) {

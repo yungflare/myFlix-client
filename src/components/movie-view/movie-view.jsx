@@ -5,55 +5,15 @@ import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies, onUserUpdate, onDeregister }) => {
+export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
   const movie = movies.find((b) => b._id === decodedMovieId);
   const isFavorite = movies.includes(decodedMovieId);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   // console.log("movieId:", movieId);
   // console.log("movies:", movies);
   // console.log("movie:", movie);
-
-  useEffect(() => {
-    if (user) {
-      setFavoriteMovies(user.FavoriteMovies || []);
-    }
-  }, [user]);
-
-  const handleFavoriteToggle = (movieId) => {
-    const url = `https://movie-api-kiz1.onrender.com/users/${user.Username}/movies/${movieId}`;
-
-    const isFavorite = favoriteMovies.includes(movieId);
-
-    const method = isFavorite ? "DELETE" : "POST";
-
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((updatedUser) => {
-        setFavoriteMovies(updatedUser.FavoriteMovies || []);
-      })
-      .catch((error) => {
-        console.error(`Error Toggling Movie ID `, error);
-      });
-  };
-
-  const handleUserUpdate = (updatedUser) => {
-    console.log("Updating user:", updatedUser);
-    onUserUpdate(updatedUser);
-  };
-
-  const handleDeregister = () => {
-    console.log("Deleting User:", user);
-    onDeregister();
-  };
 
   return (
     <div>
