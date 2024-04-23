@@ -8,11 +8,6 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
-  // const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-  // useEffect(() => {
-  //   setFavoriteMovies(user.favoriteMovies || []);
-  // }, [user]);
 
   const handleUpdate = () => {
     const updatedUser = {

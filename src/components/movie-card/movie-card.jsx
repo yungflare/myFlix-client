@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router";
 
 export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
-  const isFavorite = movie.isFavorite;
-  const { movieId } = useParams();
+  const [isFavorite, setIsFavorite] = useState(movie.isFavorite);
+
+  const handleFavoriteToggle = (movieId) => {
+    onFavoriteToggle(movieId);
+    setIsFavorite(!isFavorite); // Toggle the isFavorite state
+  };
 
   return (
     <Card>
@@ -17,7 +20,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
         {/* <Card.Text>{movie.Description.substring(0, 80)}...</Card.Text> */}
         <Card.Text>{movie.Director.Name}</Card.Text>
 
-        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+        <Link to={`/movies/${movie._id}`}>
           <Button variant="primary" style={{ cursor: "pointer" }}>
             Open
           </Button>
@@ -25,9 +28,9 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
         <Button
           variant="outline-primary"
           style={{ cursor: "pointer" }}
-          onClick={() => onFavoriteToggle(movieId)}
+          onClick={() => handleFavoriteToggle(movie._id)}
         >
-          ADD TO FAVORITES!
+          {isFavorite ? "REMOVE FROM FAVS" : "ADD TO FAVORITES!"}
         </Button>
       </Card.Body>
     </Card>

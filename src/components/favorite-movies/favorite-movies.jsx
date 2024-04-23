@@ -14,7 +14,7 @@ const ProfileFavoritesView = ({ user, token }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setFavoriteMovies(data.FavoriteMovies || []);
+        setFavoriteMovies(data.favorite_Movies || []);
       })
       .catch((error) => {
         console.error("Error fetching favorite movies:", error);
@@ -53,7 +53,7 @@ const ProfileFavoritesView = ({ user, token }) => {
 
     const isFavorite = favoriteMovies.some((movie) => movie === movieId);
 
-    const method = isFavorite ? "DELETE" : "POST";
+    const method = isFavorite ? "POST" : "PUT";
 
     fetch(url, {
       method: method,

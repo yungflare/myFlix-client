@@ -30,7 +30,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
 
     const isFavorite = favoriteMovies.includes(movieId);
 
-    const method = isFavorite ? "DELETE" : "POST";
+    const method = isFavorite ? "POST" : "PUT";
 
     fetch(url, {
       method: method,
@@ -123,7 +123,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             element={
               <>
                 {user ? (
-                  <Navigate to="/login" />
+                  <Navigate to="/movies" />
                 ) : (
                   <Col md={5}>
                     <LoginView
