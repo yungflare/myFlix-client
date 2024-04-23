@@ -69,8 +69,8 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        const moviesFromApi = data.map((movie) => {
+      .then((movies) => {
+        const moviesFromApi = movies.map((movie) => {
           return {
             _id: movie._id,
             Image: movie.Image,
@@ -108,7 +108,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             element={
               <>
                 {user ? (
-                  <Navigate to="/" />
+                  <Navigate to="/signup" />
                 ) : (
                   <Col md={5}>
                     <SignupView />
@@ -119,11 +119,11 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
-            path="/login"
+            path="/"
             element={
               <>
                 {user ? (
-                  <Navigate to="/" />
+                  <Navigate to="/login" />
                 ) : (
                   <Col md={5}>
                     <LoginView
@@ -162,7 +162,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             element={
               <>
                 {!user ? (
-                  <Navigate to="/login" replace />
+                  <Navigate to="/" />
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
