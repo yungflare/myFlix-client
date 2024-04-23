@@ -27349,7 +27349,7 @@ const MainView = ({ onUserUpdate, onDeregister })=>{
                                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
                                                     movie: movie,
                                                     onFavoriteToggle: handleFavoriteToggle,
-                                                    favoriteMovies: favorite_Movies
+                                                    favoriteMovies: favoriteMovies
                                                 }, void 0, false, void 0, void 0)
                                             }, movie._id, false, void 0, void 0))
                                     }, void 0, false, void 0, void 0)
