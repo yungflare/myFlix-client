@@ -173,7 +173,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
                           <MovieCard
                             movie={movie}
                             onFavoriteToggle={handleFavoriteToggle}
-                            favoriteMovies={favoriteMovies}
+                            favoriteMovies={favorite_Movies}
                           />
                         </Col>
                       ))}
