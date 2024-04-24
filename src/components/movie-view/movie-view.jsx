@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
@@ -8,13 +9,14 @@ import "./movie-view.scss";
 export const MovieView = ({ movies, onFavoriteToggle }) => {
   const { movieId } = useParams();
   const decodedMovieId = decodeURIComponent(movieId);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleFavoriteToggle = () => {
+    onFavoriteToggle(decodedMovieId);
+    setIsFavorite(!isFavorite); // Toggle the isFavorite state
+  };
 
   const movie = movies.find((b) => b._id === decodedMovieId);
-  const isFavorite = movies.includes(decodedMovieId);
-
-  // console.log("movieId:", movieId);
-  // console.log("movies:", movies);
-  // console.log("movie:", movie);
 
   return (
     <div>
@@ -48,11 +50,11 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
       </Link>
 
       <Button
-        variant={isFavorite ? "danger" : "outline-primary"}
+        variant="outline-primary"
         style={{ cursor: "pointer" }}
-        onClick={() => onFavoriteToggle(movie._id)}
+        onClick={() => handleFavoriteToggle(movie._id)}
       >
-        Add to Favorites!
+        {isFavorite ? "REMOVE FROM FAVS" : "ADD TO FAVORITES!"}
       </Button>
     </div>
   );
