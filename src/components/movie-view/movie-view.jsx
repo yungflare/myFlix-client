@@ -1,14 +1,17 @@
-import React from "react";
-import { useParams } from "react-router";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies, onFavoriteToggle }) => {
-  const decodedMovieId = decodeURIComponent(movieId);
-  const movie = movies.find((b) => b._id === decodedMovieId);
-  const isFavorite = movies.includes(decodedMovieId);
+export const MovieView = ({ movie, onFavoriteToggle }) => {
+  const [isFavorite, setIsFavorite] = useState(
+    movie ? movie.isFavorite : false
+  );
+  const handleFavoriteToggle = (movieId) => {
+    onFavoriteToggle(movieId);
+    setIsFavorite(!isFavorite); // Toggle the isFavorite state
+  };
 
   // console.log("movieId:", movieId);
   // console.log("movies:", movies);
@@ -46,18 +49,36 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
       </Link>
 
       <Button
-        variant={isFavorite ? "danger" : "outline-primary"}
+        variant="outline-primary"
         style={{ cursor: "pointer" }}
-        onClick={() => onFavoriteToggle(movie._id)}
+        onClick={() => handleFavoriteToggle(movie._id)}
       >
-        Add to Favorites!
+        {isFavorite ? "REMOVE FROM FAVS" : "ADD TO FAVORITES!"}
       </Button>
     </div>
   );
 };
 
 MovieView.propTypes = {
-  movies: PropTypes.array.isRequired,
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Image: PropTypes.string.isRequired, // Mark Image as required
+    Description: PropTypes.string.isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string,
+    }),
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string,
+      isFavorite: PropTypes.bool,
+    }).isRequired,
+  }),
   onFavoriteToggle: PropTypes.func.isRequired,
-  favorite_Movies: PropTypes.array.isRequired,
 };
+
+// MovieView.propTypes = {
+//   movies: PropTypes.array.isRequired,
+//   onFavoriteToggle: PropTypes.func.isRequired,
+//   // favorite_Movies: PropTypes.array.isRequired,
+// };
