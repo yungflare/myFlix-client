@@ -95,7 +95,7 @@ const ProfileFavoritesView = ({ user, token }) => {
               <Card.Img variant="top" src={movie.Image} />
               <Card.Body>
                 <Card.Title>{movie.Title}</Card.Title>
-                {/* <Card.Text>{movie.Description}</Card.Text> */}
+                <Card.Text>{movie.Genre.Name}</Card.Text>
                 <Button
                   variant="primary"
                   onClick={() => handleToggle(movie._id)}

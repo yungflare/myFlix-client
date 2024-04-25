@@ -48610,6 +48610,13 @@ const ProfileFavoritesView = ({ user, token })=>{
                                         lineNumber: 97,
                                         columnNumber: 17
                                     }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
+                                        children: movie.Genre.Name
+                                    }, void 0, false, {
+                                        fileName: "src/components/favorite-movies/favorite-movies.jsx",
+                                        lineNumber: 98,
+                                        columnNumber: 17
+                                    }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                                         variant: "primary",
                                         onClick: ()=>handleToggle(movie._id),
