@@ -38,6 +38,7 @@ const ProfileFavoritesView = ({ user, token }) => {
             Director: {
               Name: movie.Director.Name,
             },
+            Image: movie.Image,
           };
         });
 
@@ -65,6 +66,7 @@ const ProfileFavoritesView = ({ user, token }) => {
       .then((response) => response.json())
       .then((data) => {
         setFavoriteMovies(data.FavoriteMovies || []);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(
@@ -90,9 +92,10 @@ const ProfileFavoritesView = ({ user, token }) => {
               key={movie._id}
               style={{ width: "18rem", marginBottom: "15px" }}
             >
+              <Card.Img variant="top" src={movie.Image} />
               <Card.Body>
                 <Card.Title>{movie.Title}</Card.Title>
-                <Card.Text>{movie.Description}</Card.Text>
+                {/* <Card.Text>{movie.Description}</Card.Text> */}
                 <Button
                   variant="primary"
                   onClick={() => handleToggle(movie._id)}
@@ -109,10 +112,11 @@ const ProfileFavoritesView = ({ user, token }) => {
 };
 
 ProfileFavoritesView.propTypes = {
+  Image: PropTypes.string,
   user: PropTypes.shape({
     Username: PropTypes.string.isRequired,
-  }).isRequired,
-  token: PropTypes.string.isRequired,
+  }),
+  token: PropTypes.string,
 };
 
 export default ProfileFavoritesView;

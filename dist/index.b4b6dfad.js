@@ -48541,7 +48541,8 @@ const ProfileFavoritesView = ({ user, token })=>{
                     },
                     Director: {
                         Name: movie.Director.Name
-                    }
+                    },
+                    Image: movie.Image
                 };
             });
             setMovies(moviesFromApi);
@@ -48564,6 +48565,7 @@ const ProfileFavoritesView = ({ user, token })=>{
             }
         }).then((response)=>response.json()).then((data)=>{
             setFavoriteMovies(data.FavoriteMovies || []);
+            window.location.reload();
         }).catch((error)=>{
             console.error(`Error toggling favorite for movie ID ${movieId}:`, error);
         });
@@ -48575,14 +48577,14 @@ const ProfileFavoritesView = ({ user, token })=>{
                 children: " Favorite Movies "
             }, void 0, false, {
                 fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                lineNumber: 83,
+                lineNumber: 85,
                 columnNumber: 7
             }, undefined),
             favoriteMoviesToShow.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                 children: "No Favorite Movies"
             }, void 0, false, {
                 fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                lineNumber: 85,
+                lineNumber: 87,
                 columnNumber: 9
             }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 children: favoriteMoviesToShow.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card), {
@@ -48590,61 +48592,65 @@ const ProfileFavoritesView = ({ user, token })=>{
                             width: "18rem",
                             marginBottom: "15px"
                         },
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
-                                    children: movie.Title
-                                }, void 0, false, {
-                                    fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                                    lineNumber: 94,
-                                    columnNumber: 17
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
-                                    children: movie.Description
-                                }, void 0, false, {
-                                    fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                                    lineNumber: 95,
-                                    columnNumber: 17
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
-                                    variant: "primary",
-                                    onClick: ()=>handleToggle(movie._id),
-                                    children: "Remove from Favorites"
-                                }, void 0, false, {
-                                    fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                                    lineNumber: 96,
-                                    columnNumber: 17
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                            lineNumber: 93,
-                            columnNumber: 15
-                        }, undefined)
-                    }, movie._id, false, {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Img, {
+                                variant: "top",
+                                src: movie.Image
+                            }, void 0, false, {
+                                fileName: "src/components/favorite-movies/favorite-movies.jsx",
+                                lineNumber: 95,
+                                columnNumber: 15
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Title, {
+                                        children: movie.Title
+                                    }, void 0, false, {
+                                        fileName: "src/components/favorite-movies/favorite-movies.jsx",
+                                        lineNumber: 97,
+                                        columnNumber: 17
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
+                                        variant: "primary",
+                                        onClick: ()=>handleToggle(movie._id),
+                                        children: "Remove from Favorites"
+                                    }, void 0, false, {
+                                        fileName: "src/components/favorite-movies/favorite-movies.jsx",
+                                        lineNumber: 99,
+                                        columnNumber: 17
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/favorite-movies/favorite-movies.jsx",
+                                lineNumber: 96,
+                                columnNumber: 15
+                            }, undefined)
+                        ]
+                    }, movie._id, true, {
                         fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                        lineNumber: 89,
+                        lineNumber: 91,
                         columnNumber: 13
                     }, undefined))
             }, void 0, false, {
                 fileName: "src/components/favorite-movies/favorite-movies.jsx",
-                lineNumber: 87,
+                lineNumber: 89,
                 columnNumber: 9
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/favorite-movies/favorite-movies.jsx",
-        lineNumber: 82,
+        lineNumber: 84,
         columnNumber: 5
     }, undefined);
 };
 _s(ProfileFavoritesView, "o9VghgX5FORrdqz5afsZ5cvxZPw=");
 _c = ProfileFavoritesView;
 ProfileFavoritesView.propTypes = {
+    Image: (0, _propTypesDefault.default).string,
     user: (0, _propTypesDefault.default).shape({
         Username: (0, _propTypesDefault.default).string.isRequired
-    }).isRequired,
-    token: (0, _propTypesDefault.default).string.isRequired
+    }),
+    token: (0, _propTypesDefault.default).string
 };
 exports.default = ProfileFavoritesView;
 var _c;
