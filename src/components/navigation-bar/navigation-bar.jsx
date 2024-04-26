@@ -30,7 +30,9 @@ const NavigationBar = ({ user, onLoggedOut, token }) => {
                 <Nav.Link as={Link} to="/profile">
                   Profile
                 </Nav.Link>
-                <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
+                <Nav.Link onClick={onLoggedOut} as={Link} to="/login">
+                  Logout
+                </Nav.Link>
               </>
             )}
           </Nav>

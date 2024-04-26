@@ -119,6 +119,26 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
           />
 
           <Route
+            path="/login"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/movies" />
+                ) : (
+                  <Col md={5}>
+                    <LoginView
+                      onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                      }}
+                    />
+                  </Col>
+                )}
+              </>
+            }
+          />
+
+          <Route
             path="/"
             element={
               <>
@@ -137,6 +157,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
               </>
             }
           />
+
           <Route
             path="/movies/:movieId"
             element={
