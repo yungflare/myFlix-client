@@ -11,7 +11,7 @@ import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 
-export const MainView = ({ onUserUpdate, onDeregister }) => {
+export const MainView = ({ updatedUser, onDeregister }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser ? storedUser : null);
@@ -48,10 +48,10 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
       });
   };
 
-  const handleUserUpdate = (updatedUser) => {
-    console.log("Updating user:", updatedUser);
-    onUserUpdate(updatedUser);
-  };
+  // const handleUserUpdate = (updatedUser) => {
+  //   console.log("Updating user:", updatedUser);
+  //   onUserUpdate(updatedUser);
+  // };
 
   const handleDeregister = () => {
     console.log("Deleting User:", user);
@@ -209,7 +209,7 @@ export const MainView = ({ onUserUpdate, onDeregister }) => {
             element={
               <ProfileView
                 user={user}
-                onUserUpdate={handleUserUpdate}
+                onUserUpdate={updatedUser}
                 onDeregister={handleDeregister}
               />
             }

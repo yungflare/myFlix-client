@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Button, Card } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
+export const ProfileView = ({ user, onDeregister }) => {
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
@@ -16,7 +15,14 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
       Email: newEmail,
       Birthday: newBirthday,
     };
-    onUserUpdate(updatedUser);
+    console.log("Updating user:", updatedUser);
+
+    window.location.reload();
+  };
+
+  const handleDeregister = () => {
+    console.log("Deleting User:", user);
+    onDeregister();
   };
 
   return (
@@ -55,7 +61,7 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
         <Form.Group controlId="formBirthday">
           <Form.Label>Update Birthday:</Form.Label>
           <Form.Control
-            type="text"
+            type="date"
             value={newBirthday}
             onChange={(e) => setNewBirthday(e.target.value)}
             required
@@ -66,12 +72,14 @@ export const ProfileView = ({ user, onUserUpdate, onDeregister }) => {
           <Button variant="primary">Favorite Movies</Button>
         </Link>
 
-        <Button variant="primary" onClick={handleUpdate}>
-          Update Profile
-        </Button>
+        <Link to="/profile">
+          <Button variant="primary" onClick={handleUpdate}>
+            Update Profile
+          </Button>
+        </Link>
       </Form>
 
-      <Button variant="danger" onClick={onDeregister}>
+      <Button variant="danger" onClick={handleDeregister}>
         Delete Account
       </Button>
     </div>
