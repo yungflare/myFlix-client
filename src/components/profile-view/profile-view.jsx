@@ -1,23 +1,43 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { propTypes } from "react-bootstrap/esm/Image";
 
-export const ProfileView = ({ user, onDeregister }) => {
+export const ProfileView = ({ user, onDeregister, token }) => {
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     const updatedUser = {
       Username: newUsername,
       Password: newPassword,
       Email: newEmail,
       Birthday: newBirthday,
     };
-    console.log("Updating user:", updatedUser);
 
-    window.location.reload();
+    try {
+      const response = await fetch(
+        `https://movie-api-kiz1.onrender.com/users/${user.Username}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Tyoe": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedUser),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update Profile");
+      }
+      console.log("User profile updated!");
+    } catch (error) {
+      console.error("Error updating user Profile:", error.message);
+    }
+    // window.location.reload();
   };
 
   const handleDeregister = () => {
