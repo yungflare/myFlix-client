@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { propTypes } from "react-bootstrap/esm/Image";
+import PropTypes from "prop-types";
 
 export const ProfileView = ({ user, onDeregister, token }) => {
   const [newUsername, setNewUsername] = useState(user.Username);
