@@ -1,9 +1,17 @@
+// @import "~bootstrap/scss/bootstrap.scss";
+
 .back-button {
-    padding: 4px 12px 4px 12px;
+    padding: 7.5px 15px;
+    font: 20px;
     color: whitesmoke;
     background-color: #20c997;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
+  }
+
+  .FavButton {
+    color: whitesmoke;
+    background-color: #20c997;
   }
 
   body {

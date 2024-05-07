@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
+
 import "./movie-view.scss";
 
 export const MovieView = ({ movies, onFavoriteToggle }) => {
@@ -19,7 +20,7 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
   const movie = movies.find((b) => b._id === decodedMovieId);
 
   return (
-    <div>
+    <div className="MovieDetails">
       <div>
         <img height={500} src={movie.Image} alt="Movie Poster" />
       </div>
@@ -50,6 +51,7 @@ export const MovieView = ({ movies, onFavoriteToggle }) => {
       </Link>
 
       <Button
+        className="FavButton"
         variant="outline-primary"
         style={{ cursor: "pointer" }}
         onClick={() => handleFavoriteToggle(movie._id)}
