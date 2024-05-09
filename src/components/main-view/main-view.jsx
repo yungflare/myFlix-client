@@ -9,7 +9,6 @@ import ProfileFavoritesView from "../favorite-movies/favorite-movies";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Button, Form } from "react-bootstrap";
 
 export const MainView = ({ updatedUser, onDeregister }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -18,6 +17,7 @@ export const MainView = ({ updatedUser, onDeregister }) => {
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -58,6 +58,10 @@ export const MainView = ({ updatedUser, onDeregister }) => {
     onDeregister();
   };
 
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
   useEffect(() => {
     if (!token) {
       return;
@@ -88,6 +92,10 @@ export const MainView = ({ updatedUser, onDeregister }) => {
         setMovies(moviesFromApi);
       });
   }, [token]);
+
+  const filteredMovies = movies.filter((movie) =>
+    movie.Title.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <BrowserRouter>
@@ -188,8 +196,14 @@ export const MainView = ({ updatedUser, onDeregister }) => {
                   <Col>The list is empty!</Col>
                 ) : (
                   <>
+                    <input
+                      type="text"
+                      placeholder="Filter by title..."
+                      value={filter}
+                      onChange={handleFilterChange}
+                    />
                     <Row>
-                      {movies.map((movie) => (
+                      {filteredMovies.map((movie) => (
                         <Col className="mb-4" key={movie._id} md={3}>
                           <MovieCard
                             movie={movie}
@@ -204,6 +218,7 @@ export const MainView = ({ updatedUser, onDeregister }) => {
               </>
             }
           />
+
           <Route
             path="/profile"
             element={
