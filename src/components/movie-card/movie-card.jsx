@@ -30,7 +30,7 @@ export const MovieCard = ({ movie, onFavoriteToggle, favoriteMovies }) => {
           style={{ cursor: "pointer" }}
           onClick={() => handleFavoriteToggle(movie._id)}
         >
-          {isFavorite ? "REMOVE FROM FAVS" : "ADD TO FAVORITES!"}
+          {isFavorite ? "REMOVE FROM FAVORITES" : "ADD TO FAVORITES!"}
         </Button>
       </Card.Body>
     </Card>
