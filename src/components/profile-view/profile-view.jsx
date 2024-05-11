@@ -23,7 +23,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
         {
           method: "PUT",
           headers: {
-            "Content-Tyoe": "application/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(updatedUser),
