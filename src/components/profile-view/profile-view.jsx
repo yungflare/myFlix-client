@@ -10,6 +10,8 @@ export const ProfileView = ({ user, onDeregister, token }) => {
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
 
   const handleUpdate = async () => {
+    console.log("Token:", token);
+
     const updatedUser = {
       Username: newUsername,
       Password: newPassword,
@@ -24,7 +26,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(updatedUser),
         }
