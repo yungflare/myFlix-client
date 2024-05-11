@@ -21,10 +21,10 @@ export const ProfileView = ({ user, onDeregister, token }) => {
       const response = await fetch(
         `https://movie-api-kiz1.onrender.com/users/${user.Username}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user}`,
           },
           body: JSON.stringify(updatedUser),
         }
