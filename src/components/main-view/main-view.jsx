@@ -195,22 +195,28 @@ export const MainView = ({ updatedUser, onDeregister }) => {
                 ) : (
                   <>
                     <Row>
-                      {movies.map((movie) => (
-                        <Col className="mb-4" key={movie._id} md={3}>
-                          <MovieCard
-                            movie={movie}
-                            onFavoriteToggle={handleFavoriteToggle}
-                            favoriteMovies={favoriteMovies}
-                          />
-                        </Col>
-                      ))}
+                      {movies
+                        .filter((movie) =>
+                          movie.Title.toLowerCase().includes(
+                            searchTerm.toLowerCase()
+                          )
+                        )
+                        .map((movie) => (
+                          <Col className="mb-4" key={movie._id} md={3}>
+                            <MovieCard
+                              movie={movie}
+                              onFavoriteToggle={handleFavoriteToggle}
+                              favoriteMovies={favoriteMovies}
+                            />
+                          </Col>
+                        ))}
                     </Row>
                   </>
                 )}
               </>
             }
           />
-
+          {/* 
           <Route
             path="/movies"
             element={
@@ -236,7 +242,7 @@ export const MainView = ({ updatedUser, onDeregister }) => {
                 )}
               </>
             }
-          />
+          /> */}
           <Route
             path="/profile"
             element={
