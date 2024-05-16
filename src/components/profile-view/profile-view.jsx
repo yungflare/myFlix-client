@@ -33,6 +33,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
       );
 
       if (!response.ok) {
+        const errorMessage = await response.text();
         throw new Error("Failed to update Profile");
       }
       console.log("User profile updated!");
