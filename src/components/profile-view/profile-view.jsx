@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { token } from "morgan";
 
 export const ProfileView = ({ user, onDeregister, token }) => {
   const [newUsername, setNewUsername] = useState(user.Username);
@@ -37,6 +38,11 @@ export const ProfileView = ({ user, onDeregister, token }) => {
         throw new Error("Failed to update Profile");
       }
       console.log("User profile updated!");
+
+      setNewUsername(updatedUser.Username);
+      setNewPassword(updatedUser.Password);
+      setNewEmail(updatedUser.Email);
+      setNewBirthday(updatedUser.Birthday);
     } catch (error) {
       console.error("Error updating user Profile:", error.message);
     }
@@ -96,7 +102,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
         </Link>
 
         <Link to="/profile">
-          <Button variant="primary" onClick={updatedUser}>
+          <Button variant="primary" onClick={handleUpdate}>
             Update Profile
           </Button>
         </Link>
@@ -107,4 +113,10 @@ export const ProfileView = ({ user, onDeregister, token }) => {
       </Button>
     </div>
   );
+};
+
+ProfileView.PropTypes = {
+  user: PropTypes.object.isRequired,
+  onDeregister: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
 };
