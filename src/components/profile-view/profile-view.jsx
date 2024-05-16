@@ -96,7 +96,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
         </Link>
 
         <Link to="/profile">
-          <Button variant="primary" onClick={handleUpdate}>
+          <Button variant="primary" onClick={updatedUser}>
             Update Profile
           </Button>
         </Link>
