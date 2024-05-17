@@ -120,7 +120,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
   );
 };
 
-ProfileView.PropTypes = {
+ProfileView.propTypes = {
   user: PropTypes.object.isRequired,
   onDeregister: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
