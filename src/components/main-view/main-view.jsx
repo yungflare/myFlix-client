@@ -250,6 +250,7 @@ export const MainView = ({ updatedUser, onDeregister }) => {
                 user={user}
                 onUserUpdate={updatedUser}
                 onDeregister={handleDeregister}
+                token={token}
               />
             }
           />

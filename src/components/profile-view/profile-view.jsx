@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { token } from "morgan";
 
 export const ProfileView = ({ user, onDeregister, token }) => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user.Email);
