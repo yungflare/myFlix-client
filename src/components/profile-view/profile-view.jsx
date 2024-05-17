@@ -35,15 +35,19 @@ export const ProfileView = ({ user, onDeregister, token }) => {
       );
 
       if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error("Failed to update Profile");
+        const errorResponse = await response.json();
+        if (response.status === 422) {
+          console.error("Validation error:", errorResponse);
+        } else {
+          throw new Error("Failed to update Profile");
+        }
+      } else {
+        console.log("User profile updated!");
+        setNewUsername(updatedUser.Username);
+        setNewPassword(updatedUser.Password);
+        setNewEmail(updatedUser.Email);
+        setNewBirthday(updatedUser.Birthday);
       }
-      console.log("User profile updated!");
-
-      setNewUsername(updatedUser.Username);
-      setNewPassword(updatedUser.Password);
-      setNewEmail(updatedUser.Email);
-      setNewBirthday(updatedUser.Birthday);
     } catch (error) {
       console.error("Error updating user Profile:", error.message);
     }
