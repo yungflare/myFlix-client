@@ -28,7 +28,7 @@ export const ProfileView = ({ user, onDeregister }) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${storedToken}`,
           },
           body: JSON.stringify(updatedUser),
         }
@@ -44,11 +44,11 @@ export const ProfileView = ({ user, onDeregister }) => {
       } else {
         console.log("User profile updated!");
         localStorage.setItem("user", JSON.stringify(updatedUser));
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error updating user profile: ", error.message);
     }
-    window.location.reload();
   };
 
   const handleDeregister = () => {
