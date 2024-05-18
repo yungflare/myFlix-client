@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export const ProfileView = ({ user, onDeregister, history }) => {
+export const ProfileView = ({ user, onDeregister }) => {
   const storedToken = localStorage.getItem("token");
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
@@ -71,7 +71,6 @@ export const ProfileView = ({ user, onDeregister, history }) => {
 
       if (response.ok) {
         console.log("User deleted successfully");
-        history.push("/signup");
       } else {
         console.error("Failed to Delete User");
       }
@@ -145,5 +144,3 @@ ProfileView.propTypes = {
   user: PropTypes.object.isRequired,
   onDeregister: PropTypes.func.isRequired,
 };
-
-export default withRouter(ProfileView);
