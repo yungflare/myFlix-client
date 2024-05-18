@@ -13,6 +13,7 @@ export const ProfileView = ({ user, onDeregister }) => {
   const handleUpdate = async () => {
     const updatedUser = {
       Username: newUsername,
+      Password: newPassword || "",
       Email: newEmail,
       Birthday: newBirthday,
     };
