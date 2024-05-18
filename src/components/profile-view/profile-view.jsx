@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export const ProfileView = ({ user, onDeregister }) => {
+export const ProfileView = ({ user, onDeregister, history }) => {
   const storedToken = localStorage.getItem("token");
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
@@ -52,9 +52,32 @@ export const ProfileView = ({ user, onDeregister }) => {
     }
   };
 
-  const handleDeregister = () => {
-    console.log("Deleting User:", user);
-    onDeregister();
+  const handleDeregister = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to Delete your Account?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `https://movie-api-kiz1.onrender.com/users/${user.Username}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("User deleted successfully");
+        history.push("/signup");
+      } else {
+        console.error("Failed to Delete User");
+      }
+    } catch (error) {
+      console.error("Error Deleteing User:", error.message);
+    }
   };
 
   return (
@@ -122,3 +145,5 @@ ProfileView.propTypes = {
   user: PropTypes.object.isRequired,
   onDeregister: PropTypes.func.isRequired,
 };
+
+export default withRouter(ProfileView);
