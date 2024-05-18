@@ -16,6 +16,7 @@ export const ProfileView = ({ user, onDeregister }) => {
       Password: newPassword || "",
       Email: newEmail,
       Birthday: newBirthday,
+      Password: newPassword,
     };
 
     if (newPassword) {
@@ -45,7 +46,6 @@ export const ProfileView = ({ user, onDeregister }) => {
       } else {
         console.log("User profile updated!");
         localStorage.setItem("user", JSON.stringify(updatedUser));
-        window.location.reload();
       }
     } catch (error) {
       console.error("Error updating user profile: ", error.message);
