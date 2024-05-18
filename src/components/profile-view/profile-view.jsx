@@ -3,8 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export const ProfileView = ({ user, onDeregister, token }) => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
+export const ProfileView = ({ user, onDeregister }) => {
   const storedToken = localStorage.getItem("token");
   const [newUsername, setNewUsername] = useState(user.Username);
   const [newPassword, setNewPassword] = useState("");
@@ -12,14 +11,15 @@ export const ProfileView = ({ user, onDeregister, token }) => {
   const [newBirthday, setNewBirthday] = useState(user.Birthday);
 
   const handleUpdate = async () => {
-    console.log("Token:", token);
-
     const updatedUser = {
       Username: newUsername,
-      Password: newPassword,
       Email: newEmail,
       Birthday: newBirthday,
     };
+
+    if (newPassword) {
+      updatedUser.Password = newPassword;
+    }
 
     try {
       const response = await fetch(
@@ -43,15 +43,12 @@ export const ProfileView = ({ user, onDeregister, token }) => {
         }
       } else {
         console.log("User profile updated!");
-        setNewUsername(updatedUser.Username);
-        setNewPassword(updatedUser.Password);
-        setNewEmail(updatedUser.Email);
-        setNewBirthday(updatedUser.Birthday);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
       }
     } catch (error) {
-      console.error("Error updating user Profile:", error.message);
+      console.error("Error updating user profile: ", error.message);
     }
-    // window.location.reload();
+    window.location.reload();
   };
 
   const handleDeregister = () => {
@@ -76,7 +73,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
         <Form.Group controlId="formPassword">
           <Form.Label>New Password:</Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
@@ -85,7 +82,7 @@ export const ProfileView = ({ user, onDeregister, token }) => {
         <Form.Group controlId="formEmail">
           <Form.Label>Update Email:</Form.Label>
           <Form.Control
-            type="text"
+            type="email"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
             required
@@ -123,5 +120,4 @@ export const ProfileView = ({ user, onDeregister, token }) => {
 ProfileView.propTypes = {
   user: PropTypes.object.isRequired,
   onDeregister: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
 };
